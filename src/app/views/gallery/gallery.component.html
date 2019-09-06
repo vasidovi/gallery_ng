@@ -35,6 +35,7 @@
 <mat-card id="gallery">
     <div class="tag">gallery</div>
     <div class="res-count-container"> Showing {{ photos.length }} results </div>
+    <button mat-button (click)="sortByDate()">Sort by Date<mat-icon>{{arrow.name}}</mat-icon></button>
     <ng-template [ngIf]="isLoaded"; [ngIfElse]="loading">
         <div class="flex-container padding-top">
       <div class="photo-container" *ngFor="let item of photos">

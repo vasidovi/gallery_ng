@@ -1,6 +1,6 @@
 import { GalleryService } from './../../services/gallery.service';
 import { Component, OnInit } from '@angular/core';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { IPhoto } from './../../models/photo.model';
 import { ICatalog } from 'src/app/models/catalog.model';
@@ -32,6 +32,11 @@ export class GalleryComponent implements OnInit {
   // name or description search
   search = '';
 
+  //
+  arrow = {
+    name: ''
+  }
+
   resCount = this.photos.length;
 
 
@@ -40,8 +45,9 @@ export class GalleryComponent implements OnInit {
   ngOnInit() {
     this.loadCatalogs();
     // todo to make load tags to return popular tags optional, after I implement what needs to be implemented
-    // this.loadTags(); 
+
     this.loadThumbnails();
+    this.sortByDate();
   }
 
 
@@ -69,11 +75,12 @@ export class GalleryComponent implements OnInit {
 
     this.isLoaded = false;
 
-    if (this.selectedCatalogsIds.length > 0){
-    this.gallery.getImagesByCatalogIds(this.selectedCatalogsIds).then(data => {
-      this.photos = data;
-      this.isLoaded = true;
-    });} else {
+    if (this.selectedCatalogsIds.length > 0) {
+      this.gallery.getImagesByCatalogIds(this.selectedCatalogsIds).then(data => {
+        this.photos = data;
+        this.isLoaded = true;
+      });
+    } else {
       this.loadThumbnails();
     }
   }
@@ -113,6 +120,32 @@ export class GalleryComponent implements OnInit {
     }
   }
 
+  // default down - descending date i.e. newest first 
+  sortByDate() {
+
+    // Newest photos are displayed first
+    if (this.arrow.name === 'arrow_drop_down') {
+      this.arrow.name = 'arrow_drop_up';
+      this.photos.sort(dateOldestFirst);
+
+    } else {
+      this.arrow.name = 'arrow_drop_down';
+      this.photos.sort(dateNewestFirst);
+    }
+
+    function dateOldestFirst(a, b) {
+      let dateA = new Date(a.date).getTime();
+      let dateB = new Date(b.date).getTime();
+      return dateA > dateB ? 1 : -1;
+    };
+
+    function dateNewestFirst(a, b) {
+      let dateA = new Date(a.date).getTime();
+      let dateB = new Date(b.date).getTime();
+      return dateB > dateA ? 1 : -1;
+    };
+
+  }
 
   //   if (this.selectedCatalogs.length === 0) {
   //     this.photos = [];
