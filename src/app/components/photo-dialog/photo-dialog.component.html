@@ -1,0 +1,15 @@
+<mat-card class="example-card">
+    <mat-icon (click)= onClose()>close</mat-icon>
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title >{{data.image.name}}</mat-card-title>
+          <mat-card-subtitle>{{ getDate(data.image.date) }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="(data | imageSrc)" alt="{{data.name}}">
+        <mat-card-content>
+          <p>
+           {{data.image.description}}
+          </p>
+        </mat-card-content>
+      </mat-card>
+      
