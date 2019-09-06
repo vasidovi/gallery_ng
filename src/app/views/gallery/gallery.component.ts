@@ -1,7 +1,10 @@
 import { GalleryService } from './../../services/gallery.service';
-import { IPhoto } from './../../models/photo.model';
 import { Component, OnInit } from '@angular/core';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+
+import { IPhoto } from './../../models/photo.model';
 import { ICatalog } from 'src/app/models/catalog.model';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 
 @Component({
@@ -16,14 +19,27 @@ export class GalleryComponent implements OnInit {
   catalogs: ICatalog[];
   selectedCatalogs: ICatalog[] = [];
   selectedCatalogsIds: number[] = [];
+
   isLoaded = false;
-  // images: IPhoto[] = [];
+
+  // tags
+  tags: string[] = [];
+  selectable = true;
+  removable = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  addOnBlur = true;
+
+  // name or description search
+  search = '';
+
+  resCount = this.photos.length;
+
 
   constructor(private gallery: GalleryService) { }
 
   ngOnInit() {
     this.loadCatalogs();
-    // todo to make load tags to return popular tags 
+    // todo to make load tags to return popular tags optional, after I implement what needs to be implemented
     // this.loadTags(); 
     this.loadThumbnails();
   }
@@ -62,30 +78,39 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  getSelectedTags(catalog: ICatalog) {
+  removeTag(tag: string): void {
+    const index = this.tags.indexOf(tag);
 
-    if (this.selectedCatalogsIds.includes(catalog.id)) {
-      this.selectedCatalogsIds = this._arrayRemove(this.selectedCatalogsIds, catalog.id);
-    } else {
-      this.selectedCatalogsIds.push(catalog.id);
-    }
-
-    this.isLoaded = false;
-
-    if (this.selectedCatalogsIds.length > 0){
-    this.gallery.getImagesByCatalogIds(this.selectedCatalogsIds).then(data => {
-      this.photos = data;
-      this.isLoaded = true;
-    });
-    } else {
-      this.loadThumbnails();
+    if (index >= 0) {
+      this.tags.splice(index, 1);
     }
   }
 
-      private _arrayRemove(arr, value) {
+  addTag(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.tags.push(value.trim());
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  private _arrayRemove(arr, value) {
     return arr.filter((ele) => {
       return ele !== value;
     });
+  }
+
+  initSearch(e: string) {
+    if (e.length > 2) {
+      console.log('sending request...');
+    }
   }
 
 

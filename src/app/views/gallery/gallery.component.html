@@ -1,23 +1,42 @@
 <section>
-  <mat-card>
+  <mat-card fxLayout="row" fxLayout.xs="column"
+  fxLayoutAlign="space-around end" fxLayoutAlign.xs="space-around stretch">
   <div class="tag">filter</div>
-    <div class="filter-container">
-
-      <mat-form-field>
+  <label fxFlex="40" fxFlex.xs="100" class="pure-material-textfield-outlined relative">
+    <input [(ngModel)]="search" (ngModelChange)="initSearch($event)" class="input-padding" placeholder=" ">
+    <span class="placeholder">Search</span>
+    <span class="sufix"><mat-icon>search</mat-icon></span>
+</label>
+<div fxFlex="5"></div>
+      <mat-form-field fxFlex="25" fxFlex.xs="100">
         <mat-label>Catalogs</mat-label>
         <mat-select multiple>
           <mat-option *ngFor="let catalog of catalogs" (click)=getSelectedValue(catalog)>
             {{catalog.name}}</mat-option>
         </mat-select>
       </mat-form-field>
+  <div fxFlex="5"></div>
+  <mat-form-field fxFlex="25" fxFlex.xs="100">
+      <mat-chip-list #chipList aria-label="Tags selection">
+          <mat-chip *ngFor="let tag of tags" [selectable]="selectable"
+                   [removable]="removable" (removed)="removeTag(tag)">
+            {{tag}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="New tag..."
+                 [matChipInputFor]="chipList"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 [matChipInputAddOnBlur]="addOnBlur"
+                 (matChipInputTokenEnd)="addTag($event)">
+        </mat-chip-list>
+</mat-form-field>
+</mat-card>
 
-    </div>
-  </mat-card>
-
-  <mat-card id="gallery">
+<mat-card id="gallery">
     <div class="tag">gallery</div>
+    <div class="res-count-container"> Showing {{ photos.length }} results </div>
     <ng-template [ngIf]="isLoaded"; [ngIfElse]="loading">
-        <div class="fl-container">
+        <div class="flex-container padding-top">
       <div class="photo-container" *ngFor="let item of photos">
         <app-photo [photo]="item"></app-photo>
       </div>

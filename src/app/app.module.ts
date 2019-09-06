@@ -1,6 +1,13 @@
 import { GalleryService } from './services/gallery.service';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+import {ReactiveFormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 import {MatIconModule,
         MatButtonModule,
@@ -10,16 +17,10 @@ import {MatIconModule,
         MatSelectModule,
         MatProgressSpinnerModule } from '@angular/material';
 
-import {} from '@angular/material/dialog';
 
-import {ReactiveFormsModule} from "@angular/forms";
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GalleryComponent } from './views/gallery/gallery.component';
 import { PhotoComponent } from './components/photo/photo.component';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PhotoDialogComponent } from './components/photo-dialog/photo-dialog.component';
 import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
@@ -46,6 +47,8 @@ import { ImageSrcPipe } from './pipes/image-src.pipe';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [GalleryService],
   bootstrap: [AppComponent],
