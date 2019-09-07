@@ -9,9 +9,9 @@
   <form  (ngSubmit)="onSubmit()">
     <div class=form-container [formGroup]="uploadForm">
 
-
         <mat-form-field>
-            <ngx-mat-file-input formControlName="file" 
+            <ngx-mat-file-input             
+            formControlName="file" 
             [accept]="'image/*'"
             placeholder="File" 
             valuePlaceholder="No file selected" 
@@ -32,21 +32,13 @@
         placeholder="Description..." 
         formControlName="description">
         </textarea>
-      </mat-form-field>
-<!-- 
-      <mat-form-field>
-          <mat-label>Toppings</mat-label>
-          <mat-select [formControl]="toppings" multiple>
-            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
-          </mat-select>
-        </mat-form-field> -->
-        
+      </mat-form-field>        
         <mat-form-field>
           <mat-label>Catalogs</mat-label>
           <mat-select 
             multiple
             formControlName="catalogs">
-            <mat-option *ngFor="let catalog of catalogList" [value]="catalog.name">
+            <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
               {{catalog.name}}</mat-option>
           </mat-select>
         </mat-form-field>

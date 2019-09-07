@@ -44,7 +44,7 @@ export class ImageUploadComponent implements OnInit {
 
 
   constructor(private gallery: GalleryService,
-    private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder) {
   }
 
   private onSuccess(res) {
@@ -75,14 +75,6 @@ export class ImageUploadComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  onFileSelect(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.uploadForm.get('file').setValue(file);
-      console.log(this.uploadForm.value.file)
-    }
-  }
-
   onSubmit() {
     const formData = new FormData();
 
@@ -93,15 +85,12 @@ export class ImageUploadComponent implements OnInit {
         formData.append(i, this.uploadForm.value[i]);
       });
       this.gallery.uploadImage(formData).subscribe();
-      console.log(formData.get('file'));
     } else {
       console.log('no file');
     }
-
   }
 
   ngOnInit() {
-
     this.loadCatalogs();
   }
 
@@ -122,7 +111,7 @@ export class ImageUploadComponent implements OnInit {
   }
 
   addTag(event: MatChipInputEvent): void {
-    const input = event.input;
+
     const value = event.value;
 
     // Add tag
@@ -134,7 +123,5 @@ export class ImageUploadComponent implements OnInit {
     }
 
   }
-
-
 
 }

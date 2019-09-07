@@ -33,7 +33,7 @@
 
   <mat-card id="gallery">
     <div class="tag">gallery</div>
-    <div class="res-count-container"> Showing {{ photos.length }} results </div>
+    <div class="res-count-container"> Showing {{ getPhotosCount() }} results </div>
     <button mat-flat-button (click)="sortByDate()">Sort by Date<mat-icon>{{arrow.name}}</mat-icon></button>
     <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
       <div class="flex-container padding-top">
@@ -47,10 +47,6 @@
   <button mat-button color="primary">Primary</button>
   <button mat-button color="accent">Accent</button>
   <button mat-button color="warn">Warn</button>
-
-  <mat-card>
-    <app-image-upload></app-image-upload>
-  </mat-card>
 
   <ng-template #loading>
     <mat-spinner></mat-spinner>

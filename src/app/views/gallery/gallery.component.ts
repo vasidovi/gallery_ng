@@ -20,6 +20,7 @@ export class GalleryComponent implements OnInit {
   catalogs: ICatalog[];
   isLoaded = false;
 
+
   // tags
   selectable = true;
   removable = true;
@@ -51,6 +52,13 @@ export class GalleryComponent implements OnInit {
     this.sortByDate();
   }
 
+  getPhotosCount() {
+    if(this.photos){
+      return this.photos.length;
+    } else {
+      return 0;
+    }
+  }
 
   loadThumbnails(): void {
     this.gallery.getThumbnails()
