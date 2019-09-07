@@ -1,6 +1,4 @@
-$primary: #36D696;
-$accent: #AB2B52;
-$warn:  #DDFB3F;
+@import "../../../assets/styles/constants.scss";
 
 .photoContainer{
     img {
@@ -15,7 +13,6 @@ $warn:  #DDFB3F;
 }
 
 .photoDescription{
-  // visibility: hidden;
   position: absolute;
   z-index: 10000;
   display: block;
@@ -27,6 +24,16 @@ $warn:  #DDFB3F;
 }
 
 .relativeContainer{
+  .mat-flat-button{
+    position: absolute;
+    z-index: 1111;
+    visibility: hidden;
+    top: 70%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -52,6 +59,9 @@ $warn:  #DDFB3F;
   &:hover{
     .overlay{
       display: block;
+    }
+    .mat-flat-button, mat-icon p{
+      visibility: visible;
     }
   }
 }
@@ -82,6 +92,7 @@ mat-icon p{
   transform: translate(-50%, -50%);
   font-size: 50px;
   color: #fff;
-  vertical-align: middle;
+  // vertical-align: middle;
+  visibility: hidden;
 
 }

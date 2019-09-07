@@ -1,0 +1,63 @@
+<mat-card>
+
+  <div  fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between end" >
+    <a [routerLink]="['/']">
+      <button mat-flat-button>
+        Back to Gallery
+      </button>
+    </a>
+    <button mat-flat-button class="delete-button">Delete image</button>
+
+  </div>
+  <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
+
+    <div class="form-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
+      <img class="image" [src]="(photo | imageSrc)" alt="photo.name" />
+      <div>
+
+
+        <form (ngSubmit)="onEdit()">
+          <div class=form-container [formGroup]="editForm" fxLayout="column">
+            <mat-form-field>
+              <input matInput placeholder="Name" [value]="photo.name" formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field>
+              <textarea matInput placeholder="Description..." [value]="photo.description" formControlName="description">
+               </textarea>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Catalogs</mat-label>
+              <mat-select multiple formControlName="catalogs">
+                <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
+                  {{catalog}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-chip-list #chipList aria-label="Tags selection">
+                <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
+                  (removed)="removeTag(i)">
+                  {{tag}}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="New tag..." [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="addTag($event)" />
+              </mat-chip-list>
+            </mat-form-field>
+          </div>
+          <button mat-flat-button type="submit">Save changes</button>
+        </form>
+
+
+
+      </div>
+    </div>
+  </ng-template>
+
+
+</mat-card>
+
+<ng-template #loading>
+  <mat-spinner></mat-spinner>
+</ng-template>

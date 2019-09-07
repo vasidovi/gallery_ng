@@ -28,6 +28,7 @@ import { ImageUploadComponent } from './views/image-upload/image-upload.componen
 import { PhotoComponent } from './components/photo/photo.component';
 import { PhotoDialogComponent } from './components/photo-dialog/photo-dialog.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
+import { ImageEditComponent } from './views/image-edit/image-edit.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ImageSrcPipe } from './pipes/image-src.pipe';
     PhotoDialogComponent,
     ImageUploadComponent,
     ImageSrcPipe,
+    ImageEditComponent,
   ],
   imports: [
     MatIconModule,

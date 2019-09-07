@@ -21,18 +21,25 @@ export class GalleryService {
     return this.http.get<IPhoto[]>('http://localhost:8080/images').toPromise();
   }
 
+
+  getThumbnailById(id: number): Promise<IPhoto> {
+    return this.http.get<IPhoto>('http://localhost:8080/image/metadata/' + id).toPromise();
+  }
+
   getPhoto(id: number): Observable<any> {
-    console.log('id' + id);
     return this.http.get<any>('http://localhost:8080/image/' + id);
   }
 
+  // no longer used up for removal
   getCatalogs(): Promise<ICatalog[]> {
     return this.http.get<ICatalog[]>('http://localhost:8080/catalogs').toPromise();
   }
 
+  // no longer used up for removal
   getImagesByCatalogId(id: number): Promise<IPhoto[]> {
     return this.http.get<IPhoto[]>('http://localhost:8080/images/catalog/' + id).toPromise();
   }
+
 
   getFilteredImages(query: IFilterData): Promise<IPhoto[]> {
 
@@ -73,11 +80,11 @@ export class GalleryService {
   }
 
   public delete(id: number): Observable<any> {
-    return this.http.delete('http://localhost:8080/image' + id);
+    return this.http.delete('http://localhost:8080/image/' + id);
   }
 
   public editImage(formData: FormData, id: number): Observable<any> {
-    return this.http.put('http://localhost:8080/image' + id, formData);
+    return this.http.put('http://localhost:8080/image/' + id, formData);
   }
 
 

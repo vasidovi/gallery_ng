@@ -38,7 +38,7 @@
           <mat-select 
             multiple
             formControlName="catalogs">
-            <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
+            <mat-option *ngFor="let catalog of catalogList" [value]="catalog.name">
               {{catalog.name}}</mat-option>
           </mat-select>
         </mat-form-field>

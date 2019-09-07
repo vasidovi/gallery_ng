@@ -1,11 +1,8 @@
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "./assets/styles/constants.scss";
+
 // @import '~@angular/material/theming';
 
-
-// // Create your Sass color vars (will be available in all the project)
-$primary: #36D696;
-$accent: #AB2B52;
-$warn:  #DDFB3F;
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }

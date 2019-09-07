@@ -114,7 +114,7 @@ export class GalleryComponent implements OnInit {
       this.filterFiles();
     }
     // Reset the input value
-    if (input) {
+    if (event.input) {
       input.value = '';
     }
   }

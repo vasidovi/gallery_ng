@@ -57,24 +57,6 @@ export class ImageUploadComponent implements OnInit {
     this.selectedFile.src = '';
   }
 
-  processFile(imageInput: any) {
-    const file: File = imageInput.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener('load', (event: any) => {
-
-      this.selectedFile = new ImageSnippet(event.target.result, imageInput);
-
-      const formData = new FormData();
-      formData.append('file', this.selectedFile.file);
-
-      this.selectedFile.pending = true;
-      this.gallery.uploadImage(formData).subscribe();
-    });
-
-    reader.readAsDataURL(file);
-  }
-
   onSubmit() {
     const formData = new FormData();
 
@@ -120,6 +102,11 @@ export class ImageUploadComponent implements OnInit {
       tagArray.push(this.formBuilder.control(value.trim()));
       this.tagList = tagArray.value;
 
+    }
+
+    // Reset the input value
+    if (event.input) {
+      event.input.value = '';
     }
 
   }
