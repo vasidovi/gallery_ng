@@ -4,25 +4,29 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+
 
 
 import {MatIconModule,
         MatButtonModule,
+        MatToolbarModule,
         MatDialogModule,
         MatCardModule,
         MatChipsModule,
         MatSelectModule,
+        MatInputModule,
         MatProgressSpinnerModule } from '@angular/material';
 
 
 import { AppComponent } from './app.component';
 import { GalleryComponent } from './views/gallery/gallery.component';
+import { ImageUploadComponent } from './views/image-upload/image-upload.component';
 import { PhotoComponent } from './components/photo/photo.component';
 import { PhotoDialogComponent } from './components/photo-dialog/photo-dialog.component';
-import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
 
 @NgModule({
@@ -38,9 +42,11 @@ import { ImageSrcPipe } from './pipes/image-src.pipe';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
+    MatToolbarModule,
     MatDialogModule,
     MatSelectModule,
     MatChipsModule,
+    MatInputModule,
     MatProgressSpinnerModule,
     BrowserModule,
     AppRoutingModule,
@@ -48,7 +54,8 @@ import { ImageSrcPipe } from './pipes/image-src.pipe';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MaterialFileInputModule,
   ],
   providers: [GalleryService],
   bootstrap: [AppComponent],

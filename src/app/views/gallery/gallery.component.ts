@@ -6,7 +6,6 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { IPhoto } from './../../models/photo.model';
 import { ICatalog } from 'src/app/models/catalog.model';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({

@@ -1,0 +1,72 @@
+<mat-card>
+
+  <a [routerLink]="['/']">
+    <button mat-flat-button>
+      Back to Gallery
+    </button>
+  </a>
+
+  <form  (ngSubmit)="onSubmit()">
+    <div class=form-container [formGroup]="uploadForm">
+
+
+        <mat-form-field>
+            <ngx-mat-file-input formControlName="file" 
+            [accept]="'image/*'"
+            placeholder="File" 
+            valuePlaceholder="No file selected" 
+            required></ngx-mat-file-input>
+            <mat-icon matSuffix>folder</mat-icon>
+            <mat-error *ngIf="uploadForm.get('file').hasError('required')">
+              Please select a file
+            </mat-error>
+          </mat-form-field>
+      <mat-form-field>
+        <input matInput
+        placeholder="Name"
+        formControlName="name" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea  matInput
+        placeholder="Description..." 
+        formControlName="description">
+        </textarea>
+      </mat-form-field>
+<!-- 
+      <mat-form-field>
+          <mat-label>Toppings</mat-label>
+          <mat-select [formControl]="toppings" multiple>
+            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        
+        <mat-form-field>
+          <mat-label>Catalogs</mat-label>
+          <mat-select 
+            multiple
+            formControlName="catalogs">
+            <mat-option *ngFor="let catalog of catalogList" [value]="catalog.name">
+              {{catalog.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-chip-list #chipList aria-label="Tags selection">
+              <mat-chip *ngFor="let tag of tagList; let i = index;" 
+              [selectable]="selectable" 
+              [removable]="removable" (removed)="removeTag(i)">
+                {{tag}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input
+              placeholder="New tag..." 
+              [matChipInputFor]="chipList" 
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="addTag($event)" />
+            </mat-chip-list>
+          </mat-form-field>
+</div> 
+        <button mat-flat-button type="submit">Upload Image</button>
+  </form>
+
+</mat-card>

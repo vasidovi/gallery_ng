@@ -1,0 +1,17 @@
+@import "../../../assets/styles/constants.scss";
+
+
+.hidden{
+visibility: hidden;
+}
+button{
+    background-color: $grey;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+     > * {
+    width: 100%;
+  }
+}

@@ -1,20 +1,5 @@
 @import "../../../assets/styles/text-field.scss";
-
-
-$primary: #36D696;
-$accent: #AB2B52;
-$warn: #DDFB3F;
-$grey: #777;
-$white: white;
-
-
-section {
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-basis: 100%;
-
+@import "../../../assets/styles/constants.scss";
 
   .flex-container {
     display: flex;
@@ -39,13 +24,9 @@ section {
     padding-top: 10px;
   }
 
-}
+
 
 mat-card {
-  margin: 1.5em;
-  box-sizing: border-box;
-  max-width: 1400px;
-  width: 95%;
 
   .tag {
     color: $white;
