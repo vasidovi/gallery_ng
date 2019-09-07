@@ -1,3 +1,4 @@
+import { IFilterData } from '../../models/filterData.motel';
 import { GalleryService } from './../../services/gallery.service';
 import { Component, OnInit } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -5,6 +6,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { IPhoto } from './../../models/photo.model';
 import { ICatalog } from 'src/app/models/catalog.model';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -17,25 +19,24 @@ export class GalleryComponent implements OnInit {
 
   photos: IPhoto[] = [];
   catalogs: ICatalog[];
-  selectedCatalogs: ICatalog[] = [];
-  selectedCatalogsIds: number[] = [];
-
   isLoaded = false;
 
   // tags
-  tags: string[] = [];
   selectable = true;
   removable = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
 
-  // name or description search
-  search = '';
-
-  //
+  // arrow for sorting by date
   arrow = {
     name: ''
-  }
+  };
+
+  filterData: IFilterData = {
+    tags: [],
+    catalogIds: [],
+    search: '',
+  };
 
   resCount = this.photos.length;
 
@@ -44,7 +45,8 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {
     this.loadCatalogs();
-    // todo to make load tags to return popular tags optional, after I implement what needs to be implemented
+    // todo to make load tags for tag search with autocomplete
+    // after I implement what needs to be implemented
 
     this.loadThumbnails();
     this.sortByDate();
@@ -67,29 +69,31 @@ export class GalleryComponent implements OnInit {
 
   getSelectedValue(catalog: ICatalog) {
 
-    if (this.selectedCatalogsIds.includes(catalog.id)) {
-      this.selectedCatalogsIds = this._arrayRemove(this.selectedCatalogsIds, catalog.id);
+    if (this.filterData.catalogIds.includes(catalog.id)) {
+      this.filterData.catalogIds = this.arrayRemove(this.filterData.catalogIds, catalog.id);
     } else {
-      this.selectedCatalogsIds.push(catalog.id);
+      this.filterData.catalogIds.push(catalog.id);
     }
 
-    this.isLoaded = false;
+    this.filterFiles();
 
-    if (this.selectedCatalogsIds.length > 0) {
-      this.gallery.getImagesByCatalogIds(this.selectedCatalogsIds).then(data => {
-        this.photos = data;
-        this.isLoaded = true;
-      });
-    } else {
-      this.loadThumbnails();
-    }
+    // this.isLoaded = false;
+    // if (this.filterData.catalogIds.length > 0) {
+    //   this.gallery.getImagesByCatalogIds(this.filterData.catalogIds).then(data => {
+    //     this.photos = data;
+    //     this.isLoaded = true;
+    //   });
+    // } else {
+    //   this.loadThumbnails();
+    // }
   }
 
   removeTag(tag: string): void {
-    const index = this.tags.indexOf(tag);
+    const index = this.filterData.tags.indexOf(tag);
 
     if (index >= 0) {
-      this.tags.splice(index, 1);
+      this.filterData.tags.splice(index, 1);
+      this.filterFiles();
     }
   }
 
@@ -97,33 +101,44 @@ export class GalleryComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-    // Add our fruit
+    // Add tag
     if ((value || '').trim()) {
-      this.tags.push(value.trim());
+      this.filterData.tags.push(value.trim());
+      this.filterFiles();
     }
-
     // Reset the input value
     if (input) {
       input.value = '';
     }
   }
 
-  private _arrayRemove(arr, value) {
-    return arr.filter((ele) => {
-      return ele !== value;
-    });
-  }
-
-  initSearch(e: string) {
-    if (e.length > 2) {
-      console.log('sending request...');
+  initSearch(event: string) {
+    const change = Math.abs(this.filterData.search.length - event.length);
+    if ( change > 1) {
+      this.filterData.search = event;
+      this.filterFiles();
     }
   }
 
-  // default down - descending date i.e. newest first 
+  filterFiles() {
+    const isFilterEmpty = (this.filterData.search === '' &&
+    this.filterData.tags.length === 0 && this.filterData.catalogIds.length === 0) ? true : false;
+
+    this.isLoaded = false;
+
+    if ( isFilterEmpty ) {
+      this.loadThumbnails();
+    } else {
+      this.gallery.getFilteredImages(this.filterData).then(data => {
+        this.photos  = data;
+        this.isLoaded = true;
+      });
+    }
+  }
+
+  // default is arrow down - descending date i.e. newest photos first
   sortByDate() {
 
-    // Newest photos are displayed first
     if (this.arrow.name === 'arrow_drop_down') {
       this.arrow.name = 'arrow_drop_up';
       this.photos.sort(dateOldestFirst);
@@ -134,60 +149,22 @@ export class GalleryComponent implements OnInit {
     }
 
     function dateOldestFirst(a, b) {
-      let dateA = new Date(a.date).getTime();
-      let dateB = new Date(b.date).getTime();
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
       return dateA > dateB ? 1 : -1;
-    };
+    }
 
     function dateNewestFirst(a, b) {
-      let dateA = new Date(a.date).getTime();
-      let dateB = new Date(b.date).getTime();
+      const dateA = new Date(a.date).getTime();
+      const dateB = new Date(b.date).getTime();
       return dateB > dateA ? 1 : -1;
-    };
+    }
 
   }
 
-  //   if (this.selectedCatalogs.length === 0) {
-  //     this.photos = [];
-  //   }
-
-  //   if (this.selectedCatalogs.includes(catalog)) {
-  //     this.selectedCatalogs = this._arrayRemove(this.selectedCatalogs, catalog);
-  //     this.photos = this.photos.filter(image => image.catalogs[0] !== '' + catalog.id);
-  //   } else {
-  //     this.selectedCatalogs.push(catalog);
-
-  //     this.isLoaded = false;
-
-  //     this.gallery.getImagesByCatalogId(catalog.id).then(data => {
-  //       data.forEach(d => d.catalogs = ['' + catalog.id]);
-  //       this.photos = this.photos.concat(data);
-  //       this.isLoaded = true;
-  //     });
-  //   }
-
-  //   if (this.selectedCatalogs.length === 0) {
-  //     this.loadThumbnails();
-  //   }
-
-  // }
-
-  // getPhotos(): IPhoto[] {
-  //   return this.photos;
-  // }
-
-
+  private arrayRemove(arr, value) {
+    return arr.filter((ele) => {
+      return ele !== value;
+    });
+  }
 }
-
-
-  // onCatalogChange //
-
-  // loadPhotos(): void {
-  //   this.gallery.getPhotos()
-  //     .subscribe(data => {
-  //       console.log(data.keys);
-  //       this.photos = data;
-  //     });
-  // }
-
-// }

@@ -1,3 +1,4 @@
+import { IFilterData } from './../models/filterData.motel';
 import { IPhoto } from './../models/photo.model';
 import { ICatalog } from './../models/catalog.model';
 
@@ -21,7 +22,7 @@ export class GalleryService {
   }
 
   getPhoto(id: number): Observable<any> {
-    console.log("id" + id);
+    console.log('id' + id);
     return this.http.get<any>('http://localhost:8080/image/' + id);
   }
 
@@ -33,29 +34,23 @@ export class GalleryService {
     return this.http.get<IPhoto[]>('http://localhost:8080/images/catalog/' + id).toPromise();
   }
 
-  getFilteredImages(query: any): Promise<IPhoto[]> {
+  getFilteredImages(query: IFilterData): Promise<IPhoto[]> {
 
-    let catalogIds = '?catalogIds=';
+    let catalogIds = 'catalogIds=';
 
-    for ( let id of query.catalogIds ) {
+    for ( const id of query.catalogIds ) {
       catalogIds += id + ',';
     }
-    catalogIds = query.substring(0, query.length - 1);
 
-    let tagNames = '?tagNames=';
-    for (let tag of query.tags ) {
+    let tagNames = 'tags=';
+    for (const tag of query.tags ) {
       tagNames += tag + ',';
     }
-    tagNames = query.substring(0, query.length - 1);
 
-    const name = '?name=' + query.name;
-    const description = '?description=' + query.description;
+    const search = 'search=' + query.search;
+    const queryString = '?' + catalogIds + '&' + tagNames + '&' + search;
 
-    const queryString = catalogIds + '&' + tagNames + '&' + name + '&' + description;
-
-    console.log(queryString);
-
-    return this.http.get<IPhoto[]>('http://localhost:8080/images/filtered/' + queryString).toPromise();
+    return this.http.get<IPhoto[]>('http://localhost:8080/images/find' + queryString).toPromise();
 
   }
 
