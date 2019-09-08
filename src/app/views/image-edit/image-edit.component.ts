@@ -101,11 +101,18 @@ export class ImageEditComponent implements OnInit {
   }
 
 
-  onEdit() {
+  edit() {
     const formData = new FormData();
     ['description', 'tags', 'catalogs', 'name'].forEach(i => {
       formData.append(i, this.editForm.value[i]);
     });
     this.gallery.editImage(formData, this.id).subscribe();
   }
+
+
+  delete(){
+    console.log("deleting");
+    this.gallery.delete(this.id).subscribe();
+  }
+
 }

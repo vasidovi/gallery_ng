@@ -6,7 +6,7 @@
         Back to Gallery
       </button>
     </a>
-    <button mat-flat-button class="delete-button">Delete image</button>
+    <button mat-flat-button class="delete-button" (click)="delete()">Delete image</button>
 
   </div>
   <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
@@ -16,7 +16,7 @@
       <div>
 
 
-        <form (ngSubmit)="onEdit()">
+        <form (ngSubmit)="edit()">
           <div class=form-container [formGroup]="editForm" fxLayout="column">
             <mat-form-field>
               <input matInput placeholder="Name" [value]="photo.name" formControlName="name" />
