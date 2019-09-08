@@ -54,8 +54,6 @@ export class SignUpComponent implements OnInit {
 
   onSubmit() {
 
-    console.log('submitting...');
-
     this.userService.register({
       password: this.form.get('password').value,
       username: this.form.get('username').value,
