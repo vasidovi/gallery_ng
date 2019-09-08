@@ -46,7 +46,6 @@ export class ImageEditComponent implements OnInit {
     this.loadData(this.id);
   }
 
-  // maybe too cumbersome ? toDo need to simplify
   loadData(id): void {
 
     this.gallery.getCatalogs()
@@ -58,9 +57,8 @@ export class ImageEditComponent implements OnInit {
 
         this.catalogList = this.catalogList.map(c => c.name);
         const catalogNames = this.photo.catalogs.map(catalog => catalog.name);
-        this.initialCatalogs = this.catalogList.filter(catalog => catalogNames.includes(catalog));
 
-        this.editForm.get('catalogs').setValue(this.initialCatalogs);
+        this.editForm.get('catalogs').setValue(catalogNames);
 
         this.tagList = this.photo.tags.map(tag => tag.name);
 
@@ -69,6 +67,10 @@ export class ImageEditComponent implements OnInit {
           tagArray.push(this.formBuilder.control(value));
         }
 
+        this.editForm.get('name').setValue(this.photo.name);
+        this.editForm.get('description').setValue(this.photo.description);
+
+        console.log(this.editForm.get('name'));
         this.isLoaded = !this.isLoaded;
       });
   }
@@ -112,7 +114,10 @@ export class ImageEditComponent implements OnInit {
 
   delete(){
     console.log("deleting");
-    this.gallery.delete(this.id).subscribe();
+    this.gallery.delete(this.id).subscribe(
+      (res) => console.log(res),
+      (err) => console.log(err)
+    );
   }
 
 }
