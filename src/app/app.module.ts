@@ -29,6 +29,8 @@ import { PhotoComponent } from './components/photo/photo.component';
 import { PhotoDialogComponent } from './components/photo-dialog/photo-dialog.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
 import { ImageEditComponent } from './views/image-edit/image-edit.component';
+import { SignUpComponent } from './views/sign-up/sign-up.component';
+import { SignInComponent } from './views/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { ImageEditComponent } from './views/image-edit/image-edit.component';
     ImageUploadComponent,
     ImageSrcPipe,
     ImageEditComponent,
+    SignUpComponent,
+    SignInComponent,
   ],
   imports: [
     MatIconModule,
