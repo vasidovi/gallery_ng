@@ -40,6 +40,8 @@ import {
 } from './components';
 
 import { ImageSrcPipe } from './pipes/image-src.pipe';
+import { DropZoneDirective } from './directives/dropzone.directive';
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 
 
 @NgModule({
@@ -53,6 +55,8 @@ import { ImageSrcPipe } from './pipes/image-src.pipe';
     ImageEditComponent,
     SignUpComponent,
     SignInComponent,
+    DropZoneDirective,
+    FileUploadComponent,
   ],
   imports: [
     MatIconModule,

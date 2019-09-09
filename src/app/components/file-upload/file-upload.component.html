@@ -1,0 +1,26 @@
+<div class="dropzone"
+appDropzone 
+ (hovered)="toggleHover($event)" 
+ (dropped)="startUpload($event)"
+[class.hovering]="isHovering">
+
+  <h4>Drag and drop your image file...</h4>
+      <ng-template [ngIf]="file"; [ngIfElse]="input">
+     <p>{{file.name}}</p>
+      </ng-template>
+</div>
+
+<ng-template #input>
+
+        <mat-form-field>
+                <ngx-mat-file-input             
+                [accept]="'image/*'"
+                placeholder="File" 
+                valuePlaceholder="No file selected" 
+                required></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-error *ngIf="!file">
+                  Drag and drop or select image file
+                </mat-error>
+              </mat-form-field>
+</ng-template>

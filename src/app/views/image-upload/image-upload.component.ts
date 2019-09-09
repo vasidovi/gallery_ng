@@ -33,6 +33,8 @@ export class ImageUploadComponent implements OnInit {
     catalogs: '',
   });
 
+  file: File;
+  isHovering: boolean;
 
   catalogList: ICatalog[];
 
@@ -44,32 +46,38 @@ export class ImageUploadComponent implements OnInit {
 
 
   constructor(private gallery: GalleryService,
-              private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder) {
   }
 
-  private onSuccess(res) {
-    console.log(res);
+  // private onSuccess(res) {
+  //   console.log(res);
+  // }
+
+  // private onError() {
+  //   this.selectedFile.pending = false;
+  //   this.selectedFile.status = 'fail';
+  //   this.selectedFile.src = '';
+  // }
+
+  removeFile() {
+    this.file = null;
   }
 
-  private onError() {
-    this.selectedFile.pending = false;
-    this.selectedFile.status = 'fail';
-    this.selectedFile.src = '';
+  setFileValue(event) {
+    if (event && this.file !== event.files[0]) {
+      this.file = event.files[0];
+    }
   }
 
   onSubmit() {
     const formData = new FormData();
 
-    if (this.uploadForm.value.file) {
-      this.uploadForm.get('file').setValue(this.uploadForm.get('file').value.files[0]);
+    this.uploadForm.get('file').setValue(this.file);
 
-      ['description', 'tags', 'catalogs', 'name', 'file'].forEach(i => {
-        formData.append(i, this.uploadForm.value[i]);
-      });
-      this.gallery.uploadImage(formData).subscribe();
-    } else {
-      console.log('no file');
-    }
+    ['description', 'tags', 'catalogs', 'name', 'file'].forEach(i => {
+      formData.append(i, this.uploadForm.value[i]);
+    });
+    this.gallery.uploadImage(formData).subscribe();
   }
 
   ngOnInit() {
@@ -80,6 +88,7 @@ export class ImageUploadComponent implements OnInit {
     this.gallery.getCatalogs()
       .then(data => this.catalogList = data);
   }
+
 
   removeTag(index: number): void {
 
@@ -109,6 +118,20 @@ export class ImageUploadComponent implements OnInit {
       event.input.value = '';
     }
 
+  }
+
+  toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+
+
+  startUpload(event: FileList) {
+
+    const file = event.item(0);
+
+    if (file.type.split('/')[0] === 'image') {
+      this.file = file;
+    }
   }
 
 }

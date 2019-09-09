@@ -16,6 +16,8 @@ export class SignUpComponent implements OnInit {
     status: '',
     message: '',
   };
+  file: File;
+  isHovering: boolean;
 
   // email : new FormControl('', [Validators.required, Validators.email]);, for now without email 
   // toDo to implement password match confirm as per nice example ->
