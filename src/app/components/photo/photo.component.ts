@@ -1,7 +1,7 @@
 import { GalleryService } from './../../services/gallery.service';
 import { IPhoto } from './../../models/photo.model';
-import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { PhotoDialogComponent } from '../photo-dialog/photo-dialog.component';
 
 @Component({
@@ -11,14 +11,10 @@ import { PhotoDialogComponent } from '../photo-dialog/photo-dialog.component';
 })
 export class PhotoComponent {
 
-  ngOnInit(): void {
-
-  }
+  constructor(private gallery: GalleryService,
+              public dialog: MatDialog) { }
 
   @Input() photo: IPhoto;
-
-  constructor(private gallery: GalleryService,
-    public dialog: MatDialog) { }
 
   openDialog(): void {
     this.gallery.getPhoto(this.photo.id)
@@ -29,7 +25,7 @@ export class PhotoComponent {
           height: '80vh',
           data: photoBig,
         });
-      })
+      });
   }
 
 }

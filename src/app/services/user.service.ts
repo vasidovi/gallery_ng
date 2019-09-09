@@ -17,7 +17,7 @@ export class UserService {
     return this.http.post<IUser>('http://localhost:8080/token/generate-token', user).toPromise();
   }
 
-  checkIfUsernameExists(userName: string) : any {
+  checkIfUsernameExists(userName: string): any {
     return this.http.get('http://localhost:8080/usename/' + userName).toPromise();
   }
 

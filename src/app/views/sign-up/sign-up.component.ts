@@ -1,5 +1,4 @@
 import { UserService } from './../../services/user.service';
-import { IUser } from './../../models/user.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -19,7 +18,7 @@ export class SignUpComponent implements OnInit {
   file: File;
   isHovering: boolean;
 
-  // email : new FormControl('', [Validators.required, Validators.email]);, for now without email 
+  // email : new FormControl('', [Validators.required, Validators.email]);, for now without email
   // toDo to implement password match confirm as per nice example ->
   // https://codinglatte.com/posts/angular/cool-password-validation-angular/
 
@@ -70,5 +69,4 @@ export class SignUpComponent implements OnInit {
       }
     );
   }
-
 }

@@ -53,7 +53,7 @@ export class GalleryComponent implements OnInit {
   }
 
   getPhotosCount() {
-    if(this.photos){
+    if (this.photos) {
       return this.photos.length;
     } else {
       return 0;

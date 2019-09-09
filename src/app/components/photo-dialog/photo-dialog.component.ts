@@ -18,7 +18,7 @@ export class PhotoDialogComponent {
     this.dialogRef.close();
   }
 
-   getDate(date){
+   getDate(date) {
     const currentDatetime = new Date(date);
     const month = (currentDatetime.getMonth() + 1) < 10 ? '0' + (currentDatetime.getMonth() + 1) : (currentDatetime.getMonth() + 1);
     const day = (currentDatetime.getDate() < 10) ? '0' + currentDatetime.getDate() : '' + currentDatetime.getDate();
@@ -28,5 +28,5 @@ export class PhotoDialogComponent {
 
 }
 
-//be autocomplete tagus pasidaryti, kaip chips 
+// be autocomplete tagus pasidaryti, kaip chips
 // +Pipes

@@ -112,7 +112,7 @@ export class ImageEditComponent implements OnInit {
   }
 
 
-  delete(){
+  delete() {
     this.gallery.delete(this.id).subscribe(
       (res) => console.log(res),
       (err) => console.log(err)

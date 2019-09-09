@@ -46,7 +46,7 @@ export class ImageUploadComponent implements OnInit {
 
 
   constructor(private gallery: GalleryService,
-    private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder) {
   }
 
   // private onSuccess(res) {
