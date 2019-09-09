@@ -121,7 +121,7 @@ export class GalleryComponent implements OnInit {
 
   initSearch(event: string) {
     const change = Math.abs(this.filterData.search.length - event.length);
-    if ( change > 1) {
+    if ( change > 0) {
       this.filterData.search = event;
       this.filterFiles();
     }

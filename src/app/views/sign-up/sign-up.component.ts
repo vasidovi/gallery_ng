@@ -29,7 +29,7 @@ export class SignUpComponent implements OnInit {
 
   getErrorMessage() {
     return this.form.get('username').value.hasError('required') ? 'You must enter a value' :
-      this.form.get('username').value.hasError('minLength') ? 'You must be at least 3 letters' :
+      this.form.get('username').value.hasError('minLength') ? 'Username must be at least 3 letters' :
         this.form.get('passwordRepeat').value.hasError('required') ? 'You must enter a value' :
           '';
   }

@@ -57,6 +57,7 @@ export class GalleryService {
     const search = 'search=' + query.search;
     const queryString = '?' + catalogIds + '&' + tagNames + '&' + search;
 
+
     return this.http.get<IPhoto[]>('http://localhost:8080/images/find' + queryString).toPromise();
 
   }

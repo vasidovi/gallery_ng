@@ -2,7 +2,7 @@
     fxLayoutAlign.xs="space-around stretch">
     <div class="tag">filter</div>
     <label fxFlex="40" fxFlex.xs="100" class="pure-material-textfield-outlined relative">
-      <input [(ngModel)]="filterData.search" (ngModelChange)="initSearch($event)" class="input-padding" placeholder=" ">
+      <input [ngModel]="filterData.search" (ngModelChange)="initSearch($event)" class="input-padding" placeholder=" ">
       <span class="placeholder">Search</span>
       <span class="sufix">
         <mat-icon>search</mat-icon>
@@ -43,10 +43,6 @@
       </div>
     </ng-template>
   </mat-card>
-
-  <button mat-button color="primary">Primary</button>
-  <button mat-button color="accent">Accent</button>
-  <button mat-button color="warn">Warn</button>
 
   <ng-template #loading>
     <mat-spinner></mat-spinner>
