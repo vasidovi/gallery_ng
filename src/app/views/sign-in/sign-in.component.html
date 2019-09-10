@@ -1,17 +1,14 @@
 <mat-card>
 
-  <a [routerLink]="['/']">
+  <a routerLink="/">
     <button mat-flat-button>
       Back to Gallery
     </button>
   </a>
-
   <form (ngSubmit)="onSubmit()" [formGroup]="form" fxLayout="column">
-
     <mat-form-field>
       <input matInput placeholder="Enter your username" formControlName="username" required>
     </mat-form-field>
-
     <mat-form-field>
       <input matInput placeholder="Enter your password" formControlName="password"
         [type]="hidePassword ? 'password' : 'text'" required>
@@ -20,12 +17,8 @@
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
-
     <button mat-flat-button type="submit" [disabled]="!form.valid">Log in</button>
-
   </form>
-
   <div *ngIf="login.status === 'ok'">{{login.message}}</div>
   <div *ngIf="login.status === 'failed'">{{login.message}}</div>
-
 </mat-card>

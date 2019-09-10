@@ -1,27 +1,21 @@
 <mat-card>
-
-  <div  fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between end" >
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between end">
     <a [routerLink]="['/']">
       <button mat-flat-button>
         Back to Gallery
       </button>
     </a>
     <button mat-flat-button class="delete-button" (click)="delete()">Delete image</button>
-
   </div>
   <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
-
     <div class="form-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
       <img class="image" [src]="(photo | imageSrc)" alt="photo.name" />
       <div>
-
-
         <form (ngSubmit)="edit()">
           <div class=form-container [formGroup]="editForm" fxLayout="column">
             <mat-form-field>
-              <input matInput placeholder="Name" [value]="photo.name" formControlName="name" />
+              <input matInput placeholder="Name" [value]="photo.name | titlecase" formControlName="name" />
             </mat-form-field>
-
             <mat-form-field>
               <textarea matInput placeholder="Description..." [value]="photo.description" formControlName="description">
                </textarea>
@@ -48,16 +42,12 @@
           </div>
           <button mat-flat-button type="submit">Save changes</button>
         </form>
-
-
-
       </div>
     </div>
   </ng-template>
-
-
+  <div *ngIf="result.status === 'ok'">{{result.message}}</div>
+  <div *ngIf="result.status === 'failed'">{{result.message}}</div>
 </mat-card>
-
 <ng-template #loading>
   <mat-spinner></mat-spinner>
 </ng-template>

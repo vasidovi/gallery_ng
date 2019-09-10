@@ -1,9 +1,8 @@
 import { ICatalog } from './../../models/catalog.model';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService } from 'src/app/services/gallery.service';
-import { IPhoto } from 'src/app/models/photo.model';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
@@ -15,7 +14,6 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 export class ImageEditComponent implements OnInit {
 
   id: number;
-  // temp solution
   photo: any;
   catalogList: any;
   initialCatalogs: ICatalog[];
@@ -36,17 +34,23 @@ export class ImageEditComponent implements OnInit {
     catalogs: '',
   });
 
+  result = {
+    status: '',
+    message: '',
+  };
+
   constructor(private route: ActivatedRoute,
               private gallery: GalleryService,
               private formBuilder: FormBuilder,
+              public router: Router,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
-    this.loadData(this.id);
+    this._loadData(this.id);
   }
 
-  loadData(id): void {
+  private _loadData(id: number): void {
 
     this.gallery.getCatalogs()
       .then(data => this.catalogList = data);
@@ -70,7 +74,6 @@ export class ImageEditComponent implements OnInit {
         this.editForm.get('name').setValue(this.photo.name);
         this.editForm.get('description').setValue(this.photo.description);
 
-        console.log(this.editForm.get('name'));
         this.isLoaded = !this.isLoaded;
       });
   }
@@ -102,21 +105,28 @@ export class ImageEditComponent implements OnInit {
     }
   }
 
-
-  edit() {
+  edit(): void {
     const formData = new FormData();
     ['description', 'tags', 'catalogs', 'name'].forEach(i => {
       formData.append(i, this.editForm.value[i]);
     });
-    this.gallery.editImage(formData, this.id).subscribe();
+    this.gallery.editImage(formData, this.id).subscribe(
+      (res) => {
+        this.result.status = 'ok';
+        this.result.message = 'Changes saved';
+      },
+      (err) => {
+        this.result.status = 'failed';
+        this.result.message = 'Edit failed';
+      });
   }
 
-
-  delete() {
+  delete(): void {
     this.gallery.delete(this.id).subscribe(
-      (res) => console.log(res),
-      (err) => console.log(err)
-    );
+      (res) => this.router.navigate(['/']),
+      (err) => {
+        this.result.status = 'failed';
+        this.result.message = 'Delete failed';
+      });
   }
-
 }

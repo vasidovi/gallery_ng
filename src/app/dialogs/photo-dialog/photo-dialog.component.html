@@ -2,11 +2,16 @@
     <mat-icon (click)= onClose()>close</mat-icon>
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title >{{data.image.name}}</mat-card-title>
+          <mat-card-title >{{data.image.name | titlecase}}</mat-card-title>
           <mat-card-subtitle>{{ getDate(data.image.date) }}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image [src]="(data | imageSrc)" alt="{{data.name}}">
+        <img mat-card-image [src]="(data | imageSrc)" alt="{{data.name}}" id="imageContainer" >
         <mat-card-content>
+            <mat-chip-list #chipList aria-label="Tags selection">
+                <mat-chip *ngFor="let tag of data.image.tags">
+                    {{tag.name}}
+                </mat-chip>
+              </mat-chip-list>
           <p>
            {{data.image.description}}
           </p>

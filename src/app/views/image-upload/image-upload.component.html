@@ -1,22 +1,13 @@
 <mat-card>
-
   <a [routerLink]="['/']">
     <button mat-flat-button>
       Back to Gallery
     </button>
   </a>
-
-  <!-- 
-  //  Is siandienos pamokos pastebejimas : ngSubmit issiuncia kai paspaudiama submit ir neperkrauna puslapio
-  // kitas valriantas nenaudot ng submit, submit button type button ir klausais click event 
--->
   <form (ngSubmit)="onSubmit()">
-
     <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
       [class.hovering]="isHovering">
-
       <h4>Drag and drop your image file...</h4>
-
       <div *ngIf="!file">
         <mat-form-field>
           <ngx-mat-file-input #box [value]="setFileValue(box.value)" [accept]="'image/*'" placeholder="File"
@@ -29,25 +20,10 @@
         <button mat-flat-button (click)="removeFile()">Remove Selected file</button>
       </div>
     </div>
-
     <div class=form-container [formGroup]="uploadForm">
-      <!-- 
-        <mat-form-field>
-            <ngx-mat-file-input             
-            formControlName="file" 
-            [accept]="'image/*'"
-            placeholder="File" 
-            valuePlaceholder="No file selected" 
-            required></ngx-mat-file-input>
-            <mat-icon matSuffix>folder</mat-icon>
-            <mat-error *ngIf="uploadForm.get('file').hasError('required')">
-              Please select a file
-            </mat-error>
-          </mat-form-field> -->
       <mat-form-field>
         <input matInput placeholder="Name" formControlName="name" />
       </mat-form-field>
-
       <mat-form-field>
         <textarea matInput placeholder="Description..." formControlName="description">
         </textarea>
@@ -74,4 +50,6 @@
     </div>
     <button mat-flat-button type="submit" [disabled]="!file">Upload Image</button>
   </form>
+  <div *ngIf="upload.status === 'ok'" >{{upload.message}}</div>
+  <div *ngIf="upload.status === 'failed'">{{upload.message}}</div>
 </mat-card>

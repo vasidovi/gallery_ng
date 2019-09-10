@@ -1,13 +1,11 @@
 <mat-card>
-
-  <a [routerLink]="['/']">
+  <a routerLink="/">
     <button mat-flat-button>
       Back to Gallery
     </button>
   </a>
   <form (ngSubmit)="onSubmit()"  [formGroup]="form" fxLayout="column">
-
-    <!-- // rasyti ir html validatocijas -->
+    <!-- // rasyti ir html validacijas -->
     <mat-form-field>
             <input matInput placeholder="Enter your username" formControlName="username" required
             (ngModelChange)="checkNameValidity($event)">
@@ -18,20 +16,16 @@
       <input matInput placeholder="Enter your email" [formControl]="email" required>
       <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
     </mat-form-field> -->
-
     <mat-form-field>
       <input matInput placeholder="Enter your password"
       formControlName ="password"
       [type]="hidePassword ? 'password' : 'text'" required>
       <mat-error *ngIf="form.get('password').value.invalid">{{getErrorMessage()}}</mat-error>
-
       <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
         [attr.aria-pressed]="hidePassword">
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
-
-    
     <mat-form-field>
             <input matInput placeholder="Repeat your password"
             formControlName ="passwordRepeat"
@@ -42,13 +36,9 @@
               <mat-icon>{{hidePasswordRepeat ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
-
     <button mat-flat-button type="submit" [disabled]="!form.valid" >Register</button>
-    
   </form>
-
   <div *ngIf="registration.status === 'ok'" >{{registration.message}}</div>
   <div *ngIf="registration.status === 'failed'">{{registration.message}}</div>
-
 </mat-card>
 

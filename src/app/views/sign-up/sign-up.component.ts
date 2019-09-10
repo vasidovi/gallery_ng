@@ -1,6 +1,7 @@
 import { UserService } from './../../services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -36,10 +37,12 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  // todo check in DB if User by such name and email exists and return response
+  // todo  optional side project to check in DB if User by such name and email exists and return response
   // if does not exits to register user and autologin
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              public router: Router
+    ) { }
 
   ngOnInit() {
   }
@@ -47,21 +50,19 @@ export class SignUpComponent implements OnInit {
   checkNameValidity(event) {
 
     if (event.trim().length > 2) {
-
       // Optional feature
       // this.userService.checkIfUsernameExists(event.trim());
     }
   }
 
-  onSubmit() {
-
+  onSubmit(): void {
     this.userService.register({
       password: this.form.get('password').value,
       username: this.form.get('username').value,
     }).then(
       (res) => {
-        this.registration.status = 'ok';
-        this.registration.message = 'registration was successful';
+        // auto login
+        this.router.navigate(['/']);
       },
       (err) => {
         this.registration.status = 'failed';

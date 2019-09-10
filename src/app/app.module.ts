@@ -1,3 +1,4 @@
+import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { GalleryService } from './services/gallery.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,8 +9,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
-
-
 
 import {
   MatIconModule,
@@ -23,7 +22,6 @@ import {
   MatProgressSpinnerModule
 } from '@angular/material';
 
-
 import { AppComponent } from './app.component';
 
 import {
@@ -36,13 +34,11 @@ import {
 
 import {
   PhotoComponent,
-  PhotoDialogComponent,
 } from './components';
 
+import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
-import { FileUploadComponent } from './components/file-upload/file-upload.component';
-
 
 @NgModule({
   declarations: [
@@ -51,12 +47,12 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
     PhotoComponent,
     PhotoDialogComponent,
     ImageUploadComponent,
+    FileUploadComponent,
     ImageSrcPipe,
     ImageEditComponent,
     SignUpComponent,
     SignInComponent,
     DropZoneDirective,
-    FileUploadComponent,
   ],
   imports: [
     MatIconModule,

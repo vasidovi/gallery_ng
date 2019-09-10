@@ -1,0 +1,39 @@
+@import "../../../assets/styles/constants.scss";
+
+::ng-deep .mat-dialog-container {
+  padding: 0;
+  scrollbar-width: none;
+}
+
+::ng-deep .mat-dialog-container::-webkit-scrollbar {
+  display: none;
+}
+
+img {
+  display: block;
+  max-width: 70vw;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+}
+
+::ng-deep .mat-card-avatar {
+  display: none
+}
+
+mat-card-content {
+  FONT-WEIGHT: 300;
+  margin: -10px 15px 10px 15px !important;
+  font-size: 1em;
+}
+
+mat-card {
+  margin: 0;
+  width: 100%;
+}
+
+mat-icon {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+}

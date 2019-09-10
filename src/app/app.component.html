@@ -1,33 +1,26 @@
-<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-  <a [routerLink]="['/upload']">
+<mat-toolbar fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center">
+  <a routerLink="/upload">
     <button mat-flat-button>
       Upload new Image
     </button>
   </a>
   <div  fxLayout="row" fxLayoutAlign="space-between center">
-    <a [routerLink]="['/signup']" fxFlex="40">
+    <a routerLink="/signup" fxFlex="40">
       <button mat-flat-button>
         Sign up
       </button>
     </a>
     <div fxFlex="15"></div>
-
-    <a [routerLink]="['/signin']" fxFlex="40">
+    <a routerLink="/signin" fxFlex="40">
       <button mat-flat-button>
         Sign in
       </button>
     </a>
     <div fxFlex="5"></div>
-
   </div>
-
 </mat-toolbar>
-
 <section>
-
-
   <div>
     <router-outlet></router-outlet>
   </div>
-
 </section>

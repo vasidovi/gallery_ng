@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@ang
 import { GalleryService } from 'src/app/services/gallery.service';
 import { ICatalog } from 'src/app/models/catalog.model';
 import { MatChipInputEvent } from '@angular/material';
+import { FileInput } from 'ngx-material-file-input';
 
 
 class ImageSnippet {
@@ -38,6 +39,11 @@ export class ImageUploadComponent implements OnInit {
 
   catalogList: ICatalog[];
 
+  upload = {
+    status: '',
+    message: '',
+  };
+
   // tag chip list
   selectable = true;
   removable = true;
@@ -49,27 +55,17 @@ export class ImageUploadComponent implements OnInit {
               private formBuilder: FormBuilder) {
   }
 
-  // private onSuccess(res) {
-  //   console.log(res);
-  // }
-
-  // private onError() {
-  //   this.selectedFile.pending = false;
-  //   this.selectedFile.status = 'fail';
-  //   this.selectedFile.src = '';
-  // }
-
-  removeFile() {
+  removeFile(): void {
     this.file = null;
   }
 
-  setFileValue(event) {
+  setFileValue(event: FileInput): void {
     if (event && this.file !== event.files[0]) {
       this.file = event.files[0];
     }
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const formData = new FormData();
 
     this.uploadForm.get('file').setValue(this.file);
@@ -77,14 +73,22 @@ export class ImageUploadComponent implements OnInit {
     ['description', 'tags', 'catalogs', 'name', 'file'].forEach(i => {
       formData.append(i, this.uploadForm.value[i]);
     });
-    this.gallery.uploadImage(formData).subscribe();
+    this.gallery.uploadImage(formData).subscribe(
+      (res) => {
+        this.upload.status = 'ok';
+        this.upload.message = 'upload was successful';
+      }, (err) => {
+        this.upload.status = 'failed';
+        this.upload.message = 'upload failed';
+      }
+    );
   }
 
-  ngOnInit() {
-    this.loadCatalogs();
+  ngOnInit(): void {
+    this._loadCatalogs();
   }
 
-  loadCatalogs(): void {
+  private _loadCatalogs(): void {
     this.gallery.getCatalogs()
       .then(data => this.catalogList = data);
   }
@@ -117,21 +121,18 @@ export class ImageUploadComponent implements OnInit {
     if (event.input) {
       event.input.value = '';
     }
-
   }
 
-  toggleHover(event: boolean) {
+  toggleHover(event: boolean): void {
     this.isHovering = event;
   }
 
 
-  startUpload(event: FileList) {
+  startUpload(event: FileList): void {
 
     const file = event.item(0);
-
     if (file.type.split('/')[0] === 'image') {
       this.file = file;
     }
   }
-
 }

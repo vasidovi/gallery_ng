@@ -1,5 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Output } from '@angular/core';
 
 @Component({
   selector: 'app-file-upload',
@@ -10,24 +9,22 @@ export class FileUploadComponent {
 
 
   @Output()
-  // fileEmiter = new EventEmitter<File>();
   file: File;
   isHovering: boolean;
 
   constructor() { }
 
-  toggleHover(event: boolean) {
+  toggleHover(event: boolean): void {
     this.isHovering = event;
   }
 
 
-  startUpload(event: FileList) {
+  startUpload(event: FileList): void {
 
     const file = event.item(0);
 
     if (file.type.split('/')[0] === 'image') {
       this.file = file;
-      // this.fileEmiter.emit(file);
       }
     }
 }

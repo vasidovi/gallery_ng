@@ -2,7 +2,7 @@ import { GalleryService } from './../../services/gallery.service';
 import { IPhoto } from './../../models/photo.model';
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PhotoDialogComponent } from '../photo-dialog/photo-dialog.component';
+import { PhotoDialogComponent } from '../../dialogs/photo-dialog/photo-dialog.component';
 
 @Component({
   selector: 'app-photo',
@@ -21,13 +21,10 @@ export class PhotoComponent {
       .subscribe(data => {
         const photoBig = data;
         this.dialog.open(PhotoDialogComponent, {
-          width: '80vw',
-          height: '80vh',
           data: photoBig,
         });
       });
   }
-
 }
 
 

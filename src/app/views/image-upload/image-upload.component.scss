@@ -1,34 +1,41 @@
 @import "../../../assets/styles/constants.scss";
 
 
-.hidden{
-visibility: hidden;
+.hide {
+  display: none;
 }
-button{
-    background-color: $grey;
+
+.show {
+  display: auto;
+}
+
+button {
+  background-color: $grey;
 }
 
 .form-container {
-    display: flex;
-    flex-direction: column;
-     > * {
+  display: flex;
+  flex-direction: column;
+
+  >* {
     width: 100%;
   }
 }
 
-.dropzone { 
+.dropzone {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column; 
-  height: 300px;
+  flex-direction: column;
+  height: 150px;
+  min-width: 350px;
   border: 2px dashed $accent;
   border-radius: 5px;
   background: $white;
   margin: 10px 0;
 
   &.hovering {
-      border: 2px solid $accent;
-      color: $grey !important;
+    border: 2px solid $accent;
+    color: $grey !important;
   }
 }
