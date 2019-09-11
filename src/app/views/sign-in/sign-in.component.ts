@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services';
 
 @Component({
   selector: 'app-sign-in',
@@ -22,6 +23,7 @@ export class SignInComponent {
   });
 
   constructor(private userService: UserService,
+              private auth: AuthService,
               public router: Router
   ) { }
 
@@ -30,8 +32,10 @@ export class SignInComponent {
       password: this.form.get('password').value,
       username: this.form.get('username').value,
     }).then((res) => {
-      // do something... 
+
       console.log(res);
+
+      this.auth.login();
       this.router.navigate(['/']);
     }, (err) => {
       this.login.status = 'failed';

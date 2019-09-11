@@ -5,11 +5,12 @@ import { ImageUploadComponent } from './views/image-upload/image-upload.componen
 import { ImageEditComponent } from './views/image-edit/image-edit.component';
 import { SignUpComponent } from './views/sign-up/sign-up.component';
 import { SignInComponent } from './views/sign-in/sign-in.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: GalleryComponent },
-  { path: 'upload', component: ImageUploadComponent },
-  { path: 'image/edit/:id', component: ImageEditComponent },
+  { path: 'upload', component: ImageUploadComponent, canActivate: [AuthGuard] },
+  { path: 'image/edit/:id', component: ImageEditComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
 ];

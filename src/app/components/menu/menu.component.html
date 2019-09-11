@@ -1,0 +1,20 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+  <a routerLink="/upload">
+    <button mat-flat-button>
+      Upload new Image
+    </button>
+  </a>
+    <ng-template [ngIf]="isLoggedIn()"; [ngIfElse]="login">
+    <button mat-flat-button (click)="logout()"> 
+      Log out
+    </button>
+  </ng-template>
+</mat-toolbar>
+
+<ng-template #login>
+  <a routerLink="/signin">
+    <button mat-flat-button>
+      Sign in
+    </button>
+  </a>
+</ng-template>

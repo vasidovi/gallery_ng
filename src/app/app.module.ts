@@ -1,5 +1,4 @@
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
-import { GalleryService } from './services/gallery.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -9,6 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+
+import {
+  GalleryService,
+  AuthService,
+  UserService
+} from './services';
+
 
 import {
   MatIconModule,
@@ -39,6 +45,7 @@ import {
 import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +60,7 @@ import { DropZoneDirective } from './directives/dropzone.directive';
     SignUpComponent,
     SignInComponent,
     DropZoneDirective,
+    MenuComponent,
   ],
   imports: [
     MatIconModule,
@@ -73,7 +81,7 @@ import { DropZoneDirective } from './directives/dropzone.directive';
     FlexLayoutModule,
     MaterialFileInputModule,
   ],
-  providers: [GalleryService],
+  providers: [GalleryService, AuthService, UserService],
   bootstrap: [AppComponent],
   entryComponents: [PhotoDialogComponent]
 })

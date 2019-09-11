@@ -1,4 +1,4 @@
-import { GalleryService } from './../../services/gallery.service';
+import { GalleryService, AuthService } from './../../services';
 import { IPhoto } from './../../models/photo.model';
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { PhotoDialogComponent } from '../../dialogs/photo-dialog/photo-dialog.co
 export class PhotoComponent {
 
   constructor(private gallery: GalleryService,
+              private auth: AuthService,
               public dialog: MatDialog) { }
 
   @Input() photo: IPhoto;
@@ -24,6 +25,10 @@ export class PhotoComponent {
           data: photoBig,
         });
       });
+  }
+
+  isLoggedIn(): boolean {
+    return this.auth.isLoggedIn();
   }
 }
 
