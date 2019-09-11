@@ -3,3 +3,42 @@
 button{
     background-color: $grey;
 }
+div{
+    display: inline-block;
+}
+
+.hero{
+    background-image: url("../../../assets/images/hero.jpg");
+    background-repeat: no-repeat;
+    height: calc(100vh - 64px);
+
+    div{
+        height: 90%;
+    }
+}
+
+h2{
+    color: $white;
+    margin: 20px;
+    text-transform: capitalize;
+    font-size: 2.5em;
+    font-weight: 500;
+    text-align: center;
+}
+
+p{
+    color: $white;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+.sign-up{
+    color: $white;
+    border: 1px solid $white;
+    background-color: rgba(0, 0, 0, 0.5);    
+}
+
+::ng-deep .mat-card {
+margin: 10px !important;
+box-sizing: border-box;
+  }

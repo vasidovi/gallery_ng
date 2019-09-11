@@ -31,6 +31,7 @@ export class SignInComponent {
       username: this.form.get('username').value,
     }).then((res) => {
       // do something... 
+      console.log(res);
       this.router.navigate(['/']);
     }, (err) => {
       this.login.status = 'failed';
@@ -38,5 +39,7 @@ export class SignInComponent {
     }
     );
   }
+
+
 
 }
