@@ -22,23 +22,20 @@ export class SignInComponent {
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private userService: UserService,
-              private auth: AuthService,
+  constructor(private auth: AuthService,
               public router: Router
   ) { }
 
   onSubmit(): void {
-   this.auth.login({
+    this.auth.login({
       password: this.form.get('password').value,
       username: this.form.get('username').value,
-    });
-
-   if (this.auth.isLoggedIn()) {
-      this.router.navigate(['/']);
-    } else {
-      this.login.status = 'failed';
-      this.login.message = 'Wrong username or password';
-    }
+    }).then(() => {
+        this.router.navigate(['/']);
+      }, (err)  => {
+        console.log(err);
+        this.login.status = 'failed';
+        this.login.message = 'Wrong username or password';
+      });
   }
-
 }

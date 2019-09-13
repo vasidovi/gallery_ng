@@ -3,6 +3,7 @@ import { IUser } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +14,15 @@ export class AuthService {
               private userService: UserService,
               private cookie: CookieService) {}
 
-login(user: IUser) {
+login(user: IUser): Promise<any> {
 
-  this.userService.signin(user).then(data => {
-    console.log(data);
-    this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1])).scopes);
-    this.cookie.set('token', data.token);
-  }, (err) => {
-    console.log(err);
-    });
+  return new Promise((resolved, rejected) => {
+    this.userService.signin(user).then(data => {
+      this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1])).scopes);
+      this.cookie.set('token', data.token);
+      resolved();
+    }, rejected);
+  });
 }
 
 logout(): void {
@@ -29,8 +30,14 @@ logout(): void {
   this.cookie.delete('role');
 }
 
+isAdmin(): boolean {
+
+return this.cookie.get('role') === 'ROLE_ADMIN';
+}
+
 isLoggedIn(): boolean {
   if (this.cookie.get('token')){
+    console.log("token received");
   return true;
   } else {
     return false;

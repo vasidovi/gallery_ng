@@ -28,6 +28,7 @@ import {
   MatChipsModule,
   MatSelectModule,
   MatInputModule,
+  MatSnackBarModule,
   MatProgressSpinnerModule
 } from '@angular/material';
 
@@ -75,6 +76,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatSelectModule,
     MatChipsModule,
     MatInputModule,
+    MatSnackBarModule,
     MatProgressSpinnerModule,
     BrowserModule,
     AppRoutingModule,
@@ -98,6 +100,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
                 c = c.substring(1);
               }
               if (c.indexOf(name) === 0) {
+                console.log(c);
+
                 return c.substring(name.length, c.length);
               }
             }

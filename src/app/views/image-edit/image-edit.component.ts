@@ -1,3 +1,5 @@
+import { AuthService } from './../../services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 import { ICatalog } from './../../models/catalog.model';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -40,6 +42,7 @@ export class ImageEditComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
               private gallery: GalleryService,
               private formBuilder: FormBuilder,
               public router: Router,
@@ -128,5 +131,9 @@ export class ImageEditComponent implements OnInit {
         this.result.status = 'failed';
         this.result.message = 'Delete failed';
       });
+  }
+
+  isAdmin(): boolean {
+   return this.authService.isAdmin();
   }
 }
