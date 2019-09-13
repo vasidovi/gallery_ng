@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService } from 'src/app/services/gallery.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-image-edit',
@@ -36,15 +37,11 @@ export class ImageEditComponent implements OnInit {
     catalogs: '',
   });
 
-  result = {
-    status: '',
-    message: '',
-  };
-
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
               private gallery: GalleryService,
               private formBuilder: FormBuilder,
+              private _snackBar: MatSnackBar,
               public router: Router,
   ) {}
 
@@ -115,21 +112,31 @@ export class ImageEditComponent implements OnInit {
     });
     this.gallery.editImage(formData, this.id).subscribe(
       (res) => {
-        this.result.status = 'ok';
-        this.result.message = 'Changes saved';
+        this._snackBar.open('Changes saved', 'X', {
+          duration: 2000,
+        });
       },
       (err) => {
-        this.result.status = 'failed';
-        this.result.message = 'Edit failed';
+        this._snackBar.open('Edit failed', 'X', {
+          duration: 2000,
+        });
+
       });
   }
 
   delete(): void {
     this.gallery.delete(this.id).subscribe(
-      (res) => this.router.navigate(['/']),
+      (res) => {
+
+        this._snackBar.open('Photo has been deleted', 'X', {
+          duration: 2000,
+        });
+        setTimeout(() => this.router.navigate(['/']), 2000);
+      },
       (err) => {
-        this.result.status = 'failed';
-        this.result.message = 'Delete failed';
+        this._snackBar.open('Delete failed', 'X', {
+          duration: 2000,
+        });
       });
   }
 

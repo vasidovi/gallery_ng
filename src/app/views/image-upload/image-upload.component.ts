@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { GalleryService } from 'src/app/services/gallery.service';
 import { ICatalog } from 'src/app/models/catalog.model';
-import { MatChipInputEvent } from '@angular/material';
+import { MatChipInputEvent, MatSnackBar } from '@angular/material';
 import { FileInput } from 'ngx-material-file-input';
 
 
@@ -39,11 +39,6 @@ export class ImageUploadComponent implements OnInit {
 
   catalogList: ICatalog[];
 
-  upload = {
-    status: '',
-    message: '',
-  };
-
   // tag chip list
   selectable = true;
   removable = true;
@@ -52,6 +47,7 @@ export class ImageUploadComponent implements OnInit {
 
 
   constructor(private gallery: GalleryService,
+              private _snackBar: MatSnackBar,
               private formBuilder: FormBuilder) {
   }
 
@@ -75,11 +71,14 @@ export class ImageUploadComponent implements OnInit {
     });
     this.gallery.uploadImage(formData).subscribe(
       (res) => {
-        this.upload.status = 'ok';
-        this.upload.message = 'upload was successful';
+        this._snackBar.open('Upload was successful', 'X', {
+          duration: 2000,
+        });
       }, (err) => {
-        this.upload.status = 'failed';
-        this.upload.message = 'upload failed';
+
+        this._snackBar.open('Upload failed', 'X', {
+          duration: 2000,
+        });
       }
     );
   }

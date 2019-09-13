@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,9 +20,11 @@ export class SignInComponent {
   form: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
+
   });
 
   constructor(private auth: AuthService,
+              private _snackBar: MatSnackBar,
               public router: Router
   ) { }
 
@@ -32,10 +34,11 @@ export class SignInComponent {
       username: this.form.get('username').value,
     }).then(() => {
         this.router.navigate(['/']);
-      }, (err)  => {
-        console.log(err);
-        this.login.status = 'failed';
-        this.login.message = 'Wrong username or password';
+      }, ()  => {
+
+        this._snackBar.open('Wrong username or password', 'X', {
+          duration: 2000,
+        });
       });
   }
 }

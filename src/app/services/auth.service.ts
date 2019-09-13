@@ -38,10 +38,9 @@ return this.cookie.get('role') === 'ROLE_ADMIN';
 isLoggedIn(): boolean {
   if (this.cookie.get('token')){
     console.log("token received");
-  return true;
+    return true;
   } else {
     return false;
+    }
   }
-
-}
 }

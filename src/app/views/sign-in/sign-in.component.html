@@ -29,8 +29,6 @@
           </mat-form-field>
           <button mat-flat-button type="submit" [disabled]="!form.valid">Log in</button>
         </form>
-        <div *ngIf="login.status === 'ok'">{{login.message}}</div>
-        <div *ngIf="login.status === 'failed'">{{login.message}}</div>
       </mat-card>
   </div>
 </div>
