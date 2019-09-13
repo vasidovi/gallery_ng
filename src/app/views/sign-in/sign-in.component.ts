@@ -28,22 +28,17 @@ export class SignInComponent {
   ) { }
 
   onSubmit(): void {
-    this.userService.signin({
+   this.auth.login({
       password: this.form.get('password').value,
       username: this.form.get('username').value,
-    }).then((res) => {
+    });
 
-      console.log(res);
-
-      this.auth.login();
+   if (this.auth.isLoggedIn()) {
       this.router.navigate(['/']);
-    }, (err) => {
+    } else {
       this.login.status = 'failed';
       this.login.message = 'Wrong username or password';
     }
-    );
   }
-
-
 
 }

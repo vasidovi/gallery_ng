@@ -1,6 +1,6 @@
 import { IFilterData } from '../../models/filterData.motel';
 import { GalleryService } from './../../services/gallery.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { IPhoto } from './../../models/photo.model';
@@ -40,13 +40,21 @@ export class GalleryComponent implements OnInit {
 
   resCount = this.photos.length;
 
+  public innerWidth: any;
+
   constructor(private gallery: GalleryService) { }
 
   ngOnInit() {
     this._loadCatalogs();
     this._loadThumbnails();
     this.sortByDate();
+    this.innerWidth = window.innerWidth;
   }
+
+  @HostListener('window:resize', ['$event'])
+onResize(event) {
+  this.innerWidth = window.innerWidth;
+}
 
   getPhotosCount() {
     if (this.photos) {

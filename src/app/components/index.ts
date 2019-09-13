@@ -1,7 +1,7 @@
-import { PhotoDialogComponent } from '../dialogs/photo-dialog/photo-dialog.component';
+import { MenuComponent } from './menu/menu.component';
 import { PhotoComponent } from './photo/photo.component';
 
 
 export {PhotoComponent,
-        PhotoDialogComponent,
+        MenuComponent,
     };

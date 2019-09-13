@@ -13,7 +13,7 @@ export class UserService {
     return this.http.post<IUser>('http://localhost:8080/signup', user).toPromise();
   }
 
-  signin(user: IUser): Promise<IUser> {
+  signin(user: IUser): Promise<any> {
     return this.http.post<IUser>('http://localhost:8080/token/generate-token', user).toPromise();
   }
 
