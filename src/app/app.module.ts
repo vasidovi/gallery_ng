@@ -90,24 +90,26 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         tokenGetter: function  tokenGetter() {
 
           function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-              var c = ca[i];
-              while (c.charAt(0) == ' ') {
+            const name = cname + '=';
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const ca = decodedCookie.split(';');
+            for (let c of ca) {
+              while (c.charAt(0) === ' ') {
                 c = c.substring(1);
               }
-              if (c.indexOf(name) == 0) {
+              if (c.indexOf(name) === 0) {
                 return c.substring(name.length, c.length);
               }
             }
             return '';
           }
 
-        return getCookie('token')},
-        blacklistedRoutes: ['localhost:8080', 'localhost:8080/catalogs'],
-        whitelistedDomains: ['http://localhost:8080/image/**', 'http://localhost:8080/upload',  ]
+          return getCookie('token');},
+        whitelistedDomains: ['localhost:8080'],
+        blacklistedRoutes: [ 'http://localhost:8080/signup',
+        'http://localhost:8080/images', 'http://localhost:8080/catalogs', 'http://localhost:8080/token/generate-token',
+        'http://localhost:8080/image/metadata/**', 'http://localhost:8080/images/find'
+       ],
       }
     })
   ],

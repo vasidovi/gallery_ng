@@ -9,8 +9,6 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AuthService {
 
-  authState: boolean;
-
   constructor(private http: HttpClient,
               private userService: UserService,
               private cookie: CookieService) {}
@@ -21,7 +19,6 @@ login(user: IUser) {
     console.log(data);
     this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1])).scopes);
     this.cookie.set('token', data.token);
-    this.authState = true;
   }, (err) => {
     console.log(err);
     });
@@ -30,10 +27,14 @@ login(user: IUser) {
 logout(): void {
   this.cookie.delete('token');
   this.cookie.delete('role');
-  this.authState = false;
 }
 
 isLoggedIn(): boolean {
-  return this.authState;
+  if (this.cookie.get('token')){
+  return true;
+  } else {
+    return false;
+  }
+
 }
 }
