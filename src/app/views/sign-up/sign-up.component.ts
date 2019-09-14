@@ -1,3 +1,5 @@
+import { IUser } from './../../models/user.model';
+import { AuthService } from 'src/app/services';
 import {passwordsMatch } from './../../directives/password-mismatch.directive';
 import { UserService } from './../../services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -46,18 +48,17 @@ export class SignUpComponent implements OnInit {
   }
 
   getPasswordRepeatErrorMessage(): string {
-    if (this.form.get('passwordRepeat').hasError('required')){
-      return 'You must enter a value';
-    } else if ( this.form.hasError('passwordsMismatch' )){
-      console.log(this.form.hasError('passwordsMismatch'));
-      return 'Passwords do not match';
-    } else {
-      return '';
-    }
 
-    // return this.form.get('passwordRepeat').hasError('required') ? 'You must enter a value' :
-    //        this.form.hasError('passwordsMismatch') ? 'Passwords do not match' :
-    //       '';
+    // if (this.form.get('passwordRepeat').hasError('required')){
+    //   return 'You must enter a value';
+    // } else if ( this.form.hasError('passwordsMismatch' )){
+    //   return 'Passwords do not match';
+    // } else {
+    //   return '';
+    // }
+
+    return this.form.get('passwordRepeat').hasError('required') ? 'You must enter a value' :
+          '';
   }
 
 
@@ -65,6 +66,7 @@ export class SignUpComponent implements OnInit {
   // if does not exits to register user and autologin
 
   constructor(private userService: UserService,
+              private auth: AuthService,
               private _snackBar: MatSnackBar,
               public router: Router
     ) { }
@@ -81,17 +83,22 @@ export class SignUpComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.userService.register({
+
+    const newUser: IUser = {
       password: this.form.get('password').value,
       username: this.form.get('username').value,
-    }).then(
+  };
+
+    this.userService.register(newUser).then(
       (res) => {
-        this._snackBar.open( 'Welcome abroad ' + this.form.get('username').value + ' ', 'X', {
+        this._snackBar.open( 'Welcome abroad ' + newUser.username + ' ', 'X', {
           duration: 2000,
         });
+        this.auth.login(newUser).then(() => {
         setTimeout(() => this.router.navigate(['/']), 1000);
-      },
-      (err) => {
+      });
+    },
+    (err) => {
         this._snackBar.open( 'Registration failed : ' + err.error + ' ', 'X', {
           duration: 4000,
         });

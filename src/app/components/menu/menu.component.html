@@ -1,12 +1,11 @@
 <mat-toolbar>
   <div class="column">
-    <div class="row align-items-center justify-content-between">
+    <div class="row justify-content-between">
       <a routerLink="/upload" class="col-2">
         <button mat-flat-button>
           Upload new Image
         </button>
       </a>
-      <!-- <div class="col-auto"></div> -->
       <ng-template [ngIf]="isLoggedIn()" ; [ngIfElse]="login" class="col-1">
         <button mat-flat-button (click)="logout()">
           Log out

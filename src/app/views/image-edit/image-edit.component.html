@@ -1,35 +1,39 @@
 <mat-card>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between end">
-    <a [routerLink]="['/']">
-      <button mat-flat-button>
+  <div class="container">
+  <div class="row">
+    <a [routerLink]="['/']" class="col-12 col-md-6">
+      <button mat-flat-button class="info-button">
         Back to Gallery
       </button>
     </a>
-    <div *ngIf="isAdmin()">
+    <div *ngIf="isAdmin()"  class="col-12 col-md-6">
     <button mat-flat-button class="delete-button" (click)="delete()">Delete image</button>
     </div>
   </div>
-  <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
-    <div class="form-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-around center">
+  </div>
+  <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading"  class="container">
+    <div class="form-container row">
+      <div class="col-12 col-md-6 align-items-center">
       <img class="image" [src]="(photo | imageSrc)" alt="photo.name" />
-      <div>
-        <form (ngSubmit)="edit()">
-          <div class=form-container [formGroup]="editForm" fxLayout="column">
-            <mat-form-field>
+    </div>
+      <div class="col-12 col-md-6">
+        <form (ngSubmit)="edit()" class="container">
+          <div class="form-container row" [formGroup]="editForm" fxLayout="column">
+            <mat-form-field class="col-12" >
               <input matInput placeholder="Name" [value]="photo.name | titlecase" formControlName="name" />
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="col-12">
               <textarea matInput placeholder="Description..." [value]="photo.description" formControlName="description">
                </textarea>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="col-12">
               <mat-label>Catalogs</mat-label>
-              <mat-select multiple formControlName="catalogs">
+              <mat-select multiple formControlName="catalogs" class="col-12">
                 <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
                   {{catalog}}</mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="col-12">
               <mat-chip-list #chipList aria-label="Tags selection">
                 <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
                   (removed)="removeTag(i)">
@@ -41,8 +45,8 @@
                   (matChipInputTokenEnd)="addTag($event)" />
               </mat-chip-list>
             </mat-form-field>
-          </div>
-          <button mat-flat-button type="submit">Save changes</button>
+          <button mat-flat-button class="info-button" type="submit">Save changes</button>
+        </div>
         </form>
       </div>
     </div>

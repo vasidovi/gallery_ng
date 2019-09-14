@@ -1,5 +1,5 @@
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../services/auth.service';
-import { CookieService } from 'ngx-cookie-service';
 import { ICatalog } from './../../models/catalog.model';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -41,6 +41,7 @@ export class ImageEditComponent implements OnInit {
               private authService: AuthService,
               private gallery: GalleryService,
               private formBuilder: FormBuilder,
+              public dialog: MatDialog,
               private _snackBar: MatSnackBar,
               public router: Router,
   ) {}
