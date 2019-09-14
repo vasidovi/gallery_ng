@@ -1,7 +1,9 @@
+import {passwordsMatch } from './../../directives/password-mismatch.directive';
 import { UserService } from './../../services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-sign-up',
@@ -12,28 +14,50 @@ export class SignUpComponent implements OnInit {
 
   hidePassword = true;
   hidePasswordRepeat = true;
-  registration = {
-    status: '',
-    message: '',
-  };
+
   file: File;
   isHovering: boolean;
 
   // email : new FormControl('', [Validators.required, Validators.email]);, for now without email
   // toDo to implement password match confirm as per nice example ->
-  // https://codinglatte.com/posts/angular/cool-password-validation-angular/
 
   form: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(3)]),
     password: new FormControl('', [Validators.required]),
-    passwordRepeat: new FormControl('', [Validators.required]),
-  });
+    passwordRepeat: new FormControl('', [Validators.required, passwordsMatch ]),
+  },
+  {
+    validators: passwordsMatch
+  }
+  );
 
-  getErrorMessage() {
-    return this.form.get('username').value.hasError('required') ? 'You must enter a value' :
-      this.form.get('username').value.hasError('minLength') ? 'Username must be at least 3 letters' :
-        this.form.get('passwordRepeat').value.hasError('required') ? 'You must enter a value' :
+
+  getUsernameErrorMessage(): string {
+
+    return this.form.get('username').hasError('required') ? 'You must enter a value' :
+      this.form.get('username').hasError('minlength') ? 'Username must be at least 3 letters' :
           '';
+  }
+
+  getPasswordErrorMessage(): string {
+
+    return this.form.get('password').hasError('required') ? 'You must enter a value' :
+          '';
+  }
+
+  getPasswordRepeatErrorMessage(): string {
+    if (this.form.get('passwordRepeat').hasError('required')){
+      return 'You must enter a value';
+    } else if ( this.form.hasError('passwordsMismatch' )){
+      console.log(this.form.hasError('passwordsMismatch'));
+      return 'Passwords do not match';
+    } else {
+      return '';
+    }
+
+    // return this.form.get('passwordRepeat').hasError('required') ? 'You must enter a value' :
+    //        this.form.hasError('passwordsMismatch') ? 'Passwords do not match' :
+    //       '';
   }
 
 
@@ -41,6 +65,7 @@ export class SignUpComponent implements OnInit {
   // if does not exits to register user and autologin
 
   constructor(private userService: UserService,
+              private _snackBar: MatSnackBar,
               public router: Router
     ) { }
 
@@ -61,12 +86,15 @@ export class SignUpComponent implements OnInit {
       username: this.form.get('username').value,
     }).then(
       (res) => {
-        // auto login
-        this.router.navigate(['/']);
+        this._snackBar.open( 'Welcome abroad ' + this.form.get('username').value + ' ', 'X', {
+          duration: 2000,
+        });
+        setTimeout(() => this.router.navigate(['/']), 1000);
       },
       (err) => {
-        this.registration.status = 'failed';
-        this.registration.message = err.error;
+        this._snackBar.open( 'Registration failed : ' + err.error + ' ', 'X', {
+          duration: 4000,
+        });
       }
     );
   }

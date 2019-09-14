@@ -4,36 +4,36 @@
       Back to Gallery
     </button>
   </a>
-  <form (ngSubmit)="onSubmit()"  [formGroup]="form" fxLayout="column">
-    <!-- // rasyti ir html validacijas -->
-    <mat-form-field>
+  <div class="container">
+  <form (ngSubmit)="onSubmit()"  [formGroup]="form" class="row  justify-content-center" appPasswordMismatch>
+    <mat-form-field class="col-12">
             <input matInput placeholder="Enter your username" formControlName="username" required
             (ngModelChange)="checkNameValidity($event)">
-            <mat-error *ngIf="form.get('username').value.invalid">{{getErrorMessage()}}</mat-error>
+            <mat-error *ngIf="form.get('username').invalid">{{getUsernameErrorMessage()}}</mat-error>
           </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="col-12">
       <input matInput placeholder="Enter your password"
       formControlName ="password"
       [type]="hidePassword ? 'password' : 'text'" required>
-      <mat-error *ngIf="form.get('password').value.invalid">{{getErrorMessage()}}</mat-error>
+      <mat-error *ngIf="form.get('password').invalid">{{getPasswordErrorMessage()}}</mat-error>
       <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
         [attr.aria-pressed]="hidePassword">
         <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="col-12">
             <input matInput placeholder="Repeat your password"
             formControlName ="passwordRepeat"
             [type]="hidePasswordRepeat ? 'password' : 'text'" required>
-            <mat-error *ngIf="form.get('passwordRepeat').value.invalid">{{getErrorMessage()}}</mat-error>
+            <mat-error *ngIf="form.get('passwordRepeat').invalid || form.invalid">{{getPasswordRepeatErrorMessage()}}</mat-error>
+            <p class="form-error"  *ngIf="form.hasError('passwordsMismatch' )">Passwords do not match</p>
             <button mat-icon-button matSuffix (click)="hidePasswordRepeat = !hidePasswordRepeat" [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="hidePasswordRepeat">
               <mat-icon>{{hidePasswordRepeat ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
-          </mat-form-field>
-    <button mat-flat-button type="submit" [disabled]="!form.valid" >Register</button>
+    </mat-form-field>
+    <button class="col-4" mat-flat-button type="submit" [disabled]="form.invalid" >Register</button>
   </form>
-  <div *ngIf="registration.status === 'ok'" >{{registration.message}}</div>
-  <div *ngIf="registration.status === 'failed'">{{registration.message}}</div>
+</div> 
 </mat-card>
 

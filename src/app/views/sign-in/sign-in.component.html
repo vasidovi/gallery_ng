@@ -1,14 +1,16 @@
-<div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
-  <div class="hero" fxFlex="70" fxFlex.xs="100">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <h2>Welcome to image gallery!</h2>
-      <p>Not a member ... ?</p>
-      <a routerLink="/signup">
-        <button mat-flat-button class="sign-up">Sign up</button>
-      </a>
+<div class="column">
+  <div class="row justify-content-center">
+    <div class="hero col-12 col-sm-6 col-md-7 col-lg-8">
+        <div class="d-flex flex-column justify-content-center align-items-center">
+        <h2>Welcome to image gallery!</h2>
+        <p>Not a member ... ?</p>
+        <a routerLink="/signup" >
+          <button mat-flat-button class="sign-up">Sign up</button>
+        </a>
+      </div>
     </div>
-  </div>
-  <div fxFlex="30" fxFlex.xs="100">
+    <div class="col-12 col-sm-6 col-md-5 col-lg-4">
+        <div class="d-flex flex-column align-items-center justify-content-center h-100">
       <mat-card>
         <a routerLink="/">
           <button mat-flat-button>
@@ -30,5 +32,7 @@
           <button mat-flat-button type="submit" [disabled]="!form.valid">Log in</button>
         </form>
       </mat-card>
+      </div>
+    </div>
   </div>
 </div>

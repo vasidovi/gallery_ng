@@ -2,4 +2,12 @@
 
 button{
     background-color: $grey;
+    max-width: 150px;
+}
+.form-error{
+    color: #f44336;
+    font-size: 75%;
+    display: block;
+    position: relative;
+    top: 60px;
 }

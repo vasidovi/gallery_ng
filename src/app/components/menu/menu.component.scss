@@ -4,6 +4,10 @@ div{
     background-color: primary;
 }
 
+.column{
+    width: calc(100% - 15px);
+}
+   
 mat-toolbar{
     background-color: $grey;
 }

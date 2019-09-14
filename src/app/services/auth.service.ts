@@ -3,7 +3,6 @@ import { IUser } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +36,6 @@ return this.cookie.get('role') === 'ROLE_ADMIN';
 
 isLoggedIn(): boolean {
   if (this.cookie.get('token')){
-    console.log("token received");
     return true;
   } else {
     return false;

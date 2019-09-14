@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
+// import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -51,6 +51,7 @@ import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.compon
 import { ImageSrcPipe } from './pipes/image-src.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { PasswordMismatchDirective } from './directives/password-mismatch.directive';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SignInComponent,
     DropZoneDirective,
     MenuComponent,
+    PasswordMismatchDirective,
   ],
   imports: [
     MatIconModule,
@@ -84,7 +86,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    FlexLayoutModule,
+    // FlexLayoutModule,
     MaterialFileInputModule,
     NgbModule,
     JwtModule.forRoot({
