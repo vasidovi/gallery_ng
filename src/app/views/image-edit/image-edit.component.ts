@@ -1,3 +1,4 @@
+import { DeleteConfirmDialogComponent } from './../../dialogs/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../services/auth.service';
 import { ICatalog } from './../../models/catalog.model';
@@ -125,6 +126,20 @@ export class ImageEditComponent implements OnInit {
       });
   }
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
+        // width: '250px',
+        // height: '200px',
+      });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result === true){
+        console.log("deleting");
+      }
+    });
+  }
+
+  // delete is inited if dialog returns 'delete'
   delete(): void {
     this.gallery.delete(this.id).subscribe(
       (res) => {

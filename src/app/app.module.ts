@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-// import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -52,6 +51,7 @@ import { ImageSrcPipe } from './pipes/image-src.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordMismatchDirective } from './directives/password-mismatch.directive';
+import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/delete-confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +68,7 @@ import { PasswordMismatchDirective } from './directives/password-mismatch.direct
     DropZoneDirective,
     MenuComponent,
     PasswordMismatchDirective,
+    DeleteConfirmDialogComponent,
   ],
   imports: [
     MatIconModule,
@@ -86,7 +87,6 @@ import { PasswordMismatchDirective } from './directives/password-mismatch.direct
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    // FlexLayoutModule,
     MaterialFileInputModule,
     NgbModule,
     JwtModule.forRoot({
@@ -121,6 +121,6 @@ import { PasswordMismatchDirective } from './directives/password-mismatch.direct
   ],
   providers: [GalleryService, AuthService, UserService, CookieService],
   bootstrap: [AppComponent],
-  entryComponents: [PhotoDialogComponent]
+  entryComponents: [PhotoDialogComponent, DeleteConfirmDialogComponent]
 })
 export class AppModule { }
