@@ -1,16 +1,7 @@
 <mat-card>
-  <div class="container">
-  <div class="row">
-    <a [routerLink]="['/']" class="col-12 col-md-6">
-      <button mat-flat-button class="info-button">
-        Back to Gallery
-      </button>
-    </a>
-    <div *ngIf="isAdmin()"  class="col-12 col-md-6">
-    <button mat-flat-button class="delete-button" (click)="openDialog()">Delete image</button>
+    <div *ngIf="isAdmin()">
+    <button mat-flat-button class="delete-button" (click)="openDialog()">Delete <mat-icon>delete_forever</mat-icon></button>
     </div>
-  </div>
-  </div>
   <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading"  class="container">
     <div class="form-container row">
       <div class="col-12 col-md-6 align-items-center">
@@ -45,7 +36,7 @@
                   (matChipInputTokenEnd)="addTag($event)" />
               </mat-chip-list>
             </mat-form-field>
-          <button mat-flat-button class="info-button" type="submit">Save changes</button>
+          <button mat-flat-button type="submit">Save <mat-icon>save</mat-icon></button>
         </div>
         </form>
       </div>

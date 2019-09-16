@@ -5,18 +5,13 @@
         <h2>Welcome to image gallery!</h2>
         <p>Not a member ... ?</p>
         <a routerLink="/signup" >
-          <button mat-flat-button class="sign-up">Sign up</button>
+          <button mat-flat-button class="sign-up">Sign up <mat-icon>person_add</mat-icon></button>
         </a>
       </div>
     </div>
     <div class="col-12 col-sm-6 col-md-5 col-lg-4">
         <div class="d-flex flex-column align-items-center justify-content-center h-100">
       <mat-card>
-        <a routerLink="/">
-          <button mat-flat-button>
-            Back to Gallery
-          </button>
-        </a>
         <form (ngSubmit)="onSubmit()" [formGroup]="form" class="d-flex flex-column">
           <mat-form-field>
             <input matInput placeholder="Enter your username" formControlName="username" required>

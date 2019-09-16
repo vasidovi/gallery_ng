@@ -38,8 +38,6 @@ export class GalleryComponent implements OnInit {
     search: '',
   };
 
-  resCount = this.photos.length;
-
   constructor(private gallery: GalleryService) { }
 
   ngOnInit() {

@@ -1,4 +1,3 @@
-
 $primary: #eee;
 $accent: #FF4949;
 $warn: #c10000;
@@ -6,8 +5,36 @@ $grey: #dedede;
 $white: white;
 
 
-mat-card{
-    margin: 1.5em;
-    box-sizing: border-box;
-    max-width: 1400px;
-    }
+mat-card {
+  margin: 1.5em;
+  box-sizing: border-box;
+  max-width: 1400px;
+}
+
+// material design select colors 
+::ng-deep .mat-pseudo-checkbox-checked {
+  background: $accent !important;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: $accent;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: $accent !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: $accent !important;
+}
+
+::ng-deep .mat-input-element {
+    /*change color of carret*/
+    caret-color: $accent;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick{
+    color: $accent !important;
+}

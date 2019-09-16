@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -8,7 +9,9 @@ import { AuthService } from 'src/app/services';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+    private router: Router,
+  ) { }
 
   loginStatus: boolean;
 
@@ -21,8 +24,8 @@ export class MenuComponent implements OnInit {
 
   logout(): void {
     this.auth.logout();
+    // todo a refresh
+    this.router.navigateByUrl('/signin', { skipLocationChange: true }).then(() =>
+      this.router.navigate(['/']));
   }
-
-
-
 }

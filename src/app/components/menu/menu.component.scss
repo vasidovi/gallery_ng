@@ -1,13 +1,35 @@
 @import '../../../assets/styles/constants.scss';
 
-div{
-    background-color: primary;
+div {
+  background-color: primary;
 }
 
-.column{
-    width: calc(100% - 15px);
+.column {
+  width: calc(100% - 15px);
 }
-   
-mat-toolbar{
-    background-color: $grey;
+
+mat-toolbar {
+  background-color: $grey;
+}
+
+mat-icon {
+    color: $accent;
+}
+
+.mat-flat-button{
+    top: 0;
+}
+
+.logo-alt{
+    margin-right: 10px;
+    width: 48px;
+    height: 36px;
+    background-color: $white;
+    border-radius: 4px;
+    * {
+            display: block;
+            position: relative;
+            margin: auto;
+            top: 7px;
+    }
 }

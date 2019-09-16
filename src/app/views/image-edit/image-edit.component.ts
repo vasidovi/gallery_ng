@@ -45,7 +45,7 @@ export class ImageEditComponent implements OnInit {
               public dialog: MatDialog,
               private _snackBar: MatSnackBar,
               public router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
@@ -77,6 +77,22 @@ export class ImageEditComponent implements OnInit {
         this.editForm.get('description').setValue(this.photo.description);
 
         this.isLoaded = !this.isLoaded;
+      });
+  }
+
+  private _delete(): void {
+    this.gallery.delete(this.id).subscribe(
+      (res) => {
+
+        this._snackBar.open('Photo has been deleted', 'X', {
+          duration: 2000,
+        });
+        setTimeout(() => this.router.navigate(['/']), 2000);
+      },
+      (err) => {
+        this._snackBar.open('Delete failed', 'X', {
+          duration: 2000,
+        });
       });
   }
 
@@ -128,35 +144,16 @@ export class ImageEditComponent implements OnInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DeleteConfirmDialogComponent, {
-        // width: '250px',
-        // height: '200px',
-      });
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result === true){
-        console.log("deleting");
+      if (result === true) {
+        this._delete();
       }
     });
   }
 
-  // delete is inited if dialog returns 'delete'
-  delete(): void {
-    this.gallery.delete(this.id).subscribe(
-      (res) => {
-
-        this._snackBar.open('Photo has been deleted', 'X', {
-          duration: 2000,
-        });
-        setTimeout(() => this.router.navigate(['/']), 2000);
-      },
-      (err) => {
-        this._snackBar.open('Delete failed', 'X', {
-          duration: 2000,
-        });
-      });
-  }
-
   isAdmin(): boolean {
-   return this.authService.isAdmin();
+    return this.authService.isAdmin();
   }
 }

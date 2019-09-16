@@ -102,8 +102,6 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
                 c = c.substring(1);
               }
               if (c.indexOf(name) === 0) {
-                console.log(c);
-
                 return c.substring(name.length, c.length);
               }
             }

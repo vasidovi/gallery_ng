@@ -2,13 +2,19 @@
     <div class="tag">filter</div>
     <div class="container">
     <div class="row justify-content-end">
-    <label class="col-12 col-sm-6 pure-material-textfield-outlined relative">
+        <mat-form-field appearance="outline" class="col-12 col-sm-6">
+            <mat-label>Search</mat-label>
+            <input matInput [ngModel]="filterData.search" (ngModelChange)="initSearch($event)" class="input-padding" placeholder=" ">
+            <mat-icon matSuffix>search</mat-icon>
+            <!-- <mat-hint>Hint</mat-hint> -->
+          </mat-form-field>
+    <!-- <label class="col-12 col-sm-6 pure-material-textfield-outlined relative">
       <input [ngModel]="filterData.search" (ngModelChange)="initSearch($event)" class="input-padding" placeholder=" ">
       <span class="placeholder">Search</span>
       <span class="sufix">
         <mat-icon>search</mat-icon>
       </span>
-    </label>
+    </label> -->
     <mat-form-field class="col-12 col-sm-3">
       <mat-label>Catalogs</mat-label>
       <mat-select multiple>
