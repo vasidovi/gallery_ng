@@ -36,6 +36,7 @@ export class ImageUploadComponent implements OnInit {
 
   file: File;
   isHovering: boolean;
+  url;
 
   catalogList: ICatalog[];
 
@@ -47,17 +48,25 @@ export class ImageUploadComponent implements OnInit {
 
 
   constructor(private gallery: GalleryService,
-              private _snackBar: MatSnackBar,
-              private formBuilder: FormBuilder) {
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder) {
   }
 
   removeFile(): void {
     this.file = null;
+    this.url = null;
   }
 
   setFileValue(event: FileInput): void {
     if (event && this.file !== event.files[0]) {
       this.file = event.files[0];
+
+      const reader = new FileReader();
+      reader.readAsDataURL(event.files[0]); // read file as data url
+      reader.onload = (e) => { // called once readAsDataURL is completed
+        this.url = e.target.result;
+
+      }
     }
   }
 

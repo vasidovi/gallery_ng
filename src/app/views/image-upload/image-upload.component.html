@@ -1,53 +1,55 @@
-<mat-card>
-  <a [routerLink]="['/']">
-    <button mat-flat-button>
-      Back to Gallery
-    </button>
-  </a>
-  <form (ngSubmit)="onSubmit()">
-    <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
-      [class.hovering]="isHovering">
-      <h4>Drag and drop your image file...</h4>
-      <div *ngIf="!file">
-        <mat-form-field>
-          <ngx-mat-file-input #box [value]="setFileValue(box.value)" [accept]="'image/*'" placeholder="File"
-            valuePlaceholder="No file selected" required></ngx-mat-file-input>
-          <mat-icon matSuffix>folder</mat-icon>
-        </mat-form-field>
-      </div>
-      <div *ngIf="file">
-        <p>{{file.name}}</p>
-        <button mat-flat-button (click)="removeFile()">Remove Selected file</button>
-      </div>
-    </div>
-    <div class=form-container [formGroup]="uploadForm">
-      <mat-form-field>
-        <input matInput placeholder="Name" formControlName="name" />
-      </mat-form-field>
-      <mat-form-field>
-        <textarea matInput placeholder="Description..." formControlName="description">
+<div class="column">
+  <div class="row align-items-center justify-content-center">
+    <mat-card class="col-12 col-md-5">
+      <form (ngSubmit)="onSubmit()">
+        <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
+          [class.hovering]="isHovering">
+          <h4>Drag and drop your image file...</h4>
+          <div *ngIf="!file">
+            <mat-form-field>
+              <ngx-mat-file-input #box [value]="setFileValue(box.value)" [accept]="'image/*'" placeholder="File"
+                valuePlaceholder="No file selected" required></ngx-mat-file-input>
+              <mat-icon matSuffix>folder</mat-icon>
+            </mat-form-field>
+          </div>
+          <div *ngIf="file" class="d-flex flex-column align-items-center">
+            <p>{{file.name}}</p>
+            <button mat-flat-button (click)="removeFile()">Remove</button>
+          </div>
+        </div>
+        <div class=form-container [formGroup]="uploadForm">
+          <mat-form-field class="shorter-input">
+            <input matInput placeholder="Name" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field>
+            <textarea matInput placeholder="Description..." formControlName="description" rows="3">
         </textarea>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Catalogs</mat-label>
-        <mat-select multiple formControlName="catalogs">
-          <mat-option *ngFor="let catalog of catalogList" [value]="catalog.name">
-            {{catalog.name}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-chip-list #chipList aria-label="Tags selection">
-          <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
-            (removed)="removeTag(i)">
-            {{tag}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <input placeholder="New tag..." [matChipInputFor]="chipList"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="addTag($event)" />
-        </mat-chip-list>
-      </mat-form-field>
+          </mat-form-field>
+          <mat-form-field  class="shorter-input">
+            <mat-label>Catalogs</mat-label>
+            <mat-select multiple formControlName="catalogs">
+              <mat-option *ngFor="let catalog of catalogList" [value]="catalog.name">
+                {{catalog.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-chip-list #chipList aria-label="Tags selection">
+              <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
+                (removed)="removeTag(i)">
+                {{tag}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="New tag..." [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="addTag($event)" />
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+        <button mat-flat-button id="upload-button" type="submit" [disabled]="!file">Upload Image</button>
+      </form>
+    </mat-card>
+    <div *ngIf="url" class="preview col-12 col-md-5">
+      <img [src]="url" >
     </div>
-    <button mat-flat-button type="submit" [disabled]="!file">Upload Image</button>
-  </form>
-</mat-card>
+  </div>
+</div>
