@@ -19,6 +19,7 @@ import {
 
 
 import {
+  MatAutocompleteModule,
   MatIconModule,
   MatButtonModule,
   MatToolbarModule,
@@ -71,6 +72,7 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     DeleteConfirmDialogComponent,
   ],
   imports: [
+    MatAutocompleteModule,
     MatIconModule,
     MatCardModule,
     MatButtonModule,

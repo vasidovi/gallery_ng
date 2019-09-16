@@ -1,11 +1,15 @@
 import { IFilterData } from '../../models/filterData.motel';
 import { GalleryService } from './../../services/gallery.service';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { IPhoto } from './../../models/photo.model';
 import { ICatalog } from 'src/app/models/catalog.model';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
 
 
 @Component({
@@ -21,11 +25,21 @@ export class GalleryComponent implements OnInit {
   isLoaded = false;
 
 
+
   // tags
   selectable = true;
   removable = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
+
+  //tags for Autocomplete 
+  allTags: string[] = [];
+  filteredTags: Observable<string[]>;
+  tagControl = new FormControl();
+
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+
 
   // arrow for sorting by date
   arrow = {
@@ -38,7 +52,26 @@ export class GalleryComponent implements OnInit {
     search: '',
   };
 
-  constructor(private gallery: GalleryService) { }
+  constructor(private gallery: GalleryService) {
+    this.filteredTags = this.tagControl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filterTag(tag) : this.allTags.slice()));
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.filterData.tags.push(event.option.viewValue);
+    this._filterFiles();
+    this.tagInput.nativeElement.value = '';
+    this.tagControl.setValue(null);
+  }
+
+
+  private _filterTag(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+  }
+
 
   ngOnInit() {
     this._loadCatalogs();
@@ -76,19 +109,25 @@ export class GalleryComponent implements OnInit {
   }
 
   addTag(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
 
-    // Add tag
-    if ((value || '').trim()) {
-      this.filterData.tags.push(value.trim());
-      this._filterFiles();
-    }
-    // Reset the input value
-    if (event.input) {
-      input.value = '';
+    // To make sure this does not conflict with OptionSelected Event
+    if (!this.matAutocomplete.isOpen) {
+
+      const input = event.input;
+      const value = event.value;
+      // Add tag
+      if ((value || '').trim()) {
+        this.filterData.tags.push(value.trim());
+        this._filterFiles();
+      }
+      // Reset the input value
+      if (event.input) {
+        input.value = '';
+      }
+      this.tagControl.setValue(null);
     }
   }
+
 
   initSearch(event: string) {
     const change = Math.abs(this.filterData.search.length - event.length);
@@ -149,6 +188,12 @@ export class GalleryComponent implements OnInit {
     this.gallery.getThumbnails()
       .then(data => {
         this.photos = data;
+        // add tag names for auto search
+        this.photos.forEach(photo => photo.tags.forEach(tag => {
+          if (!this.allTags.includes(tag['name'])) {
+            this.allTags.push(tag['name']);
+          }
+        }));
         this.isLoaded = true;
       });
   }

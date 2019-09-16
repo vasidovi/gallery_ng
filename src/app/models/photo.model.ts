@@ -1,7 +1,7 @@
 export interface IPhoto {
     id: number;
     name: string;
-    tags: string[];
+    tags: object[];
     catalogs: string[];
     description: string;
     file: string;
