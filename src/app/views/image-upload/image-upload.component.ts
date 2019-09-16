@@ -48,7 +48,7 @@ export class ImageUploadComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
 
-  //tags for Autocomplete 
+  // for Autocomplete of tags 
   allTags: string[] = [];
   filteredTags: Observable<string[]>;
   tagControl = new FormControl();
@@ -70,6 +70,8 @@ export class ImageUploadComponent implements OnInit {
     tagArray.push(this.formBuilder.control(event.option.viewValue.trim()));
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
+    this.tagList = tagArray.value;
+
   }
 
 
@@ -131,7 +133,7 @@ export class ImageUploadComponent implements OnInit {
       });
     });
   }
-  
+
   private _loadCatalogs(): void {
     this.gallery.getCatalogs()
       .then(data => this.catalogList = data);
