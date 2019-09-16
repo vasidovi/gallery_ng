@@ -1,10 +1,12 @@
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { GalleryService } from 'src/app/services/gallery.service';
 import { ICatalog } from 'src/app/models/catalog.model';
-import { MatChipInputEvent, MatSnackBar } from '@angular/material';
+import { MatChipInputEvent, MatSnackBar, MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
 import { FileInput } from 'ngx-material-file-input';
+import { Observable } from 'rxjs/internal/Observable';
+import { startWith, map } from 'rxjs/operators';
 
 
 class ImageSnippet {
@@ -46,10 +48,35 @@ export class ImageUploadComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
 
+  //tags for Autocomplete 
+  allTags: string[] = [];
+  filteredTags: Observable<string[]>;
+  tagControl = new FormControl();
+
+  @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+
 
   constructor(private gallery: GalleryService,
-    private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder) {
+              private _snackBar: MatSnackBar,
+              private formBuilder: FormBuilder) {
+      this.filteredTags = this.tagControl.valueChanges.pipe(
+        startWith(null),
+        map((tag: string | null) => tag ? this._filterTag(tag) : this.allTags.slice()));
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    const tagArray = this.uploadForm.get('tags') as FormArray;
+    tagArray.push(this.formBuilder.control(event.option.viewValue.trim()));
+    this.tagInput.nativeElement.value = '';
+    this.tagControl.setValue(null);
+  }
+
+
+  private _filterTag(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
   removeFile(): void {
@@ -94,8 +121,17 @@ export class ImageUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this._loadCatalogs();
+    this._loadTags();
   }
 
+  private _loadTags(): void{
+    this.gallery.getTags().then( (data) => {
+      data.forEach(d => {
+        this.allTags.push(d['name']);
+      });
+    });
+  }
+  
   private _loadCatalogs(): void {
     this.gallery.getCatalogs()
       .then(data => this.catalogList = data);
@@ -115,6 +151,10 @@ export class ImageUploadComponent implements OnInit {
 
   addTag(event: MatChipInputEvent): void {
 
+    // To make sure this does not conflict with OptionSelected Event
+    if (!this.matAutocomplete.isOpen) {
+
+
     const value = event.value;
 
     // Add tag
@@ -129,6 +169,8 @@ export class ImageUploadComponent implements OnInit {
     if (event.input) {
       event.input.value = '';
     }
+    this.tagControl.setValue(null);
+   }
   }
 
   toggleHover(event: boolean): void {

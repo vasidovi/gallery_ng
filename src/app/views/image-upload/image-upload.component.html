@@ -39,10 +39,20 @@
                 {{tag}}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
               </mat-chip>
-              <input placeholder="New tag..." [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+              <input placeholder="New tag..." 
+                #tagInput
+                [formControl]="tagControl"
+                [matAutocomplete]="auto" 
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" 
+                [matChipInputAddOnBlur]="addOnBlur"
                 (matChipInputTokenEnd)="addTag($event)" />
             </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                  {{tag}}
+                </mat-option>
+              </mat-autocomplete>
           </mat-form-field>
         </div>
         <button mat-flat-button id="upload-button" type="submit" [disabled]="!file">Upload Image</button>

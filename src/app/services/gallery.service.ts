@@ -21,6 +21,10 @@ export class GalleryService {
     return this.http.get<IPhoto[]>('http://localhost:8080/images').toPromise();
   }
 
+  public getTags(): Promise<any[]>{
+    return this.http.get<any[]>('http://localhost:8080/tags').toPromise();
+  }
+
 
   getThumbnailById(id: number): Promise<IPhoto> {
     return this.http.get<IPhoto>('http://localhost:8080/image/metadata/' + id).toPromise();
@@ -78,6 +82,8 @@ export class GalleryService {
   public uploadImage(formData: FormData): Observable<any> {
     return this.http.post('http://localhost:8080/upload', formData);
   }
+
+
 
   public delete(id: number): Observable<any> {
     return this.http.delete('http://localhost:8080/image/' + id);
