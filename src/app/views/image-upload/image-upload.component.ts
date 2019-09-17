@@ -91,11 +91,11 @@ export class ImageUploadComponent implements OnInit {
       this.file = event.files[0];
 
       const reader = new FileReader();
-      reader.readAsDataURL(event.files[0]); // read file as data url
-      reader.onload = (e) => { // called once readAsDataURL is completed
-        this.url = e.target.result;
 
-      }
+      reader.readAsDataURL(event.files[0]); // read file as data url
+      reader.onload = (event: Event) => { // called once readAsDataURL is completed
+        this.url = reader.result;
+     };
     }
   }
 

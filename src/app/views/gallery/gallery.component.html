@@ -1,58 +1,65 @@
   <mat-card>
     <div class="tag">filter</div>
     <div class="container">
-    <div class="row justify-content-end">
+      <div class="row justify-content-end">
         <mat-form-field appearance="outline" class="col-12 col-sm-6">
-            <mat-label>Search</mat-label>
-            <input matInput [ngModel]="filterData.search" (ngModelChange)="initSearch($event)" class="input-padding" placeholder=" ">
-            <mat-icon matSuffix>search</mat-icon>
-            <!-- <mat-hint>Hint</mat-hint> -->
-          </mat-form-field>
-    <mat-form-field class="col-12 col-sm-3">
-      <mat-label>Catalogs</mat-label>
-      <mat-select multiple>
-        <mat-option *ngFor="let catalog of catalogs" (click)=getSelectedValue(catalog)>
-          {{catalog.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="col-12 col-sm-3">
-      <mat-chip-list #chipList aria-label="Tags selection">
-        <mat-chip *ngFor="let tag of filterData.tags" [selectable]="selectable" [removable]="removable" (removed)="removeTag(tag)">
-          {{tag}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-        <input placeholder="New tag..."
-          #tagInput
-          [formControl]="tagControl"
-          [matAutocomplete]="auto" 
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-          (matChipInputTokenEnd)="addTag($event)">
-      </mat-chip-list>
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-            {{tag}}
-          </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+          <mat-label>Search</mat-label>
+          <input matInput [ngModel]="filterData.search" (ngModelChange)="initSearch($event)" class="input-padding"
+            placeholder=" ">
+          <mat-icon matSuffix>search</mat-icon>
+          <!-- <mat-hint>Hint</mat-hint> -->
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-3">
+          <mat-label>Catalogs</mat-label>
+          <mat-select multiple>
+            <mat-option *ngFor="let catalog of catalogs" (click)=getSelectedValue(catalog)>
+              {{catalog.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-12 col-sm-3">
+          <mat-chip-list #chipList aria-label="Tags selection">
+            <mat-chip *ngFor="let tag of filterData.tags" [selectable]="selectable" [removable]="removable"
+              (removed)="removeTag(tag)">
+              {{tag}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="New tag..." #tagInput [formControl]="tagControl" [matAutocomplete]="auto"
+              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
     </div>
-  </div>
   </mat-card>
   <mat-card id="gallery">
     <div class="tag">gallery</div>
     <div class="res-count-container"> Showing {{ getPhotosCount() }} results </div>
     <button mat-flat-button (click)="sortByDate()">Sort by Date<mat-icon>{{arrow.name}}</mat-icon></button>
-    <div class="container">  
-    <div class="row justify-content-center">
     <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
-      <div class="row justify-content-center col-12 col-md-6 col-lg-4 col-xl-4"  *ngFor="let item of photos; let index = index">
-        <div class="photo-container">
-          <app-photo [photo]="item"></app-photo>
+      <div *ngFor="let item of photos; let i = index">
+        <div *ngIf="i % photosInRow == 0">
+          <div class="row justify-content-center">
+            <div *ngFor="let item of photos.slice(i, i + photosInRow)">
+              <div class="photo-container">
+                <app-photo [photo]="item"></app-photo>
+              </div>
+            </div>
+            <ng-container *ngIf="i + photosInRow > photos.length">
+              <div *ngFor="let box of   [].constructor((photosInRow - (photos.length - i)))">
+                <div class="photo-container">
+                  <div class="ghost-box"></div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
         </div>
       </div>
     </ng-template>
-    </div>
-    </div>
   </mat-card>
   <ng-template #loading>
     <mat-spinner></mat-spinner>

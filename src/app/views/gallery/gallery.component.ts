@@ -1,6 +1,6 @@
 import { IFilterData } from '../../models/filterData.motel';
 import { GalleryService } from './../../services/gallery.service';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { IPhoto } from './../../models/photo.model';
@@ -25,6 +25,8 @@ export class GalleryComponent implements OnInit {
   isLoaded = false;
 
 
+  photosInRow: number;
+  innerWidth: number;
 
   // tags
   selectable = true;
@@ -77,6 +79,26 @@ export class GalleryComponent implements OnInit {
     this._loadCatalogs();
     this._loadThumbnails();
     this.sortByDate();
+
+    const imageDisplayAreaWidth = 1350;
+    const imageWidth = 330;
+
+    this.innerWidth = (window.innerWidth < imageDisplayAreaWidth) ? window.innerWidth : imageDisplayAreaWidth;
+    this.photosInRow = Math.floor(this.innerWidth / imageWidth);
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+
+    const imageDisplayAreaWidth = 1350;
+    const imageWidth = 330;
+
+    this.innerWidth = (window.innerWidth < imageDisplayAreaWidth) ? window.innerWidth : imageDisplayAreaWidth;
+    this.photosInRow = Math.floor(this.innerWidth / imageWidth);
+  }
+
+  getPhotoInRowCount(): number {
+    return 3;
   }
 
   getPhotosCount() {
