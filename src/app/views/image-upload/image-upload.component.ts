@@ -1,6 +1,6 @@
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
 import { GalleryService } from 'src/app/services/gallery.service';
 import { ICatalog } from 'src/app/models/catalog.model';
 import { MatChipInputEvent, MatSnackBar, MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
@@ -28,13 +28,7 @@ export class ImageUploadComponent implements OnInit {
 
   tagList = [];
 
-  uploadForm: FormGroup = this.formBuilder.group({
-    file: [''],
-    name: ['', Validators.required],
-    description: ['', [Validators.required, Validators.minLength(4)]],
-    tags: [this.formBuilder.array([], Validators.required)],
-    catalogs: [''],
-  });
+  uploadForm: FormGroup;
 
   file: File;
   isHovering: boolean;
@@ -49,7 +43,7 @@ export class ImageUploadComponent implements OnInit {
   addOnBlur = true;
   isTagsTouched = false;
 
-  // for Autocomplete of tags 
+  // for Autocomplete of tags
   allTags: string[] = [];
   filteredTags: Observable<string[]>;
   tagControl = new FormControl();
@@ -59,11 +53,11 @@ export class ImageUploadComponent implements OnInit {
 
 
   constructor(private gallery: GalleryService,
-              private _snackBar: MatSnackBar,
-              private formBuilder: FormBuilder) {
-      this.filteredTags = this.tagControl.valueChanges.pipe(
-        startWith(null),
-        map((tag: string | null) => tag ? this._filterTag(tag) : this.allTags.slice()));
+    private _snackBar: MatSnackBar,
+    private formBuilder: FormBuilder) {
+    this.filteredTags = this.tagControl.valueChanges.pipe(
+      startWith(null),
+      map((tag: string | null) => tag ? this._filterTag(tag) : this.allTags.slice()));
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -97,7 +91,26 @@ export class ImageUploadComponent implements OnInit {
       reader.readAsDataURL(event.files[0]); // read file as data url
       reader.onload = (event: Event) => { // called once readAsDataURL is completed
         this.url = reader.result;
-     };
+      };
+    }
+  }
+
+  private _createForm(): void {
+    this.uploadForm = this.formBuilder.group({
+      file: [''],
+      name: ['', Validators.required],
+      description: ['', [this.lengthValidatorFn(4)]],
+      tags: [this.formBuilder.array([], Validators.required)],
+      catalogs: [''],
+    });
+  }
+
+  lengthValidatorFn(limit: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value.trim().length < limit) {
+        return { validLength: true };
+      }
+      return null;
     }
   }
 
@@ -106,18 +119,24 @@ export class ImageUploadComponent implements OnInit {
 
     this.uploadForm.get('file').setValue(this.file);
 
-    console.log(this.uploadForm);
     ['description', 'catalogs', 'name', 'file'].forEach(i => {
       formData.append(i, this.uploadForm.value[i]);
     });
 
     formData.append('tags', this.uploadForm.value.tags.value);
-   
+
     this.gallery.uploadImage(formData).subscribe(
       (res) => {
         this._snackBar.open('Upload was successful', 'X', {
           duration: 2000,
         });
+
+        // empty form fields
+        this._createForm();
+        this.tagList = [];
+        this.isTagsTouched = false;
+        this.file = null;
+
       }, (err) => {
 
         this._snackBar.open('Upload failed', 'X', {
@@ -130,12 +149,13 @@ export class ImageUploadComponent implements OnInit {
   ngOnInit(): void {
     this._loadCatalogs();
     this._loadTags();
+    this._createForm();
   }
 
-  private _loadTags(): void{
-    this.gallery.getTags().then( (data) => {
+  private _loadTags(): void {
+    this.gallery.getTags().then((data) => {
       data.forEach(d => {
-        this.allTags.push(d['name']);
+        this.allTags.push(d.name);
       });
     });
   }
@@ -162,21 +182,21 @@ export class ImageUploadComponent implements OnInit {
     // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       this.isTagsTouched = true;
-    const value = event.value;
+      const value = event.value;
 
-    // Add tag
-    if ((value || '').trim()) {
-      const tagArray = this.uploadForm.value.tags as FormArray;
-      tagArray.push(this.formBuilder.control(value.trim()));
-      this.tagList = tagArray.value;
-    }
+      // Add tag
+      if ((value || '').trim()) {
+        const tagArray = this.uploadForm.value.tags as FormArray;
+        tagArray.push(this.formBuilder.control(value.trim()));
+        this.tagList = tagArray.value;
+      }
 
-    // Reset the input value
-    if (event.input) {
-      event.input.value = '';
+      // Reset the input value
+      if (event.input) {
+        event.input.value = '';
+      }
+      this.tagControl.setValue(null);
     }
-    this.tagControl.setValue(null);
-   }
   }
 
   toggleHover(event: boolean): void {
