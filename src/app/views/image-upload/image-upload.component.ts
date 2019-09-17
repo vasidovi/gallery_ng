@@ -29,11 +29,11 @@ export class ImageUploadComponent implements OnInit {
   tagList = [];
 
   uploadForm: FormGroup = this.formBuilder.group({
-    file: '',
-    name: '',
-    description: '',
-    tags: this.formBuilder.array([]),
-    catalogs: '',
+    file: [''],
+    name: ['', Validators.required],
+    description: ['', [Validators.required, Validators.minLength(4)]],
+    tags: [this.formBuilder.array([], Validators.required)],
+    catalogs: [''],
   });
 
   file: File;
@@ -47,6 +47,7 @@ export class ImageUploadComponent implements OnInit {
   removable = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
+  isTagsTouched = false;
 
   // for Autocomplete of tags 
   allTags: string[] = [];
@@ -66,7 +67,8 @@ export class ImageUploadComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    const tagArray = this.uploadForm.get('tags') as FormArray;
+    this.isTagsTouched = true;
+    const tagArray = this.uploadForm.value.tags as FormArray;
     tagArray.push(this.formBuilder.control(event.option.viewValue.trim()));
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
@@ -104,9 +106,13 @@ export class ImageUploadComponent implements OnInit {
 
     this.uploadForm.get('file').setValue(this.file);
 
-    ['description', 'tags', 'catalogs', 'name', 'file'].forEach(i => {
+    console.log(this.uploadForm);
+    ['description', 'catalogs', 'name', 'file'].forEach(i => {
       formData.append(i, this.uploadForm.value[i]);
     });
+
+    formData.append('tags', this.uploadForm.value.tags.value);
+   
     this.gallery.uploadImage(formData).subscribe(
       (res) => {
         this._snackBar.open('Upload was successful', 'X', {
@@ -142,7 +148,7 @@ export class ImageUploadComponent implements OnInit {
 
   removeTag(index: number): void {
 
-    const tagArray = this.uploadForm.get('tags') as FormArray;
+    const tagArray = this.uploadForm.value.tags as FormArray;
 
     if (index >= 0) {
       tagArray.removeAt(index);
@@ -155,16 +161,14 @@ export class ImageUploadComponent implements OnInit {
 
     // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
-
-
+      this.isTagsTouched = true;
     const value = event.value;
 
     // Add tag
     if ((value || '').trim()) {
-      const tagArray = this.uploadForm.get('tags') as FormArray;
+      const tagArray = this.uploadForm.value.tags as FormArray;
       tagArray.push(this.formBuilder.control(value.trim()));
       this.tagList = tagArray.value;
-
     }
 
     // Reset the input value

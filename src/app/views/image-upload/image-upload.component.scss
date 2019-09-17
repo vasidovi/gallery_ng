@@ -25,10 +25,10 @@ mat-card{
   box-sizing: border-box;
 }
 
-.form-container {
-  display: flex;
-  flex-direction: column;
-}
+// .form-container {
+//   display: flex;
+//   flex-direction: column;
+// }
 
 .shorter-input{
   max-width: 300px;
@@ -72,4 +72,9 @@ mat-card{
   border-radius: 5px;
 
   }
+}
+
+p.error{
+  font-size: 0.75em;
+  color: red;
 }
