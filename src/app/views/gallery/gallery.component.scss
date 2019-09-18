@@ -15,10 +15,6 @@ label{
   display: inline-block;
 }
 
-.padding-top {
-  padding-top: 10px;
-}
-
 mat-card {
   .tag {
     color: $white;
@@ -78,4 +74,12 @@ mat-spinner {
   height: 100%;
   position: relative;
   display: inline-block;
+}
+
+#filter-area{
+  padding-top: 30px;
+}
+
+::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 15px !important;
 }

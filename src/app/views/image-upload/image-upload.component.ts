@@ -136,6 +136,7 @@ export class ImageUploadComponent implements OnInit {
         this.tagList = [];
         this.isTagsTouched = false;
         this.file = null;
+        this.url = null;
 
       }, (err) => {
 

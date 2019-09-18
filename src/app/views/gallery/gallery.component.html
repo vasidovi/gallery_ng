@@ -1,4 +1,4 @@
-  <mat-card>
+  <mat-card id="filter-area">
     <div class="tag">filter</div>
     <div class="container">
       <div class="row justify-content-end">
@@ -38,27 +38,32 @@
   </mat-card>
   <mat-card id="gallery">
     <div class="tag">gallery</div>
-    <div class="res-count-container"> Showing {{ getPhotosCount() }} results </div>
-    <button mat-flat-button (click)="sortByDate()">Sort by Date<mat-icon>{{arrow.name}}</mat-icon></button>
     <ng-template [ngIf]="isLoaded" ; [ngIfElse]="loading">
-      <div *ngFor="let item of photos; let i = index">
-        <div *ngIf="i % photosInRow == 0">
-          <div class="row justify-content-center">
-            <div *ngFor="let item of photos.slice(i, i + photosInRow)">
-              <div class="photo-container">
-                <app-photo [photo]="item"></app-photo>
-              </div>
-            </div>
-            <ng-container *ngIf="i + photosInRow > photos.length">
-              <div *ngFor="let box of   [].constructor((photosInRow - (photos.length - i)))">
+      <ng-template [ngIf]="!photos || photos.length == 0">
+        <app-no-results></app-no-results>
+      </ng-template>
+      <ng-template [ngIf]="photos.length > 0">
+        <div class="res-count-container"> Showing {{photos?.length}} results </div>
+        <button mat-flat-button (click)="sortByDate()">Sort by Date<mat-icon>{{arrow.name}}</mat-icon></button>
+        <div *ngFor="let item of photos; let i = index">
+          <div *ngIf="i % photosInRow == 0">
+            <div class="row justify-content-center">
+              <div *ngFor="let item of photos.slice(i, i + photosInRow)">
                 <div class="photo-container">
-                  <div class="ghost-box"></div>
+                  <app-photo [photo]="item"></app-photo>
                 </div>
               </div>
-            </ng-container>
+              <ng-container *ngIf="i + photosInRow > photos.length">
+                <div *ngFor="let box of   [].constructor((photosInRow - (photos.length - i)))">
+                  <div class="photo-container">
+                    <div class="ghost-box"></div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
           </div>
         </div>
-      </div>
+      </ng-template>
     </ng-template>
   </mat-card>
   <ng-template #loading>

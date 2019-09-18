@@ -46,6 +46,7 @@ import {
   PhotoComponent,
   MenuComponent,
   FooterComponent,
+  NoResultsComponent,
 } from './components';
 
 import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
@@ -72,6 +73,7 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     PasswordMismatchDirective,
     DeleteConfirmDialogComponent,
     FooterComponent,
+    NoResultsComponent,
   ],
   imports: [
     MatAutocompleteModule,
