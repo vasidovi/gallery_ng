@@ -8,7 +8,8 @@ button{
     box-sizing: border-box;
     background-image: url("../../../assets/images/hero.jpg");
     background-repeat: no-repeat;
-    height: calc(100vh - 64px);
+    // minus footer and header
+    height: calc(100vh - 144px);
 
     div{
         height: 90%;
@@ -43,6 +44,17 @@ p{
     margin-top: 10px;   
 }
 
-// mat-icon {
-//     color: $accent;
-// }
+mat-card{
+    width:  80%;
+}
+
+//to deactivate submit button
+::ng-deep.mat-flat-button[disabled][disabled]{
+    background-color: rgba(0,0,0,.12) !important;
+  }
+  
+  .login-button{
+    background-color: $accent;
+    color: $white;
+  }
+  

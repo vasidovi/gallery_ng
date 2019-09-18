@@ -11,8 +11,8 @@
 
 img {
   display: block;
-  max-width: 70vw;
-  max-height: 70vh;
+  max-width: 65vw;
+  max-height: 65vh;
   width: auto;
   height: auto;
 }
@@ -36,4 +36,13 @@ mat-icon {
   position: absolute;
   top: 17px;
   right: 17px;
+}
+
+.dialog-component{
+  max-width: 95vw;
+  max-height: 95vh;
+}
+
+mat-icon{
+  cursor: pointer;
 }

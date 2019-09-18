@@ -1,6 +1,6 @@
 import { IUser } from './../../models/user.model';
 import { AuthService } from 'src/app/services';
-import {passwordsMatch } from './../../directives/password-mismatch.directive';
+import { passwordsMatch } from './../../directives/password-mismatch.directive';
 import { UserService } from './../../services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
@@ -19,18 +19,17 @@ export class SignUpComponent implements OnInit {
 
   file: File;
   isHovering: boolean;
+  imageSrc = '../../../assets/images/2678153.jpg';
 
-  // email : new FormControl('', [Validators.required, Validators.email]);, for now without email
-  // toDo to implement password match confirm as per nice example ->
 
   form: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(3)]),
     password: new FormControl('', [Validators.required]),
-    passwordRepeat: new FormControl('', [Validators.required, passwordsMatch ]),
+    passwordRepeat: new FormControl('', [Validators.required]),
   },
-  {
-    validators: passwordsMatch
-  }
+    {
+      validators: passwordsMatch
+    }
   );
 
 
@@ -38,27 +37,19 @@ export class SignUpComponent implements OnInit {
 
     return this.form.get('username').hasError('required') ? 'You must enter a value' :
       this.form.get('username').hasError('minlength') ? 'Username must be at least 3 letters' :
-          '';
+        '';
   }
 
   getPasswordErrorMessage(): string {
 
     return this.form.get('password').hasError('required') ? 'You must enter a value' :
-          '';
+      '';
   }
 
   getPasswordRepeatErrorMessage(): string {
 
-    // if (this.form.get('passwordRepeat').hasError('required')){
-    //   return 'You must enter a value';
-    // } else if ( this.form.hasError('passwordsMismatch' )){
-    //   return 'Passwords do not match';
-    // } else {
-    //   return '';
-    // }
-
     return this.form.get('passwordRepeat').hasError('required') ? 'You must enter a value' :
-          '';
+        '';
   }
 
 
@@ -69,7 +60,7 @@ export class SignUpComponent implements OnInit {
               private auth: AuthService,
               private _snackBar: MatSnackBar,
               public router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
@@ -87,19 +78,19 @@ export class SignUpComponent implements OnInit {
     const newUser: IUser = {
       password: this.form.get('password').value,
       username: this.form.get('username').value,
-  };
+    };
 
     this.userService.register(newUser).then(
       (res) => {
-        this._snackBar.open( 'Welcome abroad ' + newUser.username + ' ', 'X', {
+        this._snackBar.open('Welcome abroad ' + newUser.username + ' ', 'X', {
           duration: 2000,
         });
         this.auth.login(newUser).then(() => {
-        setTimeout(() => this.router.navigate(['/']), 1000);
-      });
-    },
-    (err) => {
-        this._snackBar.open( 'Registration failed : ' + err.error + ' ', 'X', {
+          setTimeout(() => this.router.navigate(['/']), 1000);
+        });
+      },
+      (err) => {
+        this._snackBar.open('Registration failed : ' + err.error + ' ', 'X', {
           duration: 4000,
         });
       }

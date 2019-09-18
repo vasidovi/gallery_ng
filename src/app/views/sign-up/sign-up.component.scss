@@ -7,7 +7,34 @@ button{
 .form-error{
     color: #f44336;
     font-size: 75%;
-    display: block;
-    position: relative;
-    top: 60px;
+    position: absolute;
+    top: 40px;
+}
+
+//to deactivate submit button
+::ng-deep.mat-flat-button[disabled][disabled]{
+    background-color: rgba(0,0,0,.12) !important;
+  }
+  
+  .submit-button{
+    background-color: $accent;
+    color: $white;
+  }
+
+  .column{
+   padding-bottom: 24px; 
+  }
+
+  mat-card, img{
+    padding-top: 24px; 
+  }
+
+  img{
+    height: 55vh;
+}
+
+a{
+    text-decoration: none;
+    font-weight: 200;
+    font-size: 0.9em;
 }

@@ -59,6 +59,8 @@
   &:hover{
     .overlay{
       display: block;
+      cursor: pointer;
+
     }
     .mat-flat-button, mat-icon p{
       visibility: visible;
