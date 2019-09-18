@@ -82,7 +82,11 @@
   }
 }
 
-mat-icon p{
+mat-icon{
+
+  position: initial;
+  top: 0;
+ p{
   z-index: 999;
   margin: 0;
   position: absolute;
@@ -93,5 +97,5 @@ mat-icon p{
   font-size: 50px;
   color: $white;
   visibility: hidden;
-
+ }
 }

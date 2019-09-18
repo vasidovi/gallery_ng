@@ -50,7 +50,7 @@ export class ImageUploadComponent implements OnInit {
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
-
+  @ViewChild('chipList', {static: false}) chipList;
 
   constructor(private gallery: GalleryService,
     private _snackBar: MatSnackBar,
@@ -67,9 +67,13 @@ export class ImageUploadComponent implements OnInit {
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
     this.tagList = tagArray.value;
+    this.chipList.errorState = this._determineChipListErrorState();
 
   }
 
+  private _determineChipListErrorState(): boolean{
+    return this.uploadForm.value['tags'].invalid;
+  }
 
   private _filterTag(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -93,6 +97,14 @@ export class ImageUploadComponent implements OnInit {
         this.url = reader.result;
       };
     }
+  }
+
+  empty(): void {
+    this._createForm();
+    this.tagList = [];
+    this.isTagsTouched = false;
+    this.file = null;
+    this.url = null;
   }
 
   private _createForm(): void {
@@ -132,11 +144,7 @@ export class ImageUploadComponent implements OnInit {
         });
 
         // empty form fields
-        this._createForm();
-        this.tagList = [];
-        this.isTagsTouched = false;
-        this.file = null;
-        this.url = null;
+        this.empty();
 
       }, (err) => {
 
@@ -173,6 +181,7 @@ export class ImageUploadComponent implements OnInit {
     if (index >= 0) {
       tagArray.removeAt(index);
       this.tagList = tagArray.value;
+      this.chipList.errorState = this._determineChipListErrorState();
     }
 
   }
@@ -196,6 +205,7 @@ export class ImageUploadComponent implements OnInit {
         event.input.value = '';
       }
       this.tagControl.setValue(null);
+      this.chipList.errorState = this._determineChipListErrorState();
     }
   }
 

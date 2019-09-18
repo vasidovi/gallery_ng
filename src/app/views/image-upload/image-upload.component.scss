@@ -14,9 +14,18 @@ button {
 
 }
 
-#upload-button{
+
+//to deactivate submit button
+::ng-deep.mat-flat-button[disabled][disabled]{
+  background-color: rgba(0,0,0,.12) !important;
+}
+
+#submit-button{
   display: inline-block;
-  margin-left: calc(100% - 120px);
+  margin-left: calc(100% - 105px);
+  top: 36px;
+  background-color: $accent;
+  color: $white;
 }
 
 mat-card{

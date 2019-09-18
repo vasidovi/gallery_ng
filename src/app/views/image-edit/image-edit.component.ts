@@ -2,7 +2,7 @@ import { DeleteConfirmDialogComponent } from './../../dialogs/delete-confirm-dia
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../services/auth.service';
 import { ICatalog } from './../../models/catalog.model';
-import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService } from 'src/app/services/gallery.service';
@@ -39,14 +39,10 @@ export class ImageEditComponent implements OnInit {
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('chipList', {static: false}) chipList;
 
 
-  editForm: FormGroup = this.formBuilder.group({
-    name: '',
-    description: '',
-    tags: this.formBuilder.array([]),
-    catalogs: '',
-  });
+  editForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
@@ -62,12 +58,37 @@ export class ImageEditComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    const tagArray = this.editForm.get('tags') as FormArray;
+    const tagArray = this.editForm.value.tags as FormArray;
     tagArray.push(this.formBuilder.control(event.option.viewValue.trim()));
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
     this.tagList = tagArray.value;
+    this.chipList.errorState = this._determineChipListErrorState();
+  }
 
+
+  
+  private _createForm(): void {
+    this.editForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', [this.lengthValidatorFn(4)]],
+      tags: [this.formBuilder.array([], Validators.required)],
+      catalogs: [''],
+    });
+  }
+
+  lengthValidatorFn(limit: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      if (control.value.trim().length < limit) {
+        return { validLength: true };
+      }
+      return null;
+    }
+  }
+
+
+  private _determineChipListErrorState(): boolean{
+    return this.editForm.value['tags'].invalid;
   }
 
   private _filterTag(value: string): string[] {
@@ -80,6 +101,7 @@ export class ImageEditComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
     this._loadData(this.id);
     this._loadTags();
+    this._createForm();
   }
 
   private _loadData(id: number): void {
@@ -99,7 +121,7 @@ export class ImageEditComponent implements OnInit {
         this.tagList = this.photo.tags.map(tag => tag.name);
 
         for (const value of this.tagList) {
-          const tagArray = this.editForm.get('tags') as FormArray;
+          const tagArray = this.editForm.value.tags as FormArray;
           tagArray.push(this.formBuilder.control(value));
         }
 
@@ -136,11 +158,12 @@ export class ImageEditComponent implements OnInit {
 
   removeTag(index: number): void {
 
-    const tagArray = this.editForm.get('tags') as FormArray;
+    const tagArray = this.editForm.value.tags as FormArray;
 
     if (index >= 0) {
       tagArray.removeAt(index);
       this.tagList = tagArray.value;
+      this.chipList.errorState = this._determineChipListErrorState();
     }
   }
 
@@ -153,7 +176,7 @@ export class ImageEditComponent implements OnInit {
 
       // Add tag
       if ((value || '').trim()) {
-        const tagArray = this.editForm.get('tags') as FormArray;
+        const tagArray = this.editForm.value.tags as FormArray;
         tagArray.push(this.formBuilder.control(value.trim()));
         this.tagList = tagArray.value;
       }
@@ -163,14 +186,18 @@ export class ImageEditComponent implements OnInit {
         event.input.value = '';
       }
       this.tagControl.setValue(null);
+      this.chipList.errorState = this._determineChipListErrorState();
     }
   }
 
   edit(): void {
     const formData = new FormData();
-    ['description', 'tags', 'catalogs', 'name'].forEach(i => {
+    ['description', 'catalogs', 'name'].forEach(i => {
       formData.append(i, this.editForm.value[i]);
     });
+    
+    formData.append('tags', this.editForm.value.tags.value);
+
     this.gallery.editImage(formData, this.id).subscribe(
       (res) => {
         this._snackBar.open('Changes saved', 'X', {

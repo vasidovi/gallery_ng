@@ -11,6 +11,10 @@ mat-card {
   max-width: 1400px;
 }
 
+mat-icon{
+  position: relative;
+  bottom: 2px;
+}
 // material design select colors 
 ::ng-deep .mat-pseudo-checkbox-checked {
   background: $accent !important;
