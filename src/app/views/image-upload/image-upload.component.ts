@@ -165,7 +165,6 @@ export class ImageUploadComponent implements OnInit {
       .then(data => this.catalogList = data);
   }
 
-
   removeTag(index: number): void {
 
     const tagArray = this.uploadForm.value.tags as FormArray;
