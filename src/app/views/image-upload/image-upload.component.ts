@@ -9,13 +9,6 @@ import { Observable } from 'rxjs/internal/Observable';
 import { startWith, map } from 'rxjs/operators';
 
 
-class ImageSnippet {
-  pending = false;
-  status = 'init';
-
-  constructor(public src: string, public file: File) { }
-}
-
 @Component({
   selector: 'app-image-upload',
   templateUrl: './image-upload.component.html',
@@ -23,8 +16,6 @@ class ImageSnippet {
 })
 
 export class ImageUploadComponent implements OnInit {
-
-  selectedFile: ImageSnippet;
 
   tagList = [];
 
@@ -53,8 +44,8 @@ export class ImageUploadComponent implements OnInit {
   @ViewChild('chipList', {static: false}) chipList;
 
   constructor(private gallery: GalleryService,
-    private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder) {
+              private snackBar: MatSnackBar,
+              private formBuilder: FormBuilder) {
     this.filteredTags = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filterTag(tag) : this.allTags.slice()));
@@ -71,8 +62,8 @@ export class ImageUploadComponent implements OnInit {
 
   }
 
-  private _determineChipListErrorState(): boolean{
-    return this.uploadForm.value['tags'].invalid;
+  private _determineChipListErrorState(): boolean {
+    return this.uploadForm.value.tags.invalid;
   }
 
   private _filterTag(value: string): string[] {
@@ -123,7 +114,7 @@ export class ImageUploadComponent implements OnInit {
         return { validLength: true };
       }
       return null;
-    }
+    };
   }
 
   onSubmit(): void {
@@ -139,7 +130,7 @@ export class ImageUploadComponent implements OnInit {
 
     this.gallery.uploadImage(formData).subscribe(
       (res) => {
-        this._snackBar.open('Upload was successful', 'X', {
+        this.snackBar.open('Upload was successful', 'X', {
           duration: 2000,
         });
 
@@ -148,7 +139,7 @@ export class ImageUploadComponent implements OnInit {
 
       }, (err) => {
 
-        this._snackBar.open('Upload failed', 'X', {
+        this.snackBar.open('Upload failed', 'X', {
           duration: 2000,
         });
       }
@@ -183,7 +174,6 @@ export class ImageUploadComponent implements OnInit {
       this.tagList = tagArray.value;
       this.chipList.errorState = this._determineChipListErrorState();
     }
-
   }
 
   addTag(event: MatChipInputEvent): void {
@@ -212,7 +202,6 @@ export class ImageUploadComponent implements OnInit {
   toggleHover(event: boolean): void {
     this.isHovering = event;
   }
-
 
   startUpload(event: FileList): void {
 

@@ -43,7 +43,6 @@ export class GalleryService {
     return this.http.get<IPhoto[]>('http://localhost:8080/images/catalog/' + id).toPromise();
   }
 
-
   getFilteredImages(query: IFilterData): Promise<IPhoto[]> {
 
     let catalogIds = 'catalogIds=';
@@ -65,31 +64,15 @@ export class GalleryService {
 
   }
 
-  // No longer used, up for removal
-
-  // getImagesByCatalogIds(ids: number[]): Promise<IPhoto[]> {
-  //   let query = '?ids=';
-
-  //   for (let i = 0; i < ids.length; i++) {
-  //     query += ids[i] + ',';
-  //   }
-  //   query = query.substring(0, query.length - 1);
-
-  //   return this.http.get<IPhoto[]>('http://localhost:8080/images/catalogs/' + query).toPromise();
-  // }
-
-
-  public uploadImage(formData: FormData): Observable<any> {
+  uploadImage(formData: FormData): Observable<any> {
     return this.http.post('http://localhost:8080/upload', formData);
   }
 
-
-
-  public delete(id: number): Observable<any> {
+  delete(id: number): Observable<any> {
     return this.http.delete('http://localhost:8080/image/' + id);
   }
 
-  public editImage(formData: FormData, id: number): Observable<any> {
+  editImage(formData: FormData, id: number): Observable<any> {
     return this.http.put('http://localhost:8080/image/' + id, formData);
   }
 

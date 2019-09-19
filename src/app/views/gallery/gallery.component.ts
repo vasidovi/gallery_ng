@@ -34,7 +34,7 @@ export class GalleryComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   addOnBlur = true;
 
-  //tags for Autocomplete 
+  // tags for Autocomplete
   allTags: string[] = [];
   filteredTags: Observable<string[]>;
   tagControl = new FormControl();
@@ -73,7 +73,6 @@ export class GalleryComponent implements OnInit {
 
     return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
-
 
   ngOnInit() {
     this._loadCatalogs();

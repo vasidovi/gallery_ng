@@ -8,7 +8,6 @@ export const passwordsMatch: ValidatorFn = (control: FormGroup): ValidationError
   return password && passwordRepeat && (passwordRepeat.value !== password.value) ? { passwordsMismatch: true } : null;
 }
 
-
 @Directive({
   selector: '[appPasswordMismatch]',
   providers: [{ provide: NG_VALIDATORS, useExisting: PasswordMismatchDirective, multi: true }]

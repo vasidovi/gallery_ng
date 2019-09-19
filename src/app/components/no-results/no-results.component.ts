@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-no-results',
@@ -8,5 +8,4 @@ import { Component, OnInit } from '@angular/core';
 export class NoResultsComponent {
 
  imageSrc = '../../../assets/images/2827397.jpg';
- 
 }

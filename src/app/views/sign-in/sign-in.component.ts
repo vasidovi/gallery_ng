@@ -24,7 +24,7 @@ export class SignInComponent {
   });
 
   constructor(private auth: AuthService,
-              private _snackBar: MatSnackBar,
+              private snackBar: MatSnackBar,
               public router: Router
   ) { }
 
@@ -36,7 +36,7 @@ export class SignInComponent {
         this.router.navigate(['/']);
       }, ()  => {
 
-        this._snackBar.open('Wrong username or password', 'X', {
+        this.snackBar.open('Wrong username or password', 'X', {
           duration: 2000,
         });
       });

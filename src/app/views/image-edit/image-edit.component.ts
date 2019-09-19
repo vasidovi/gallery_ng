@@ -195,7 +195,7 @@ export class ImageEditComponent implements OnInit {
     ['description', 'catalogs', 'name'].forEach(i => {
       formData.append(i, this.editForm.value[i]);
     });
-    
+
     formData.append('tags', this.editForm.value.tags.value);
 
     this.gallery.editImage(formData, this.id).subscribe(

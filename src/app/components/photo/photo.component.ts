@@ -11,14 +11,13 @@ import { PhotoDialogComponent } from '../../dialogs/photo-dialog/photo-dialog.co
 })
 export class PhotoComponent implements OnInit {
 
-  constructor(private gallery: GalleryService,
-              private auth: AuthService,
-              public dialog: MatDialog) { }
-
-
   isLoggedIn: boolean;
 
   @Input() photo: IPhoto;
+
+  constructor(private gallery: GalleryService,
+              private auth: AuthService,
+              public dialog: MatDialog) { }
 
 
   ngOnInit(): void {
@@ -37,8 +36,7 @@ export class PhotoComponent implements OnInit {
           data: photoBig,
         });
       });
-  }
-
+  } 
 }
 
 

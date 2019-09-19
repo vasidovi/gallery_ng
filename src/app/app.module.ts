@@ -1,4 +1,3 @@
-import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -63,7 +62,6 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     PhotoComponent,
     PhotoDialogComponent,
     ImageUploadComponent,
-    FileUploadComponent,
     ImageSrcPipe,
     ImageEditComponent,
     SignUpComponent,
@@ -99,22 +97,22 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
       config: {
         tokenGetter: function  tokenGetter() {
 
-          function getCookie(cname) {
-            const name = cname + '=';
+          function getCookie(cookieName) {
+            const name = cookieName + '=';
             const decodedCookie = decodeURIComponent(document.cookie);
-            const ca = decodedCookie.split(';');
-            for (let c of ca) {
-              while (c.charAt(0) === ' ') {
-                c = c.substring(1);
+            const cookieArray = decodedCookie.split(';');
+            for (let cookieElement of cookieArray) {
+              while (cookieElement.charAt(0) === ' ') {
+                cookieElement = cookieElement.substring(1);
               }
-              if (c.indexOf(name) === 0) {
-                return c.substring(name.length, c.length);
+              if (cookieElement.indexOf(name) === 0) {
+                return cookieElement.substring(name.length, cookieElement.length);
               }
             }
             return '';
           }
-
-          return getCookie('token');},
+          return getCookie('token');
+        },
         whitelistedDomains: ['localhost:8080'],
         blacklistedRoutes: [ 'http://localhost:8080/signup',
         'http://localhost:8080/images', 'http://localhost:8080/catalogs', 'http://localhost:8080/token/generate-token',

@@ -3,7 +3,7 @@ import { AuthService } from 'src/app/services';
 import { passwordsMatch } from './../../directives/password-mismatch.directive';
 import { UserService } from './../../services/user.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent {
 
   hidePassword = true;
   hidePasswordRepeat = true;
@@ -32,6 +32,11 @@ export class SignUpComponent implements OnInit {
     }
   );
 
+  constructor(private userService: UserService,
+              private auth: AuthService,
+              private snackBar: MatSnackBar,
+              public router: Router
+) { }
 
   getUsernameErrorMessage(): string {
 
@@ -52,23 +57,11 @@ export class SignUpComponent implements OnInit {
         '';
   }
 
-
   // todo  optional side project to check in DB if User by such name and email exists and return response
   // if does not exits to register user and autologin
-
-  constructor(private userService: UserService,
-              private auth: AuthService,
-              private _snackBar: MatSnackBar,
-              public router: Router
-  ) { }
-
-  ngOnInit() {
-  }
-
   checkNameValidity(event) {
 
     if (event.trim().length > 2) {
-      // Optional feature
       // this.userService.checkIfUsernameExists(event.trim());
     }
   }
@@ -82,7 +75,7 @@ export class SignUpComponent implements OnInit {
 
     this.userService.register(newUser).then(
       (res) => {
-        this._snackBar.open('Welcome abroad ' + newUser.username + ' ', 'X', {
+        this.snackBar.open('Welcome abroad ' + newUser.username + ' ', 'X', {
           duration: 2000,
         });
         this.auth.login(newUser).then(() => {
@@ -90,7 +83,7 @@ export class SignUpComponent implements OnInit {
         });
       },
       (err) => {
-        this._snackBar.open('Registration failed : ' + err.error + ' ', 'X', {
+        this.snackBar.open('Registration failed : ' + err.error + ' ', 'X', {
           duration: 4000,
         });
       }

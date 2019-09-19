@@ -9,62 +9,67 @@ import { MatSnackBar } from '@angular/material';
 })
 export class AuthService {
 
+  sessionWarningCalled = false;
+
   constructor(private userService: UserService,
-              private _snackBar: MatSnackBar,
-              private cookie: CookieService) {}
+              private snackBar: MatSnackBar,
+              private cookie: CookieService) { }
+
+  login(user: IUser): Promise<any> {
+
+    return new Promise((resolved, rejected) => {
+      this.userService.signin(user).then(data => {
+        this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1])).scopes);
+        this.cookie.set('token', data.token);
+
+        // expiration time in seconds
+        this.cookie.set('exp', JSON.parse(atob(data.token.split('.')[1])).exp);
+        this.sessionWarningCalled = false;
+        resolved();
+      }, rejected);
+    });
+  }
+
+  logout(): void {
+    this.cookie.delete('token');
+    this.cookie.delete('role');
+  }
+
+  isAdmin(): boolean {
+    return this.cookie.get('role') === 'ROLE_ADMIN';
+  }
+
+  isLoggedIn(): boolean {
+    if (this.cookie.get('token')) {
+      return this._checkCookieExpiration();
+    } else {
+      return false;
+    }
+  }
 
 
-sessionWarningCalled = false;
+  private _checkCookieExpiration(): boolean {
 
-login(user: IUser): Promise<any> {
-
-  return new Promise((resolved, rejected) => {
-    this.userService.signin(user).then(data => {
-      this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1])).scopes);
-      this.cookie.set('token', data.token);
-
-      // expiration time in seconds
-      this.cookie.set('exp', JSON.parse(atob(data.token.split('.')[1])).exp);
-      this.sessionWarningCalled = false;
-      resolved();
-    }, rejected);
-  });
-}
-
-logout(): void {
-  this.cookie.delete('token');
-  this.cookie.delete('role');
-}
-
-isAdmin(): boolean {
-
-return this.cookie.get('role') === 'ROLE_ADMIN';
-}
-
-isLoggedIn(): boolean {
-  if (this.cookie.get('token')){
     const warnTimeInSeconds = 300;
     const currentTimeInSeconds = new Date().getTime() / 1000;
-    if ( +this.cookie.get('exp') > currentTimeInSeconds + warnTimeInSeconds){
+
+    if (+this.cookie.get('exp') > currentTimeInSeconds + warnTimeInSeconds) {
       return true;
 
-    } else if (+this.cookie.get('exp') > currentTimeInSeconds){
-      if (!this.sessionWarningCalled){
-      this._snackBar.open( 'Your session will end in ' +  Math.round(+this.cookie.get('exp') - currentTimeInSeconds) + ' seconds ', 'X', {
-        duration: 2000,
-      });
-      this.sessionWarningCalled = true;
-    }
+    } else if (+this.cookie.get('exp') > currentTimeInSeconds) {
+      if (!this.sessionWarningCalled) {
+        this.snackBar.open('Your session will end in ' + Math.round(+this.cookie.get('exp') - currentTimeInSeconds) + ' seconds ', 'X', {
+          duration: 2000,
+        });
+        this.sessionWarningCalled = true;
+      }
       return true;
     } else {
-      this._snackBar.open( 'Your session has ended logging out' , 'X', {
+      this.snackBar.open('Your session has ended logging out', 'X', {
         duration: 2000,
       });
       this.logout();
       return false;
-    }
-  } else {
-    return false;
     }
   }
 }
