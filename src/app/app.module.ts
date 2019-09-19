@@ -50,6 +50,7 @@ import {
 
 import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
 import { ImageSrcPipe } from './pipes/image-src.pipe';
+import { FirstLetterUppercasePipe } from './pipes/first-letter-uppercase.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordMismatchDirective } from './directives/password-mismatch.directive';
@@ -63,6 +64,7 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     PhotoDialogComponent,
     ImageUploadComponent,
     ImageSrcPipe,
+    FirstLetterUppercasePipe,
     ImageEditComponent,
     SignUpComponent,
     SignInComponent,

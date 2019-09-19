@@ -1,5 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthService } from 'src/app/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-photo-dialog',
@@ -7,11 +9,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
   styleUrls: ['./photo-dialog.component.scss']
 })
 
-export class PhotoDialogComponent{
+export class PhotoDialogComponent implements OnInit{
+
+  isLoggedIn: boolean;
 
   constructor(
     public dialog: MatDialog,
     public dialogRef: MatDialogRef<PhotoDialogComponent>,
+    private auth: AuthService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onClose(): void {
@@ -25,6 +31,20 @@ export class PhotoDialogComponent{
 
     return currentDatetime.getFullYear() + '-' + month + '-' + day;
   }
+
+  onEdit(): void {
+    this.router.navigate(['/image/edit/' + this.data.id]);
+    this.onClose();
+  }
+
+  ngOnInit(): void {
+    if (this.auth.isLoggedIn()) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
+    }
+  }
+
 }
 
 

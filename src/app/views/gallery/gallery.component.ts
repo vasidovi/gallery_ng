@@ -78,28 +78,24 @@ export class GalleryComponent implements OnInit {
     this._loadCatalogs();
     this._loadThumbnails();
     this.sortByDate();
-
-    const imageDisplayAreaWidth = 1350;
-    const imageWidth = 330;
-
-    this.innerWidth = (window.innerWidth < imageDisplayAreaWidth) ? window.innerWidth : imageDisplayAreaWidth;
-    this.photosInRow = Math.floor(this.innerWidth / imageWidth);
+    this._setPhotoInRowCount();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
 
+    this._setPhotoInRowCount();
+  }
+
+  private _setPhotoInRowCount(){
     const imageDisplayAreaWidth = 1350;
     const imageWidth = 330;
 
     this.innerWidth = (window.innerWidth < imageDisplayAreaWidth) ? window.innerWidth : imageDisplayAreaWidth;
-    this.photosInRow = Math.floor(this.innerWidth / imageWidth);
+    const rows =  Math.floor(this.innerWidth / imageWidth);
+    this.photosInRow = rows > 0 ? rows : 1;
   }
-
-  getPhotoInRowCount(): number {
-    return 3;
-  }
-
+  
   getPhotosCount() {
     if (this.photos) {
       return this.photos.length;

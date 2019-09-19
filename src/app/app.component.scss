@@ -3,3 +3,10 @@
     min-height: calc(100vh - 144px);
     box-sizing: border-box;
 }
+
+@media only screen and (max-width: 380px) {
+    .container-fluid{
+        padding: 0 5px;
+
+   }
+}

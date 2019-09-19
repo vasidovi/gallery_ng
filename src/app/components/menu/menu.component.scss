@@ -30,3 +30,12 @@ mat-icon {
             top: 6px;
     }
 }
+
+@media only screen and (max-width: 330px) {
+  .mat-flat-button{
+    padding: 0 5px;
+  }
+  .logo-alt{
+    margin-right: 5px;
+  }
+}

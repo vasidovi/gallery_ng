@@ -1,20 +1,26 @@
-<mat-card class="dialog-component">
-  <mat-icon (click)= onClose()>close</mat-icon>
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title >{{data.image.name | titlecase}}</mat-card-title>
-    <mat-card-subtitle>{{ getDate(data.image.date) }}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image [src]="(data | imageSrc)" alt="{{data.name}}" id="imageContainer" >
-  <mat-card-content>
-      <mat-chip-list #chipList aria-label="Tags selection">
-          <mat-chip *ngFor="let tag of data.image.tags">
-                {{tag.name}}
-          </mat-chip>
-        </mat-chip-list>
+<div class="dialog-container">
+  <mat-card>
+    <div class="buttons">
+      <ng-template [ngIf]="isLoggedIn">
+        <!-- <a [routerLink]="['/image/edit', data.id]"> -->
+          <mat-icon (click)=onEdit()>edit</mat-icon>
+         <!-- </a> -->
+      </ng-template>
+      <mat-icon (click)=onClose()>close</mat-icon>
+    </div>
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title class="col-7 col-sm-8 col-md-10">{{data.photoBig.image.name | titlecase}}</mat-card-title>
+      <mat-card-subtitle>{{ getDate(data.photoBig.image.date) }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="(data.photoBig | imageSrc)" alt="{{data.photoBig.name}}" id="imageContainer">
     <p>
-      {{data.image.description}}
+      <mat-chip *ngFor="let tag of data.photoBig.image.tags">
+        {{tag.name}}
+      </mat-chip>
     </p>
-  </mat-card-content>
-</mat-card>
-      
+    <p>
+      {{data.photoBig.image.description | firstLetterUppercase}}
+    </p>
+  </mat-card>
+</div>

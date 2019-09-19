@@ -8,16 +8,15 @@ button{
     box-sizing: border-box;
     background-image: url("../../../assets/images/hero.jpg");
     background-repeat: no-repeat;
-    // minus footer and header
+    background-size: cover;
+    background-position: center;
+    
+    // 100vh minus footer and header
     height: calc(100vh - 144px);
 
     div{
         height: 90%;
     }
-}
-//at bootstrap's (xs) breakpoint  
-@media only screen and (max-width: 576px){    
-    .hero{height: 40vh;}
 }
 
 h2{
@@ -48,13 +47,31 @@ mat-card{
     width:  80%;
 }
 
-//to deactivate submit button
-::ng-deep.mat-flat-button[disabled][disabled]{
-    background-color: rgba(0,0,0,.12) !important;
-  }
   
-  .login-button{
+.login-button{
     background-color: $accent;
     color: $white;
-  }
+}
   
+
+//at bootstrap's (xs) breakpoint  
+@media only screen and (max-width: 576px){    
+    .hero{height: 40vh;}
+    h2 {
+        font-size: 1.2em;
+        margin: 10px;
+        padding-bottom: 10px;
+    }
+    p {
+        font-size: 1em;
+    }
+}
+
+@media only screen and (max-width: 420px){    
+    h2{
+        display: none !important;
+    }
+}
+
+
+

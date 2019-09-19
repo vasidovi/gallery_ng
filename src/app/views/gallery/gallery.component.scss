@@ -80,3 +80,9 @@ mat-spinner {
 ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 15px !important;
 }
+
+@media only screen and (max-width: 380px) {
+ mat-card{
+   margin: 20px 10px;
+ }
+}

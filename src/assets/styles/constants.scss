@@ -42,3 +42,8 @@ mat-icon{
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-thick{
     color: $accent !important;
 }
+
+//to deactivate submit button
+::ng-deep.mat-flat-button[disabled][disabled]{
+  background-color: rgba(0,0,0,.12) !important;
+}

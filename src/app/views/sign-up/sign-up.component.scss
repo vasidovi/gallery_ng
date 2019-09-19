@@ -11,11 +11,6 @@ button{
     top: 40px;
 }
 
-//to deactivate submit button
-::ng-deep.mat-flat-button[disabled][disabled]{
-    background-color: rgba(0,0,0,.12) !important;
-  }
-  
   .submit-button{
     background-color: $accent;
     color: $white;

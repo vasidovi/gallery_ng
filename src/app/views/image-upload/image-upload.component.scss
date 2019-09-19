@@ -1,6 +1,5 @@
 @import "../../../assets/styles/constants.scss";
 
-
 .hide {
   display: none;
 }
@@ -11,13 +10,6 @@
 
 button {
   background-color: $grey;
-
-}
-
-
-//to deactivate submit button
-::ng-deep.mat-flat-button[disabled][disabled]{
-  background-color: rgba(0,0,0,.12) !important;
 }
 
 #submit-button{
@@ -76,11 +68,4 @@ mat-card{
   border-radius: 5px;
 
   }
-}
-
-p.error{
-  font-size: 0.75em;
-  color: #f44336;
-  top: 40px;
-  position: relative;
 }

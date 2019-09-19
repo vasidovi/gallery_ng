@@ -9,40 +9,62 @@
   display: none;
 }
 
-img {
-  display: block;
-  max-width: 65vw;
-  max-height: 65vh;
-  width: auto;
-  height: auto;
-}
-
 ::ng-deep .mat-card-avatar {
   display: none
 }
 
-mat-card-content {
-  FONT-WEIGHT: 300;
-  margin: -10px 15px 10px 15px !important;
-  font-size: 1em;
+.dialog-container{
+  max-width: 99vw;
+  max-height: 99vh;
 }
 
 mat-card {
+  box-sizing: border-box;
+  padding: 0;
   margin: 0;
-  width: 100%;
+  mat-card-header{
+    padding-top: 5px;
+  }
 }
 
-mat-icon {
-  position: absolute;
-  top: 17px;
-  right: 17px;
+.mat-card-image {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  // at pc size fits 1 line of tags and 1 line of description - if description is long will scroll down 
+  max-height: 75vh;
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.dialog-component{
-  max-width: 95vw;
-  max-height: 95vh;
+mat-card-title, mat-card-subtitle{
+  margin-bottom: 2px;
 }
 
-mat-icon{
-  cursor: pointer;
+p{
+  font-weight: 300;
+  font-size: 1em;
+  margin-bottom: 0px;
+  padding: 5px;
+  }
+
+  mat-chip{
+    margin-right: 5px;
+  }
+
+.buttons{
+    position: absolute;
+    top: 17px;
+    right: 15px;
+    > *{
+      cursor: pointer;
+      margin-right: 15px;
+    }
+    a{
+      color: $accent;
+      text-emphasis: none;
+    }
 }
+
+
