@@ -53,12 +53,14 @@ export class AuthService {
     const warnTimeInSeconds = 300;
     const currentTimeInSeconds = new Date().getTime() / 1000;
 
-    if (+this.cookie.get('exp') > currentTimeInSeconds + warnTimeInSeconds) {
+    const expiration = +this.cookie.get('exp');
+
+    if (expiration > currentTimeInSeconds + warnTimeInSeconds) {
       return true;
 
-    } else if (+this.cookie.get('exp') > currentTimeInSeconds) {
+    } else if (expiration > currentTimeInSeconds) {
       if (!this.sessionWarningCalled) {
-        this.snackBar.open('Your session will end in ' + Math.round(+this.cookie.get('exp') - currentTimeInSeconds) + ' seconds ', 'X', {
+        this.snackBar.open('Your session will end in ' + Math.round(expiration - currentTimeInSeconds) + ' seconds ', 'X', {
           duration: 2000,
         });
         this.sessionWarningCalled = true;

@@ -82,7 +82,7 @@ export class GalleryComponent implements OnInit {
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(_) {
 
     this._setPhotoInRowCount();
   }
@@ -95,7 +95,7 @@ export class GalleryComponent implements OnInit {
     const rows =  Math.floor(this.innerWidth / imageWidth);
     this.photosInRow = rows > 0 ? rows : 1;
   }
-  
+
   getPhotosCount() {
     if (this.photos) {
       return this.photos.length;

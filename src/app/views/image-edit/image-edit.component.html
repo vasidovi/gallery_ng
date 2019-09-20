@@ -8,7 +8,7 @@
       <img class="image" [src]="(photo | imageSrc)" alt="photo.name" />
     </div>
       <div class="col-12 col-md-6">
-        <form (ngSubmit)="edit()" class="container">
+        <form class="container">
           <div class="form-container row" [formGroup]="editForm" fxLayout="column">
             <mat-form-field class="col-12 col-md-6" >
               <input matInput required placeholder="Name" [value]="photo.name | titlecase" formControlName="name" />
@@ -51,7 +51,7 @@
                   </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-          <button mat-flat-button id="submit-button" type="submit" [disabled]="editForm.invalid || editForm.value['tags'].invalid">Save <mat-icon>save</mat-icon></button>
+          <button mat-flat-button id="submit-button" type="submit" (click)="edit()" [disabled]="editForm.invalid || editForm.value['tags'].invalid">Save <mat-icon>save</mat-icon></button>
         </div>
         </form>
       </div>

@@ -58,15 +58,6 @@ export class SignUpComponent {
         '';
   }
 
-  // todo  optional side project to check in DB if User by such name and email exists and return response
-  // if does not exits to register user and autologin
-  checkNameValidity(event) {
-
-    if (event.trim().length > 2) {
-      // this.userService.checkIfUsernameExists(event.trim());
-    }
-  }
-
   onSubmit(): void {
 
     const newUser: IUser = {

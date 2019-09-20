@@ -21,7 +21,7 @@ export class GalleryService {
     return this.http.get<IPhoto[]>('http://localhost:8080/images').toPromise();
   }
 
-  public getTags(): Promise<any[]>{
+  getTags(): Promise<any[]>{
     return this.http.get<any[]>('http://localhost:8080/tags').toPromise();
   }
 
@@ -36,11 +36,6 @@ export class GalleryService {
 
   getCatalogs(): Promise<ICatalog[]> {
     return this.http.get<ICatalog[]>('http://localhost:8080/catalogs').toPromise();
-  }
-
-  // no longer used up for removal
-  getImagesByCatalogId(id: number): Promise<IPhoto[]> {
-    return this.http.get<IPhoto[]>('http://localhost:8080/images/catalog/' + id).toPromise();
   }
 
   getFilteredImages(query: IFilterData): Promise<IPhoto[]> {

@@ -6,10 +6,9 @@
           </div>
     <mat-card class="col-12 col-md-6 col-lg-4">
       <div class="container">
-        <form (ngSubmit)="onSubmit()" [formGroup]="form" class="row  justify-content-center" appPasswordMismatch>
+        <form [formGroup]="form" class="row justify-content-center" appPasswordMismatch>
           <mat-form-field class="col-12">
-            <input matInput placeholder="Enter your username" formControlName="username" required
-              (ngModelChange)="checkNameValidity($event)">
+            <input matInput placeholder="Enter your username" formControlName="username" required>
             <mat-error *ngIf="form.get('username').invalid">{{getUsernameErrorMessage()}}</mat-error>
           </mat-form-field>
           <mat-form-field class="col-12">
@@ -33,7 +32,8 @@
               <mat-icon>{{hidePasswordRepeat ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
-          <button class="col-4 submit-button" mat-flat-button type="submit" [disabled]="form.invalid">Register</button>
+          <button class="col-4 submit-button" mat-flat-button type="submit"
+          (click)="onSubmit()" [disabled]="form.invalid">Register</button>
         </form>
       </div>
     </mat-card>

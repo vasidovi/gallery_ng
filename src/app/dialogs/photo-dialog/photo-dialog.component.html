@@ -2,15 +2,13 @@
   <mat-card>
     <div class="buttons">
       <ng-template [ngIf]="isLoggedIn">
-        <!-- <a [routerLink]="['/image/edit', data.id]"> -->
           <mat-icon (click)=onEdit()>edit</mat-icon>
-         <!-- </a> -->
       </ng-template>
       <mat-icon (click)=onClose()>close</mat-icon>
     </div>
     <mat-card-header>
       <div mat-card-avatar></div>
-      <mat-card-title class="col-7 col-sm-8 col-md-10">{{data.photoBig.image.name | titlecase}}</mat-card-title>
+      <mat-card-title>{{data.photoBig.image.name | titlecase}}</mat-card-title>
       <mat-card-subtitle>{{ getDate(data.photoBig.image.date) }}</mat-card-subtitle>
     </mat-card-header>
     <img mat-card-image [src]="(data.photoBig | imageSrc)" alt="{{data.photoBig.name}}" id="imageContainer">

@@ -25,11 +25,7 @@ export class PhotoDialogComponent implements OnInit{
   }
 
   getDate(date: string): string {
-    const currentDatetime = new Date(date);
-    const month = (currentDatetime.getMonth() + 1) < 10 ? '0' + (currentDatetime.getMonth() + 1) : (currentDatetime.getMonth() + 1);
-    const day = (currentDatetime.getDate() < 10) ? '0' + currentDatetime.getDate() : '' + currentDatetime.getDate();
-
-    return currentDatetime.getFullYear() + '-' + month + '-' + day;
+    return new Date(date).toISOString().split('T')[0];
   }
 
   onEdit(): void {

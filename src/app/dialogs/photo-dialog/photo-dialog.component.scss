@@ -22,9 +22,7 @@ mat-card {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  mat-card-header{
-    padding-top: 5px;
-  }
+
 }
 
 .mat-card-image {
@@ -37,6 +35,7 @@ mat-card {
   padding: 0;
   box-sizing: border-box;
 }
+
 
 mat-card-title, mat-card-subtitle{
   margin-bottom: 2px;
@@ -54,12 +53,17 @@ p{
   }
 
 .buttons{
-    position: absolute;
-    top: 17px;
-    right: 15px;
+    // position: absolute;
+    // top: 17px;
+    // right: 15px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 15px;
     > *{
       cursor: pointer;
       margin-right: 15px;
+      display: inline-block;
     }
     a{
       color: $accent;
