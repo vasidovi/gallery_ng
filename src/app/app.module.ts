@@ -97,24 +97,7 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     NgbModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: function  tokenGetter() {
-
-          function getCookie(cookieName) {
-            const name = cookieName + '=';
-            const decodedCookie = decodeURIComponent(document.cookie);
-            const cookieArray = decodedCookie.split(';');
-            for (let cookieElement of cookieArray) {
-              while (cookieElement.charAt(0) === ' ') {
-                cookieElement = cookieElement.substring(1);
-              }
-              if (cookieElement.indexOf(name) === 0) {
-                return cookieElement.substring(name.length, cookieElement.length);
-              }
-            }
-            return '';
-          }
-          return getCookie('token');
-        },
+        tokenGetter,
         whitelistedDomains: [Globals.domainName],
         blacklistedRoutes: [ Globals.hostName + '/signup',
         Globals.hostName + '/images',  Globals.hostName + '/catalogs',  Globals.hostName + '/token/generate-token',
@@ -128,3 +111,22 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
   entryComponents: [PhotoDialogComponent, DeleteConfirmDialogComponent]
 })
 export class AppModule { }
+
+export function tokenGetter() {
+
+  function getCookie(cookieName) {
+    const name = cookieName + '=';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    for (let cookieElement of cookieArray) {
+      while (cookieElement.charAt(0) === ' ') {
+        cookieElement = cookieElement.substring(1);
+      }
+      if (cookieElement.indexOf(name) === 0) {
+        return cookieElement.substring(name.length, cookieElement.length);
+      }
+    }
+    return '';
+  }
+  return getCookie('token');
+}
