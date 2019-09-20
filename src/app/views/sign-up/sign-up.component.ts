@@ -1,3 +1,4 @@
+import { ValidateLength } from 'src/app/validators/length.validator';
 import { IUser } from './../../models/user.model';
 import { AuthService } from 'src/app/services';
 import { passwordsMatch } from './../../directives/password-mismatch.directive';
@@ -23,7 +24,7 @@ export class SignUpComponent {
 
 
   form: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    username: new FormControl('', [Validators.required, ValidateLength(3)]),
     password: new FormControl('', [Validators.required]),
     passwordRepeat: new FormControl('', [Validators.required]),
   },

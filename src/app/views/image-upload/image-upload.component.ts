@@ -1,6 +1,7 @@
+import { ValidateLength } from 'src/app/validators/length.validator';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { GalleryService } from 'src/app/services/gallery.service';
 import { ICatalog } from 'src/app/models/catalog.model';
 import { MatChipInputEvent, MatSnackBar, MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
@@ -102,19 +103,10 @@ export class ImageUploadComponent implements OnInit {
     this.uploadForm = this.formBuilder.group({
       file: [''],
       name: ['', Validators.required],
-      description: ['', [this.lengthValidatorFn(4)]],
+      description: ['', [ValidateLength(4)]],
       tags: [this.formBuilder.array([], Validators.required)],
       catalogs: [''],
     });
-  }
-
-  lengthValidatorFn(limit: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value.trim().length < limit) {
-        return { validLength: true };
-      }
-      return null;
-    };
   }
 
   onSubmit(): void {

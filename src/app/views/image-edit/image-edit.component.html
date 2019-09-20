@@ -22,7 +22,7 @@
                 </mat-select>
               </mat-form-field>
             <mat-form-field class="col-12">
-              <textarea matInput required minlength="4" placeholder="Description..." [value]="photo.description" formControlName="description">
+              <textarea matInput required minlength="4" placeholder="Description..." [value]="(photo.description | firstLetterUppercase)" formControlName="description">
                </textarea>
                <mat-error *ngIf="editForm.controls['description'].hasError('validLength')">
                   Description must be at least 4 letters

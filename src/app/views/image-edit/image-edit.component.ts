@@ -2,7 +2,7 @@ import { DeleteConfirmDialogComponent } from './../../dialogs/delete-confirm-dia
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../services/auth.service';
 import { ICatalog } from './../../models/catalog.model';
-import { FormBuilder, FormGroup, FormArray, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators} from '@angular/forms';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService } from 'src/app/services/gallery.service';
@@ -11,6 +11,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatSnackBar, MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
 import { Observable } from 'rxjs/internal/Observable';
 import { startWith, map } from 'rxjs/operators';
+import { ValidateLength } from 'src/app/validators/length.validator';
 
 @Component({
   selector: 'app-image-edit',
@@ -49,7 +50,7 @@ export class ImageEditComponent implements OnInit {
               private gallery: GalleryService,
               private formBuilder: FormBuilder,
               public dialog: MatDialog,
-              private _snackBar: MatSnackBar,
+              private snackBar: MatSnackBar,
               public router: Router,
   ) {
   this.filteredTags = this.tagControl.valueChanges.pipe(
@@ -66,26 +67,14 @@ export class ImageEditComponent implements OnInit {
     this.chipList.errorState = this._determineChipListErrorState();
   }
 
-
-  
   private _createForm(): void {
     this.editForm = this.formBuilder.group({
       name: ['', Validators.required],
-      description: ['', [this.lengthValidatorFn(4)]],
+      description: ['', [ ValidateLength(4) ]],
       tags: [this.formBuilder.array([], Validators.required)],
       catalogs: [''],
     });
   }
-
-  lengthValidatorFn(limit: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value.trim().length < limit) {
-        return { validLength: true };
-      }
-      return null;
-    }
-  }
-
 
   private _determineChipListErrorState(): boolean{
     return this.editForm.value['tags'].invalid;
@@ -136,13 +125,13 @@ export class ImageEditComponent implements OnInit {
     this.gallery.delete(this.id).subscribe(
       (res) => {
 
-        this._snackBar.open('Photo has been deleted', 'X', {
+        this.snackBar.open('Photo has been deleted', 'X', {
           duration: 2000,
         });
         setTimeout(() => this.router.navigate(['/']), 2000);
       },
       (err) => {
-        this._snackBar.open('Delete failed', 'X', {
+        this.snackBar.open('Delete failed', 'X', {
           duration: 2000,
         });
       });
@@ -200,12 +189,12 @@ export class ImageEditComponent implements OnInit {
 
     this.gallery.editImage(formData, this.id).subscribe(
       (res) => {
-        this._snackBar.open('Changes saved', 'X', {
+        this.snackBar.open('Changes saved', 'X', {
           duration: 2000,
         });
       },
       (err) => {
-        this._snackBar.open('Edit failed', 'X', {
+        this.snackBar.open('Edit failed', 'X', {
           duration: 2000,
         });
 
