@@ -1,7 +1,7 @@
 <div class="column">
   <div class="row align-items-center justify-content-center">
     <mat-card class="col-12 col-md-5">
-      <form (ngSubmit)="onSubmit()">
+      <form>
         <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
           [class.hovering]="isHovering">
           <h4>Drag and drop your image file...</h4>
@@ -58,7 +58,7 @@
           </mat-form-field>
         </div>
       </div>
-        <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || uploadForm.invalid || uploadForm.value['tags'].invalid">Upload
+        <button mat-flat-button id="submit-button" type="submit" (click)="onSubmit()" [disabled]="!file || uploadForm.invalid || uploadForm.value['tags'].invalid">Upload
             <mat-icon>send</mat-icon></button>
       </form>
       <button mat-flat-button (click)="empty()">Empty<mat-icon>delete_forever</mat-icon></button>
