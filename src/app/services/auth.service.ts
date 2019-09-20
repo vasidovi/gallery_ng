@@ -19,10 +19,8 @@ export class AuthService {
 
     return new Promise((resolved, rejected) => {
       this.userService.signin(user).then(data => {
-        this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1])).scopes);
+        this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1].split(','))).scopes);
         this.cookie.set('token', data.token);
-
-        // expiration time in seconds
         this.cookie.set('exp', JSON.parse(atob(data.token.split('.')[1])).exp);
         this.sessionWarningCalled = false;
         resolved();
@@ -36,7 +34,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.cookie.get('role') === 'ROLE_ADMIN';
+    return this.cookie.get('role').includes('ROLE_ADMIN');
   }
 
   isLoggedIn(): boolean {
