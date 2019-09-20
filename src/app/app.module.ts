@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
-
+import * as Globals from './globals/globals';
 
 import {
   GalleryService,
@@ -115,10 +115,10 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
           }
           return getCookie('token');
         },
-        whitelistedDomains: ['localhost:8080'],
-        blacklistedRoutes: [ 'http://localhost:8080/signup',
-        'http://localhost:8080/images', 'http://localhost:8080/catalogs', 'http://localhost:8080/token/generate-token',
-        'http://localhost:8080/image/metadata/**', 'http://localhost:8080/images/find'
+        whitelistedDomains: [Globals.domainName],
+        blacklistedRoutes: [ Globals.hostName + '/signup',
+        Globals.hostName + '/images',  Globals.hostName + '/catalogs',  Globals.hostName + '/token/generate-token',
+        Globals.hostName + '/image/metadata/**',  Globals.hostName + '/images/find'
        ],
       }
     })
