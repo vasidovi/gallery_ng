@@ -31,8 +31,11 @@
             </mat-select>
           </mat-form-field>
           <mat-form-field  class="col-12">
-            <textarea matInput required ng-minlength="4" placeholder="Description..." formControlName="description"
-              rows="3"></textarea>
+            <textarea matInput required
+            matTextareaAutosize
+            matAutosizeMinRows=1
+            matAutosizeMaxRows=5 
+            ng-minlength="4" placeholder="Description..." formControlName="description"></textarea>
             <mat-error *ngIf="uploadForm.controls['description'].hasError('validLength')">
               Description must be at least 4 letters
             </mat-error>

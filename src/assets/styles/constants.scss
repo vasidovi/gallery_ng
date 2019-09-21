@@ -20,6 +20,10 @@ mat-icon{
   background: $accent !important;
 }
 
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow  {
+  color: $accent;
+}
+
 ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: $accent;
 }
