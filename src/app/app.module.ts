@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
-import * as Globals from './globals/globals';
+import { environment } from './../environments/environment';
 
 import {
   GalleryService,
@@ -98,10 +98,10 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     JwtModule.forRoot({
       config: {
         tokenGetter,
-        whitelistedDomains: [Globals.domainName],
-        blacklistedRoutes: [ Globals.hostName + '/signup',
-        Globals.hostName + '/images',  Globals.hostName + '/catalogs',  Globals.hostName + '/token/generate-token',
-        Globals.hostName + '/image/metadata/**',  Globals.hostName + '/images/find'
+        whitelistedDomains: [environment.domainName],
+        blacklistedRoutes: [ environment.hostName + '/signup',
+        environment.hostName + '/images',  environment.hostName + '/catalogs',  environment.hostName + '/token/generate-token',
+        environment.hostName + '/image/metadata/**',  environment.hostName + '/images/find'
        ],
       }
     })
