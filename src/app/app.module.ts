@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
-import * as Globals from './globals/globals';
+import { environment } from './../environments/environment';
 
 import {
   GalleryService,
@@ -97,28 +97,11 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     NgbModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: function  tokenGetter() {
-
-          function getCookie(cookieName) {
-            const name = cookieName + '=';
-            const decodedCookie = decodeURIComponent(document.cookie);
-            const cookieArray = decodedCookie.split(';');
-            for (let cookieElement of cookieArray) {
-              while (cookieElement.charAt(0) === ' ') {
-                cookieElement = cookieElement.substring(1);
-              }
-              if (cookieElement.indexOf(name) === 0) {
-                return cookieElement.substring(name.length, cookieElement.length);
-              }
-            }
-            return '';
-          }
-          return getCookie('token');
-        },
-        whitelistedDomains: [Globals.domainName],
-        blacklistedRoutes: [ Globals.hostName + '/signup',
-        Globals.hostName + '/images',  Globals.hostName + '/catalogs',  Globals.hostName + '/token/generate-token',
-        Globals.hostName + '/image/metadata/**',  Globals.hostName + '/images/find'
+        tokenGetter,
+        whitelistedDomains: [environment.domainName],
+        blacklistedRoutes: [ environment.hostName + '/signup',
+        environment.hostName + '/images',  environment.hostName + '/catalogs',  environment.hostName + '/token/generate-token',
+        environment.hostName + '/image/metadata/**',  environment.hostName + '/images/find'
        ],
       }
     })
@@ -128,3 +111,22 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
   entryComponents: [PhotoDialogComponent, DeleteConfirmDialogComponent]
 })
 export class AppModule { }
+
+export function tokenGetter() {
+
+  function getCookie(cookieName) {
+    const name = cookieName + '=';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const cookieArray = decodedCookie.split(';');
+    for (let cookieElement of cookieArray) {
+      while (cookieElement.charAt(0) === ' ') {
+        cookieElement = cookieElement.substring(1);
+      }
+      if (cookieElement.indexOf(name) === 0) {
+        return cookieElement.substring(name.length, cookieElement.length);
+      }
+    }
+    return '';
+  }
+  return getCookie('token');
+}
