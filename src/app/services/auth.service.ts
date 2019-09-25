@@ -19,9 +19,7 @@ export class AuthService {
 
     return new Promise((resolved, rejected) => {
       this.userService.signin(user).then(data => {
-        this.cookie.set('role', JSON.parse(atob(data.token.split('.')[1].split(','))).scopes);
         this.cookie.set('token', data.token);
-        this.cookie.set('exp', JSON.parse(atob(data.token.split('.')[1])).exp);
         this.sessionWarningCalled = false;
         resolved();
       }, rejected);
@@ -34,7 +32,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.cookie.get('role').includes('ROLE_ADMIN');
+     return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).scopes).includes('ROLE_ADMIN');
   }
 
   isLoggedIn(): boolean {
@@ -50,8 +48,7 @@ export class AuthService {
 
     const warnTimeInSeconds = 300;
     const currentTimeInSeconds = new Date().getTime() / 1000;
-
-    const expiration = +this.cookie.get('exp');
+    const expiration = +JSON.parse(atob(this.cookie.get('token').split('.')[1])).exp;
 
     if (expiration > currentTimeInSeconds + warnTimeInSeconds) {
       return true;
