@@ -16,25 +16,13 @@ import {
   UserService
 } from './services';
 
-
-import {
-  MatAutocompleteModule,
-  MatIconModule,
-  MatButtonModule,
-  MatToolbarModule,
-  MatDialogModule,
-  MatCardModule,
-  MatChipsModule,
-  MatSelectModule,
-  MatInputModule,
-  MatSnackBarModule,
-  MatProgressSpinnerModule
-} from '@angular/material';
+import { MaterialModule } from './material.module';
+import { SrcPipeModule } from './srcPipe.module';
 
 import { AppComponent } from './app.component';
 
 import {
-  GalleryComponent,
+
   ImageUploadComponent,
   ImageEditComponent,
   SignUpComponent,
@@ -42,14 +30,11 @@ import {
 } from './views';
 
 import {
-  PhotoComponent,
   MenuComponent,
   FooterComponent,
-  NoResultsComponent,
 } from './components';
 
 import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
-import { ImageSrcPipe } from './pipes/image-src.pipe';
 import { FirstLetterUppercasePipe } from './pipes/first-letter-uppercase.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -59,11 +44,8 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
 @NgModule({
   declarations: [
     AppComponent,
-    GalleryComponent,
-    PhotoComponent,
     PhotoDialogComponent,
     ImageUploadComponent,
-    ImageSrcPipe,
     FirstLetterUppercasePipe,
     ImageEditComponent,
     SignUpComponent,
@@ -73,20 +55,10 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     PasswordMismatchDirective,
     DeleteConfirmDialogComponent,
     FooterComponent,
-    NoResultsComponent,
   ],
   imports: [
-    MatAutocompleteModule,
-    MatIconModule,
-    MatCardModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatChipsModule,
-    MatInputModule,
-    MatSnackBarModule,
-    MatProgressSpinnerModule,
+    SrcPipeModule,
+    MaterialModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

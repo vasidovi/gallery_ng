@@ -1,4 +1,4 @@
-import { IFilterData } from './../models/filterData.motel';
+import { IFilterData } from '../models/filterData.model';
 import { IPhoto } from './../models/photo.model';
 import { ICatalog } from './../models/catalog.model';
 
@@ -21,7 +21,7 @@ export class GalleryService {
     return this.http.get<IPhoto[]>( environment.hostName + '/images').toPromise();
   }
 
-  getTags(): Promise<any[]>{
+  getTags(): Promise<any[]> {
     return this.http.get<any[]>(environment.hostName + '/tags').toPromise();
   }
 

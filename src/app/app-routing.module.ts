@@ -1,4 +1,3 @@
-import { GalleryComponent } from './views/gallery/gallery.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ImageUploadComponent } from './views/image-upload/image-upload.component';
@@ -8,7 +7,7 @@ import { SignInComponent } from './views/sign-in/sign-in.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: GalleryComponent },
+  { path: '', loadChildren: () => import('./views/gallery/gallery.module').then(mod => mod.GalleryModule) },
   { path: 'upload', component: ImageUploadComponent, canActivate: [AuthGuard] },
   { path: 'image/edit/:id', component: ImageEditComponent, canActivate: [AuthGuard] },
   { path: 'signup', component: SignUpComponent },

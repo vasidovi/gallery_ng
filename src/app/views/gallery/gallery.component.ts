@@ -1,4 +1,4 @@
-import { IFilterData } from '../../models/filterData.motel';
+import { IFilterData } from '../../models/filterData.model';
 import { GalleryService } from './../../services/gallery.service';
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -87,7 +87,7 @@ export class GalleryComponent implements OnInit {
     this._setPhotoInRowCount();
   }
 
-  private _setPhotoInRowCount(){
+  private _setPhotoInRowCount() {
     const imageDisplayAreaWidth = 1350;
     const imageWidth = 330;
 
@@ -207,7 +207,9 @@ export class GalleryComponent implements OnInit {
         this.photos = data;
         // add tag names for auto search
         this.photos.forEach(photo => photo.tags.forEach(tag => {
+          // tslint:disable-next-line: no-string-literal
           if (!this.allTags.includes(tag['name'])) {
+            // tslint:disable-next-line: no-string-literal
             this.allTags.push(tag['name']);
           }
         }));
