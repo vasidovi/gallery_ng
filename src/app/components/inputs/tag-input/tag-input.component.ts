@@ -62,7 +62,7 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
     this.filteredTags = this.tagControl.valueChanges.pipe(
       startWith(null),
       map((tag: string | null) => tag ? this._filterTag(tag) : this.allTags.slice()));
-  
+
   }
 
   private _filterTag(value: string): string[] {
@@ -72,6 +72,10 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
   }
 
   private _determineChipListErrorState(): boolean {
+
+    if (!this.value) {
+      return false;
+    }
     return this.value.length === 0;
   }
 
@@ -131,5 +135,5 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit(): void {
     this.isError = this._determineChipListErrorState();
-    }
+  }
 }

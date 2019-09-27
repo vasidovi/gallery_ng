@@ -20,8 +20,12 @@ export class NameInputComponent implements ControlValueAccessor {
     this.onTouched(val);
   }
 
+  get value() {
+    return this.val;
+  }
+
   @Input()
-  val = '';
+  val;
   isDisabled: boolean;
 
   onChanged: any = () => { };

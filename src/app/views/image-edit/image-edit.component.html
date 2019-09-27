@@ -9,49 +9,20 @@
         <img class="image" [src]="(photo | imageSrc)" alt="photo.name" />
       </div>
       <div class="col-12 col-md-6">
-        <form class="container">
-          <div class="form-container row" [formGroup]="editForm" fxLayout="column">
-            <mat-form-field class="col-12 col-md-6">
-              <input matInput required placeholder="Name" [value]="photo.name | titlecase" formControlName="name" />
-              <mat-error *ngIf="editForm.controls['name'].hasError('required')">Name is required</mat-error>
-            </mat-form-field>
-            <mat-form-field class="col-12 col-md-6">
-              <mat-label>Catalogs</mat-label>
-              <mat-select multiple formControlName="catalogs">
-                <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
-                  {{catalog}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="col-12">
-              <textarea matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 required minlength="4"
-                placeholder="Description..." [value]="(photo.description | firstLetterUppercase)"
-                formControlName="description">
-               </textarea>
-              <mat-error *ngIf="editForm.controls['description'].hasError('validLength')">
-                Description must be at least 4 letters
-              </mat-error>
-            </mat-form-field>
-            <!-- <mat-form-field class="col-12">
-              <mat-chip-list #chipList required aria-label="Tags selection">
-                <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
-                  (removed)="removeTag(i)">
-                  {{tag}}
-                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                </mat-chip>
-                <input placeholder="New tag..." #tagInput [formControl]="tagControl" [matAutocomplete]="auto"
-                  [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                  [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)" />
-              </mat-chip-list>
-              <mat-error>Tags are required</mat-error>
-              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                  {{tag}}
-                </mat-option>
-              </mat-autocomplete>
-            </mat-form-field> -->
-            <app-tag-input [allTags]="allTags" [val]="tagList"  class="col-12"></app-tag-input>
-            <button mat-flat-button id="submit-button" type="submit" (click)="edit()"
-              [disabled]="editForm.invalid || tagList.length === 0">Save <mat-icon>save</mat-icon></button>
+        <form class="container" (ngSubmit)="onSubmit(f)" #f="ngForm">
+          <div class="form-container row"  fxLayout="column">
+            <app-name-input class="col-12 col-md-6"
+            [(ngModel)]="photo.name" name="name" required></app-name-input>
+            <app-catalogs-select
+            [(ngModel)]="selectedCatalogs" name="catalogs"
+            class="col-12 col-md-6" [catalogList]="catalogList"></app-catalogs-select>
+            <app-description-textarea
+            [(ngModel)]="photo.description" name="description"
+            required [appMinLength]="4" class="col-12"></app-description-textarea>
+            <app-tag-input
+            [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12" required></app-tag-input>
+            <button mat-flat-button id="submit-button" type="submit" [disabled]="f.form.invalid || tagList.length === 0"
+              >Save <mat-icon>save</mat-icon></button>
           </div>
         </form>
       </div>
