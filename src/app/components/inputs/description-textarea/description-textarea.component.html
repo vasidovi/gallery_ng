@@ -1,0 +1,9 @@
+<mat-form-field>
+    <textarea matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 required [appMinLength]="4" 
+    maxlength="250" #validations="ngModel"
+    placeholder="Description..."  [(ngModel)]="value">
+    </textarea>
+    <mat-error *ngIf="validations.invalid">
+      Description must be at least 4 letters
+    </mat-error>
+</mat-form-field>

@@ -26,6 +26,7 @@ export class ImageEditComponent implements OnInit {
   initialCatalogs: ICatalog[];
   isLoaded = false;
   tagList = [];
+  external = [];
 
   // tag chip list
   selectable = true;
@@ -76,7 +77,8 @@ export class ImageEditComponent implements OnInit {
     });
   }
 
-  private _determineChipListErrorState(): boolean{
+  private _determineChipListErrorState(): boolean {
+    // tslint:disable-next-line: no-string-literal
     return this.editForm.value['tags'].invalid;
   }
 
@@ -106,6 +108,7 @@ export class ImageEditComponent implements OnInit {
         const catalogNames = this.photo.catalogs.map(catalog => catalog.name);
 
         this.editForm.get('catalogs').setValue(catalogNames);
+        this.external = catalogNames;
 
         this.tagList = this.photo.tags.map(tag => tag.name);
 
@@ -158,6 +161,7 @@ export class ImageEditComponent implements OnInit {
 
   addTag(event: MatChipInputEvent): void {
 
+    console.log(this.external);
     // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
 

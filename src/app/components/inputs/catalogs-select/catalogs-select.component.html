@@ -1,0 +1,7 @@
+<mat-form-field>
+    <mat-label>Catalogs</mat-label>
+    <mat-select multiple [(ngModel)]="value">
+      <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
+        {{catalog}}</mat-option>
+    </mat-select>
+  </mat-form-field>

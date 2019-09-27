@@ -6,7 +6,7 @@ export const passwordsMatch: ValidatorFn = (control: FormGroup): ValidationError
   const password = control.get('password');
   const passwordRepeat = control.get('passwordRepeat');
   return password && passwordRepeat && (passwordRepeat.value !== password.value) ? { passwordsMismatch: true } : null;
-}
+};
 
 @Directive({
   selector: '[appPasswordMismatch]',

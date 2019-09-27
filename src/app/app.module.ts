@@ -40,6 +40,11 @@ import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordMismatchDirective } from './directives/password-mismatch.directive';
 import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/delete-confirm-dialog.component';
+import { UsernameInputComponent } from './components/inputs/username-input/username-input.component';
+import { PasswordInputComponent } from './components/inputs/password-input/password-input.component';
+import { MinLengthDirective } from './directives/min-length.directive';
+import { CatalogsSelectComponent } from './components/inputs/catalogs-select/catalogs-select.component';
+import { DescriptionTextareaComponent } from './components/inputs/description-textarea/description-textarea.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +60,11 @@ import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/de
     PasswordMismatchDirective,
     DeleteConfirmDialogComponent,
     FooterComponent,
+    UsernameInputComponent,
+    PasswordInputComponent,
+    MinLengthDirective,
+    CatalogsSelectComponent,
+    DescriptionTextareaComponent,
   ],
   imports: [
     SrcPipeModule,
