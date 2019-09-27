@@ -45,6 +45,8 @@ import { PasswordInputComponent } from './components/inputs/password-input/passw
 import { MinLengthDirective } from './directives/min-length.directive';
 import { CatalogsSelectComponent } from './components/inputs/catalogs-select/catalogs-select.component';
 import { DescriptionTextareaComponent } from './components/inputs/description-textarea/description-textarea.component';
+import { NameInputComponent } from './components/inputs/name-input/name-input.component';
+import { TagInputComponent } from './components/inputs/tag-input/tag-input.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,8 @@ import { DescriptionTextareaComponent } from './components/inputs/description-te
     MinLengthDirective,
     CatalogsSelectComponent,
     DescriptionTextareaComponent,
+    NameInputComponent,
+    TagInputComponent,
   ],
   imports: [
     SrcPipeModule,

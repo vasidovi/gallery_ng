@@ -1,6 +1,6 @@
 
 import { Component, forwardRef, Input } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-description-textarea',
@@ -50,4 +50,11 @@ export class DescriptionTextareaComponent implements ControlValueAccessor {
   setDisabledState?(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
   }
+
+  getErrorMessage(validations: NgModel): string {
+
+    return validations.hasError('required') ? 'Description is required' :
+        validations.hasError('validLength') ? 'Description must be at least 4 symbols' :
+          '';
+    }
 }

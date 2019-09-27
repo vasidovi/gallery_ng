@@ -4,6 +4,6 @@
     placeholder="Description..."  [(ngModel)]="value">
     </textarea>
     <mat-error *ngIf="validations.invalid">
-      Description must be at least 4 letters
-    </mat-error>
+        {{getErrorMessage(validations)}}
+</mat-error>
 </mat-form-field>

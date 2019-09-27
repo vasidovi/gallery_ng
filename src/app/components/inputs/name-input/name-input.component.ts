@@ -1,36 +1,33 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 
 @Component({
-  selector: 'app-password-input',
-  templateUrl: './password-input.component.html',
+  selector: 'app-name-input',
+  templateUrl: './name-input.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PasswordInputComponent),
+      useExisting: forwardRef(() => NameInputComponent),
       multi: true
     }
   ]
 })
-
-export class PasswordInputComponent implements ControlValueAccessor {
+export class NameInputComponent implements ControlValueAccessor {
 
   set value(val) {
-    this.val = val;
+    this.val = val ? val : '';
     this.onChanged(val);
     this.onTouched(val);
   }
 
+  @Input()
   val = '';
   isDisabled: boolean;
-  hidePassword: boolean;
 
   onChanged: any = () => { };
   onTouched: any = () => { };
 
-  constructor() {
-    this.hidePassword = true;
-   }
+  constructor() { }
 
   writeValue(value: any) {
     this.value = value;
@@ -48,10 +45,11 @@ export class PasswordInputComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
+
   getErrorMessage(validations: NgModel): string {
 
-    return validations.hasError('required') ? 'Password is required' :
-        validations.hasError('validLength') ? 'Password must be at least 4 symbols' :
+    return validations.hasError('required') ? 'Name is required' :
           '';
     }
+
 }

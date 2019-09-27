@@ -1,0 +1,18 @@
+<mat-form-field class="w-100">
+        <mat-chip-list #chipList required aria-label="Tags selection" [(ngModel)]="value">
+          <mat-chip *ngFor="let tag of value; let i = index;" [selectable]="selectable" [removable]="removable"
+            (removed)="removeTag(i)">
+            {{tag}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="New tag..." #tagInput [formControl]="tagControl" [matAutocomplete]="auto"
+            [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)" />
+        </mat-chip-list>
+        <mat-error *ngIf='isError'>Tags are required</mat-error>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+            {{tag}}
+          </mat-option>
+        </mat-autocomplete>
+</mat-form-field>

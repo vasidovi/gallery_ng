@@ -31,7 +31,6 @@ export class CatalogsSelectComponent implements ControlValueAccessor {
   catalogList: any;
 
   isDisabled: boolean;
-  hidePassword: boolean;
 
   onChanged: any = () => { };
   onTouched: any = () => { };

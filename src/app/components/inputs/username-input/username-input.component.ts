@@ -47,7 +47,7 @@ export class UsernameInputComponent implements ControlValueAccessor {
 
   getErrorMessage(validations: NgModel): string {
 
-    return validations.hasError('required') ? 'This field is required' :
+    return validations.hasError('required') ? 'Username is required' :
         validations.hasError('validLength') ? 'Username must be at least 4 symbols' :
           '';
     }

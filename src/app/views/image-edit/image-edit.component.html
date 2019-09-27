@@ -31,7 +31,7 @@
                 Description must be at least 4 letters
               </mat-error>
             </mat-form-field>
-            <mat-form-field class="col-12">
+            <!-- <mat-form-field class="col-12">
               <mat-chip-list #chipList required aria-label="Tags selection">
                 <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
                   (removed)="removeTag(i)">
@@ -48,16 +48,16 @@
                   {{tag}}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>
+            </mat-form-field> -->
+            <app-tag-input [allTags]="allTags" [val]="tagList"  class="col-12"></app-tag-input>
             <button mat-flat-button id="submit-button" type="submit" (click)="edit()"
-              [disabled]="editForm.invalid || editForm.value['tags'].invalid">Save <mat-icon>save</mat-icon></button>
+              [disabled]="editForm.invalid || tagList.length === 0">Save <mat-icon>save</mat-icon></button>
           </div>
         </form>
       </div>
     </div>
   </ng-template>
 </mat-card>
-<app-description-textarea></app-description-textarea>
 <ng-template #loading>
   <mat-spinner></mat-spinner>
 </ng-template>
