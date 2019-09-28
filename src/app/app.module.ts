@@ -18,13 +18,13 @@ import {
 
 import { MaterialModule } from './material.module';
 import { SrcPipeModule } from './srcPipe.module';
+import { FormComponentsModule } from './formComponets.module';
+import { DirectivesModule } from './directives.module';
 
 import { AppComponent } from './app.component';
 
 import {
-
   ImageUploadComponent,
-  ImageEditComponent,
   SignUpComponent,
   SignInComponent
 } from './views';
@@ -38,15 +38,6 @@ import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.compon
 import { FirstLetterUppercasePipe } from './pipes/first-letter-uppercase.pipe';
 import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PasswordMismatchDirective } from './directives/password-mismatch.directive';
-import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/delete-confirm-dialog.component';
-import { UsernameInputComponent } from './components/inputs/username-input/username-input.component';
-import { PasswordInputComponent } from './components/inputs/password-input/password-input.component';
-import { MinLengthDirective } from './directives/min-length.directive';
-import { CatalogsSelectComponent } from './components/inputs/catalogs-select/catalogs-select.component';
-import { DescriptionTextareaComponent } from './components/inputs/description-textarea/description-textarea.component';
-import { NameInputComponent } from './components/inputs/name-input/name-input.component';
-import { TagInputComponent } from './components/inputs/tag-input/tag-input.component';
 
 @NgModule({
   declarations: [
@@ -54,23 +45,15 @@ import { TagInputComponent } from './components/inputs/tag-input/tag-input.compo
     PhotoDialogComponent,
     ImageUploadComponent,
     FirstLetterUppercasePipe,
-    ImageEditComponent,
     SignUpComponent,
     SignInComponent,
     DropZoneDirective,
     MenuComponent,
-    PasswordMismatchDirective,
-    DeleteConfirmDialogComponent,
     FooterComponent,
-    UsernameInputComponent,
-    PasswordInputComponent,
-    MinLengthDirective,
-    CatalogsSelectComponent,
-    DescriptionTextareaComponent,
-    NameInputComponent,
-    TagInputComponent,
   ],
   imports: [
+    DirectivesModule,
+    FormComponentsModule,
     SrcPipeModule,
     MaterialModule,
     BrowserModule,
@@ -94,7 +77,7 @@ import { TagInputComponent } from './components/inputs/tag-input/tag-input.compo
   ],
   providers: [GalleryService, AuthService, UserService, CookieService],
   bootstrap: [AppComponent],
-  entryComponents: [PhotoDialogComponent, DeleteConfirmDialogComponent]
+  entryComponents: [PhotoDialogComponent]
 })
 export class AppModule { }
 
