@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from './../environments/environment';
@@ -24,7 +23,6 @@ import { DirectivesModule } from './directives.module';
 import { AppComponent } from './app.component';
 
 import {
-  ImageUploadComponent,
   SignUpComponent,
   SignInComponent
 } from './views';
@@ -36,18 +34,15 @@ import {
 
 import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
 import { FirstLetterUppercasePipe } from './pipes/first-letter-uppercase.pipe';
-import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
     AppComponent,
     PhotoDialogComponent,
-    ImageUploadComponent,
     FirstLetterUppercasePipe,
     SignUpComponent,
     SignInComponent,
-    DropZoneDirective,
     MenuComponent,
     FooterComponent,
   ],
@@ -62,7 +57,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
-    MaterialFileInputModule,
     NgbModule,
     JwtModule.forRoot({
       config: {
