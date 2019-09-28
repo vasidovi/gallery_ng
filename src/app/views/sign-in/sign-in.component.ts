@@ -1,6 +1,4 @@
-import { passwordsMatch } from './../../directives/password-mismatch.directive';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services';
 import { MatSnackBar } from '@angular/material';
@@ -12,19 +10,8 @@ import { MatSnackBar } from '@angular/material';
 })
 export class SignInComponent {
 
-  hidePassword = true;
-  login = {
-    status: '',
-    message: '',
-  };
   password: string;
   username: string;
-
-  form: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-
-  });
 
   constructor(private auth: AuthService,
               private snackBar: MatSnackBar,
@@ -32,7 +19,6 @@ export class SignInComponent {
   ) { }
 
   onSubmit(): void {
-    console.log(this.password + " " + this.username);
     this.auth.login({
       password: this.password,
       username: this.username,

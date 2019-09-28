@@ -1,9 +1,9 @@
 <mat-form-field class="w-100">
-    <textarea matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 required [appMinLength]="4" 
+    <textarea matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 
+    required [appMinLength]="4" 
     maxlength="250" #validations="ngModel"
     placeholder="Description..."  [(ngModel)]="value">
     </textarea>
-    <!-- todo implement isError like in tag-input or pass requirement like in http://prideparrot.com/blog/archive/2019/2/applying_validation_custom_form_component -->
     <mat-error *ngIf="validations.invalid">
         {{getErrorMessage(validations)}}
 </mat-error>

@@ -4,11 +4,11 @@ button{
     background-color: $grey;
     max-width: 150px;
 }
-.form-error{
-    color: #f44336;
-    font-size: 75%;
-    position: absolute;
-    top: 40px;
+
+mat-error{
+  font-size: 75%;
+  padding-left: 15px;
+
 }
 
   .submit-button{

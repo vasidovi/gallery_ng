@@ -16,7 +16,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor, NgModel } from '@angular/forms
 export class DescriptionTextareaComponent implements ControlValueAccessor {
 
   set value(val) {
-    this.val = val ? val : [''];
+    this.val = val ? val : '';
+    console.log(val);
     this.onChanged(val);
     this.onTouched(val);
   }
