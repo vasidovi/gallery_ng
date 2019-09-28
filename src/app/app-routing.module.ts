@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SignUpComponent } from './views/sign-up/sign-up.component';
-import { SignInComponent } from './views/sign-in/sign-in.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -13,7 +12,7 @@ const routes: Routes = [
     return mod.ImageEditModule;
   }), canActivate: [AuthGuard] },
   { path: 'signup', component: SignUpComponent },
-  { path: 'signin', component: SignInComponent },
+  { path: 'signin', loadChildren: () => import('./views/sign-in/sign-in.module').then(mod => mod.SignInModule) },
 ];
 
 @NgModule({

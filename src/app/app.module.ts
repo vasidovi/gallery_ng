@@ -24,7 +24,6 @@ import { AppComponent } from './app.component';
 
 import {
   SignUpComponent,
-  SignInComponent
 } from './views';
 
 import {
@@ -42,7 +41,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PhotoDialogComponent,
     FirstLetterUppercasePipe,
     SignUpComponent,
-    SignInComponent,
     MenuComponent,
     FooterComponent,
   ],
