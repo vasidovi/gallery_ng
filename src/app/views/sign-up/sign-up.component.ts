@@ -1,9 +1,6 @@
-import { ValidateLength } from 'src/app/validators/length.validator';
 import { IUser } from './../../models/user.model';
 import { AuthService } from 'src/app/services';
-import { passwordsMatch } from './../../directives/password-mismatch.directive';
 import { UserService } from './../../services/user.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -15,23 +12,11 @@ import { MatSnackBar } from '@angular/material';
 })
 export class SignUpComponent {
 
-  hidePassword = true;
-  hidePasswordRepeat = true;
-
-  file: File;
-  isHovering: boolean;
   imageSrc = '../../../assets/images/2678153.jpg';
 
-
-  form: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required, ValidateLength(3)]),
-    password: new FormControl('', [Validators.required]),
-    passwordRepeat: new FormControl('', [Validators.required]),
-  },
-    {
-      validators: passwordsMatch
-    }
-  );
+  username: string;
+  password: string;
+  passwordRepeat: string;
 
   constructor(private userService: UserService,
               private auth: AuthService,
@@ -39,30 +24,11 @@ export class SignUpComponent {
               public router: Router
 ) { }
 
-  getUsernameErrorMessage(): string {
-
-    return this.form.get('username').hasError('required') ? 'You must enter a value' :
-      this.form.get('username').hasError('minlength') ? 'Username must be at least 3 letters' :
-        '';
-  }
-
-  getPasswordErrorMessage(): string {
-
-    return this.form.get('password').hasError('required') ? 'You must enter a value' :
-      '';
-  }
-
-  getPasswordRepeatErrorMessage(): string {
-
-    return this.form.get('passwordRepeat').hasError('required') ? 'You must enter a value' :
-        '';
-  }
-
   onSubmit(): void {
 
     const newUser: IUser = {
-      password: this.form.get('password').value,
-      username: this.form.get('username').value,
+      password: this.password,
+      username: this.username,
     };
 
     this.userService.register(newUser).then(
@@ -80,5 +46,5 @@ export class SignUpComponent {
         });
       }
     );
-  }
+   }
 }

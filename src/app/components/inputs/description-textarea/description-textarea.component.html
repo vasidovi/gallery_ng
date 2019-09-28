@@ -1,0 +1,10 @@
+<mat-form-field class="w-100">
+    <textarea matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 
+    required [appMinLength]="4" 
+    maxlength="250" #validations="ngModel"
+    placeholder="Description..."  [(ngModel)]="value">
+    </textarea>
+    <mat-error *ngIf="validations.invalid">
+        {{getErrorMessage(validations)}}
+</mat-error>
+</mat-form-field>

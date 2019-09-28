@@ -6,34 +6,15 @@
           </div>
     <mat-card class="col-12 col-md-6 col-lg-4">
       <div class="container">
-        <form [formGroup]="form" class="row justify-content-center" appPasswordMismatch>
-          <mat-form-field class="col-12">
-            <input matInput placeholder="Enter your username" formControlName="username" required>
-            <mat-error *ngIf="form.get('username').invalid">{{getUsernameErrorMessage()}}</mat-error>
-          </mat-form-field>
-          <mat-form-field class="col-12">
-            <input matInput placeholder="Enter your password" formControlName="password"
-              [type]="hidePassword ? 'password' : 'text'" required>
-            <mat-error *ngIf="form.get('password').invalid">{{getPasswordErrorMessage()}}</mat-error>
-            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hidePassword">
-              <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-          </mat-form-field>
-          <mat-form-field class="col-12">
-            <input matInput placeholder="Repeat your password" formControlName="passwordRepeat"
-              [type]="hidePasswordRepeat ? 'password' : 'text'" required>
-            <mat-error *ngIf="form.get('passwordRepeat').invalid">{{getPasswordRepeatErrorMessage()}}
-            </mat-error>
-            <p class="form-error" *ngIf="form.get('passwordRepeat').valid &&
-            form.hasError('passwordsMismatch' )">Passwords do not match</p>
-            <button mat-icon-button matSuffix (click)="hidePasswordRepeat = !hidePasswordRepeat"
-              [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePasswordRepeat">
-              <mat-icon>{{hidePasswordRepeat ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </button>
-          </mat-form-field>
-          <button class="col-4 submit-button" mat-flat-button type="submit"
-          (click)="onSubmit()" [disabled]="form.invalid">Register</button>
+        <form (ngSubmit)="onSubmit()" #f="ngForm" class="row" appPasswordMismatch novalidate>
+            <app-username-input class="col-12" [(ngModel)]="username" name="username" required [appMinLength]="4"></app-username-input>
+            <app-password-input class="col-12" [(ngModel)]="password" name="password" required [appMinLength]="4"></app-password-input>
+            <app-password-input class="col-12" [(ngModel)]="passwordRepeat" name="passwordRepeat" #passwordRepealVal="ngModel" required [appMinLength]="4">
+            </app-password-input>
+            <mat-error *ngIf="(password != passwordRepeat) && (passwordRepealVal.dirty || passwordRepealVal.touched)">Passwords must match</mat-error>
+            <div class="w-100 d-flex justify-content-center">
+                <button class="col-4 submit-button" mat-flat-button type="submit" [disabled]="f.form.invalid">Register</button>
+            </div>
         </form>
       </div>
     </mat-card>

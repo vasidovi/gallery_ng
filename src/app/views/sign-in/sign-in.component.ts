@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services';
 import { MatSnackBar } from '@angular/material';
@@ -11,17 +10,8 @@ import { MatSnackBar } from '@angular/material';
 })
 export class SignInComponent {
 
-  hidePassword = true;
-  login = {
-    status: '',
-    message: '',
-  };
-
-  form: FormGroup = new FormGroup({
-    username: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-
-  });
+  password: string;
+  username: string;
 
   constructor(private auth: AuthService,
               private snackBar: MatSnackBar,
@@ -30,8 +20,8 @@ export class SignInComponent {
 
   onSubmit(): void {
     this.auth.login({
-      password: this.form.get('password').value,
-      username: this.form.get('username').value,
+      password: this.password,
+      username: this.username,
     }).then(() => {
         this.router.navigate(['/']);
       }, ()  => {
