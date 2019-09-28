@@ -23,10 +23,6 @@ import { DirectivesModule } from './directives.module';
 import { AppComponent } from './app.component';
 
 import {
-  SignUpComponent,
-} from './views';
-
-import {
   MenuComponent,
   FooterComponent,
 } from './components';
@@ -40,7 +36,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppComponent,
     PhotoDialogComponent,
     FirstLetterUppercasePipe,
-    SignUpComponent,
     MenuComponent,
     FooterComponent,
   ],

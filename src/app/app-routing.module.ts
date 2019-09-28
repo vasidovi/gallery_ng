@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SignUpComponent } from './views/sign-up/sign-up.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -11,7 +10,7 @@ const routes: Routes = [
   { path: 'image/edit/:id', loadChildren: () => import('./views/image-edit/image-edit.module').then(mod => {
     return mod.ImageEditModule;
   }), canActivate: [AuthGuard] },
-  { path: 'signup', component: SignUpComponent },
+  { path: 'signup', loadChildren: () => import('./views/sign-up/sign-up.module').then(mod => mod.SignUpModule) },
   { path: 'signin', loadChildren: () => import('./views/sign-in/sign-in.module').then(mod => mod.SignInModule) },
 ];
 
