@@ -3,31 +3,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { CookieService } from 'ngx-cookie-service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from './../environments/environment';
-
-import {
-  GalleryService,
-  AuthService,
-  UserService
-} from './services';
 
 import { MaterialModule } from './material.module';
 import { SrcPipeModule } from './srcPipe.module';
 
 import { AppComponent } from './app.component';
-
-import {
-
-  ImageUploadComponent,
-  ImageEditComponent,
-  SignUpComponent,
-  SignInComponent
-} from './views';
 
 import {
   MenuComponent,
@@ -36,39 +19,15 @@ import {
 
 import { PhotoDialogComponent } from './dialogs/photo-dialog/photo-dialog.component';
 import { FirstLetterUppercasePipe } from './pipes/first-letter-uppercase.pipe';
-import { DropZoneDirective } from './directives/dropzone.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PasswordMismatchDirective } from './directives/password-mismatch.directive';
-import { DeleteConfirmDialogComponent } from './dialogs/delete-confirm-dialog/delete-confirm-dialog.component';
-import { UsernameInputComponent } from './components/inputs/username-input/username-input.component';
-import { PasswordInputComponent } from './components/inputs/password-input/password-input.component';
-import { MinLengthDirective } from './directives/min-length.directive';
-import { CatalogsSelectComponent } from './components/inputs/catalogs-select/catalogs-select.component';
-import { DescriptionTextareaComponent } from './components/inputs/description-textarea/description-textarea.component';
-import { NameInputComponent } from './components/inputs/name-input/name-input.component';
-import { TagInputComponent } from './components/inputs/tag-input/tag-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PhotoDialogComponent,
-    ImageUploadComponent,
     FirstLetterUppercasePipe,
-    ImageEditComponent,
-    SignUpComponent,
-    SignInComponent,
-    DropZoneDirective,
     MenuComponent,
-    PasswordMismatchDirective,
-    DeleteConfirmDialogComponent,
     FooterComponent,
-    UsernameInputComponent,
-    PasswordInputComponent,
-    MinLengthDirective,
-    CatalogsSelectComponent,
-    DescriptionTextareaComponent,
-    NameInputComponent,
-    TagInputComponent,
   ],
   imports: [
     SrcPipeModule,
@@ -77,9 +36,6 @@ import { TagInputComponent } from './components/inputs/tag-input/tag-input.compo
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MaterialFileInputModule,
     NgbModule,
     JwtModule.forRoot({
       config: {
@@ -92,9 +48,9 @@ import { TagInputComponent } from './components/inputs/tag-input/tag-input.compo
       }
     })
   ],
-  providers: [GalleryService, AuthService, UserService, CookieService],
+  providers: [CookieService],
   bootstrap: [AppComponent],
-  entryComponents: [PhotoDialogComponent, DeleteConfirmDialogComponent]
+  entryComponents: [PhotoDialogComponent]
 })
 export class AppModule { }
 

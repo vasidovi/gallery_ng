@@ -1,67 +1,37 @@
 <div class="column">
   <div class="row align-items-center justify-content-center">
     <mat-card class="col-12 col-md-5">
-      <form>
         <div class="dropzone" appDropzone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
-          [class.hovering]="isHovering">
-          <h4>Drag and drop your image file...</h4>
-          <div *ngIf="!file">
-            <mat-form-field>
-              <ngx-mat-file-input #box [value]="setFileValue(box.value)" [accept]="'image/*'" placeholder="File"
-                valuePlaceholder="No file selected" required></ngx-mat-file-input>
-              <mat-icon matSuffix>folder</mat-icon>
-            </mat-form-field>
-          </div>
-          <div *ngIf="file" class="d-flex flex-column align-items-center">
-            <p>{{file.name}}</p>
-            <button mat-flat-button (click)="removeFile()">Remove</button>
-          </div>
+        [class.hovering]="isHovering">
+        <h4>Drag and drop your image file...</h4>
+        <div *ngIf="!file">
+          <mat-form-field>
+            <ngx-mat-file-input #box [value]="setFileValue(box.value)" [accept]="'image/*'" placeholder="File"
+              valuePlaceholder="No file selected" required></ngx-mat-file-input>
+            <mat-icon matSuffix>folder</mat-icon>
+          </mat-form-field>
         </div>
-        <div class="column">
-        <div class="row" [formGroup]="uploadForm">
-          <mat-form-field class="col-12 col-md-6">
-            <input matInput required placeholder="Name" formControlName="name" />
-            <mat-error *ngIf="uploadForm.controls['name'].hasError('required')">Name is required</mat-error>
-          </mat-form-field>
-          <mat-form-field  class="col-12 col-md-6">
-            <mat-label>Catalogs</mat-label>
-            <mat-select multiple formControlName="catalogs">
-              <mat-option *ngFor="let catalog of catalogList" [value]="catalog.name">
-                {{catalog.name}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field  class="col-12">
-            <textarea matInput required
-            matTextareaAutosize
-            matAutosizeMinRows=1
-            matAutosizeMaxRows=5 
-            ng-minlength="4" placeholder="Description..." formControlName="description"></textarea>
-            <mat-error *ngIf="uploadForm.controls['description'].hasError('validLength')">
-              Description must be at least 4 letters
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field class="col-12">
-            <mat-chip-list #chipList required aria-label="Tags selection">
-              <mat-chip *ngFor="let tag of tagList; let i = index;" [selectable]="selectable" [removable]="removable"
-                (removed)="removeTag(i)">
-                {{tag}}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-              <input required matInput placeholder="New tag..." #tagInput [formControl]="tagControl"
-                [matAutocomplete]="auto" [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                (matChipInputTokenEnd)="addTag($event)" />
-            </mat-chip-list>
-            <mat-error>Tags are required</mat-error>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-              <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                {{tag}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
+        <div *ngIf="file" class="d-flex flex-column align-items-center">
+          <p>{{file.name}}</p>
+          <button mat-flat-button (click)="removeFile()">Remove</button>
         </div>
       </div>
-        <button mat-flat-button id="submit-button" type="submit" (click)="onSubmit()" [disabled]="!file || uploadForm.invalid || uploadForm.value['tags'].invalid">Upload
+      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="column">
+        <div class="row">
+            <app-name-input class="col-12 col-md-6"
+            [(ngModel)]="name" name="name" required></app-name-input>
+            <app-catalogs-select
+            [(ngModel)]="catalogs" name="catalogs"
+            class="col-12 col-md-6" [catalogList]="catalogList"></app-catalogs-select>
+            <app-description-textarea
+            [(ngModel)]="description" name="description"
+            required [appMinLength]="4" class="col-12"></app-description-textarea>
+            <app-tag-input
+            [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12"></app-tag-input>
+        </div>
+      </div>
+        <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || f.form.invalid || tagList.length === 0">Upload
             <mat-icon>send</mat-icon></button>
       </form>
       <button mat-flat-button (click)="empty()">Empty<mat-icon>delete_forever</mat-icon></button>
