@@ -1,3 +1,4 @@
+import { passwordsMatch } from './../../directives/password-mismatch.directive';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -16,6 +17,8 @@ export class SignInComponent {
     status: '',
     message: '',
   };
+  password: string;
+  username: string;
 
   form: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
@@ -29,9 +32,10 @@ export class SignInComponent {
   ) { }
 
   onSubmit(): void {
+    console.log(this.password + " " + this.username);
     this.auth.login({
-      password: this.form.get('password').value,
-      username: this.form.get('username').value,
+      password: this.password,
+      username: this.username,
     }).then(() => {
         this.router.navigate(['/']);
       }, ()  => {

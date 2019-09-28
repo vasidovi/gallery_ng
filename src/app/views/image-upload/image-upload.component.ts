@@ -43,7 +43,7 @@ export class ImageUploadComponent implements OnInit {
       const reader = new FileReader();
 
       reader.readAsDataURL(event.files[0]); // read file as data url
-      reader.onload = (event: Event) => { // called once readAsDataURL is completed
+      reader.onload = () => { // called once readAsDataURL is completed
         this.url = reader.result;
       };
     }
@@ -99,7 +99,7 @@ export class ImageUploadComponent implements OnInit {
     this.gallery.getCatalogs()
       .then(data => {
         data.forEach(d => {
-          this.catalogList.push(d.name)
+          this.catalogList.push(d.name);
         });
       });
   }
