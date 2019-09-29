@@ -19,13 +19,10 @@ export class PhotoComponent {
               public dialog: MatDialog) { }
 
   openDialog(): void {
-    this.gallery.getPhoto(this.photo.id)
-      .subscribe(data => {
-        const photoBig = data;
+    
         this.dialog.open(PhotoDialogComponent, {
-          data: {photoBig, id : this.photo.id},
+          data: {photoMetadata : this.photo},
         });
-      });
   }
 }
 

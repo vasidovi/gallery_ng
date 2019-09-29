@@ -8,17 +8,17 @@
     </div>
     <mat-card-header>
       <div mat-card-avatar></div>
-      <mat-card-title>{{data.photoBig.image.name | titlecase}}</mat-card-title>
-      <mat-card-subtitle>{{ getDate(data.photoBig.image.date) }}</mat-card-subtitle>
+      <mat-card-title>{{data.photoMetadata.name | titlecase}}</mat-card-title>
+      <mat-card-subtitle>{{ getDate(data.photoMetadata.date) }}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image [src]="(data.photoBig | imageSrc)" alt="{{data.photoBig.name}}" id="imageContainer">
+    <img mat-card-image [src]="photoSrc" alt="{{data.photoMetadata.name}}" id="imageContainer">
     <p>
-      <mat-chip *ngFor="let tag of data.photoBig.image.tags">
+      <mat-chip *ngFor="let tag of data.photoMetadata.tags">
         {{tag.name}}
       </mat-chip>
     </p>
     <p>
-      {{data.photoBig.image.description | firstLetterUppercase}}
+      {{data.photoMetadata.description | firstLetterUppercase}}
     </p>
   </mat-card>
 </div>

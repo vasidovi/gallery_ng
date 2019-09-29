@@ -24,7 +24,6 @@ export class GalleryComponent implements OnInit {
   catalogs: ICatalog[];
   isLoaded = false;
 
-
   photosInRow: number;
   innerWidth: number;
 
@@ -92,7 +91,7 @@ export class GalleryComponent implements OnInit {
     const imageWidth = 330;
 
     this.innerWidth = (window.innerWidth < imageDisplayAreaWidth) ? window.innerWidth : imageDisplayAreaWidth;
-    const rows =  Math.floor(this.innerWidth / imageWidth);
+    const rows = Math.floor(this.innerWidth / imageWidth);
     this.photosInRow = rows > 0 ? rows : 1;
   }
 

@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/services';
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 export class PhotoDialogComponent implements OnInit{
 
   isLoggedIn: boolean;
+  photoSrc: string;
 
   constructor(
     public dialog: MatDialog,
@@ -29,11 +31,14 @@ export class PhotoDialogComponent implements OnInit{
   }
 
   onEdit(): void {
-    this.router.navigate(['/image/edit/' + this.data.id]);
+    this.router.navigate(['/image/edit/' + this.data.photoMetadata.id]);
     this.onClose();
   }
 
   ngOnInit(): void {
+
+    this.photoSrc = environment.hostName + '/imageSrc/' + this.data.photoMetadata.id;
+
     if (this.auth.isLoggedIn()) {
       this.isLoggedIn = true;
     } else {
