@@ -1,3 +1,4 @@
+import { ICatalog } from 'src/app/models/catalog.model';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { GalleryService } from 'src/app/services/gallery.service';
@@ -23,7 +24,7 @@ export class ImageUploadComponent implements OnInit {
   name;
   catalogs;
   description;
-  catalogList: string[] = [];
+  catalogList: ICatalog[] = [];
 
   // for Autocomplete of tags
   allTags: string[] = [];
@@ -57,6 +58,8 @@ export class ImageUploadComponent implements OnInit {
 
   onSubmit(f): void {
     const formData = new FormData();
+
+    f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
 
     ['description',  'tags', 'catalogs', 'name'].forEach(i => {
       formData.append(i, f.form.value[i]);
@@ -98,9 +101,7 @@ export class ImageUploadComponent implements OnInit {
   private _loadCatalogs(): void {
     this.gallery.getCatalogs()
       .then(data => {
-        data.forEach(d => {
-          this.catalogList.push(d.name);
-        });
+       data = this.catalogList;
       });
   }
 

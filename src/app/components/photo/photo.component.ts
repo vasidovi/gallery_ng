@@ -1,4 +1,3 @@
-import { GalleryService } from './../../services';
 import { IPhoto } from './../../models/photo.model';
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,11 +14,10 @@ export class PhotoComponent {
 
   @Input() photo: IPhoto;
 
-  constructor(private gallery: GalleryService,
-              public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) { }
 
   openDialog(): void {
-    
+
         this.dialog.open(PhotoDialogComponent, {
           data: {photoMetadata : this.photo},
         });

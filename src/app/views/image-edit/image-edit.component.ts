@@ -1,3 +1,4 @@
+import { ICatalog } from './../../models/catalog.model';
 import { DeleteConfirmDialogComponent } from './../../dialogs/delete-confirm-dialog/delete-confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../services/auth.service';
@@ -18,7 +19,7 @@ export class ImageEditComponent implements OnInit {
   catalogList: any;
   isLoaded = false;
   tagList = [];
-  selectedCatalogs = [];
+  selectedCatalogs: ICatalog[] = [];
 
   // for Autocomplete of tags
   allTags: string[] = [];
@@ -47,9 +48,9 @@ export class ImageEditComponent implements OnInit {
       .then(data => {
         this.photo = data;
 
-        this.catalogList = this.catalogList.map(c => c.name);
-        const catalogNames = this.photo.catalogs.map(catalog => catalog.name);
-        this.selectedCatalogs = catalogNames;
+        // this.catalogList = this.catalogList.map(c => c.name);
+        // const catalogNames = this.photo.catalogs.map(catalog => catalog.name);
+        this.selectedCatalogs = this.photo.catalogs;
         this.tagList = this.photo.tags.map(tag => tag.name);
         this.isLoaded = !this.isLoaded;
       });
@@ -82,6 +83,9 @@ export class ImageEditComponent implements OnInit {
 
   onSubmit(f): void {
     const formData = new FormData();
+
+    f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
+
     ['description', 'tags', 'catalogs', 'name'].forEach(i => {
       formData.append(i, f.form.value[i]);
     });
