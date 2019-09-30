@@ -1,6 +1,7 @@
 import { ICatalog } from 'src/app/models/catalog.model';
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { MatSelectChange, MatSelect } from '@angular/material';
 
 @Component({
   selector: 'app-catalogs-select',
@@ -17,6 +18,9 @@ export class CatalogsSelectComponent implements ControlValueAccessor {
 
   @Input()
   val: ICatalog[];
+
+  @ViewChild(MatSelect, {static: false}) matSelect: MatSelect;
+  @Output() selectionChange: EventEmitter<MatSelectChange> = new EventEmitter<MatSelectChange>();
 
   set value(val) {
     this.val = val ? val : [];
@@ -54,5 +58,11 @@ export class CatalogsSelectComponent implements ControlValueAccessor {
 
   compareObjects(o1: any, o2: any): boolean {
     return  o1.id === o2.id;
+  }
+
+  selectionChanged(event: MatSelectChange) {
+    this.selectionChange.emit(new MatSelectChange(this.matSelect, event.value));
+    this.onChanged(event.value);
+    this.onTouched();
   }
 }

@@ -1,6 +1,7 @@
 <mat-form-field class="w-100">
     <mat-label>Catalogs</mat-label>
-    <mat-select  [compareWith]="compareObjects" multiple [(ngModel)]="value">
+    <mat-select (selectionChange)="selectionChanged($event)" 
+    [compareWith]="compareObjects" multiple [(ngModel)]="value">
       <mat-option *ngFor="let catalog of catalogList" [value]="catalog">
         {{catalog.name}}</mat-option>
     </mat-select>

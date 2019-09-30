@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, Input, forwardRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -36,6 +36,9 @@ export class TagInputComponent implements ControlValueAccessor {
   @Input()
   public required = false;
 
+  @Input()
+  public placeholder = "New tag...";
+
   isDisabled: boolean;
   hidePassword: boolean;
 
@@ -57,7 +60,8 @@ export class TagInputComponent implements ControlValueAccessor {
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
   @ViewChild('chipList', {static: false}) chipList;
 
-  isError: boolean;
+  @Output() inputChange: EventEmitter<any> = new EventEmitter();
+
 
   onChanged: any = () => { };
   onTouched: any = () => { };
@@ -85,14 +89,17 @@ export class TagInputComponent implements ControlValueAccessor {
     this.tagControl.setValue(null);
     this.value.push(event.option.viewValue.trim());
     this.chipList.errorState = this._determineChipListErrorState();
+
+    this.inputChange.emit(null);
   }
 
   removeTag(index: number): void {
 
     if (index >= 0) {
       this.value.splice(index, 1);
-      this.isError = this._determineChipListErrorState();
       this.chipList.errorState = this._determineChipListErrorState();
+
+      this.inputChange.emit(null);
     }
   }
 
@@ -113,9 +120,8 @@ export class TagInputComponent implements ControlValueAccessor {
         event.input.value = '';
       }
       this.tagControl.setValue(null);
-      this.isError = this._determineChipListErrorState();
-
       this.chipList.errorState = this._determineChipListErrorState();
+      this.inputChange.emit(null);
     }
   }
 

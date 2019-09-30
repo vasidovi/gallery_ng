@@ -47,9 +47,6 @@ export class ImageEditComponent implements OnInit {
     this.gallery.getThumbnailById(id)
       .then(data => {
         this.photo = data;
-
-        // this.catalogList = this.catalogList.map(c => c.name);
-        // const catalogNames = this.photo.catalogs.map(catalog => catalog.name);
         this.selectedCatalogs = this.photo.catalogs;
         this.tagList = this.photo.tags.map(tag => tag.name);
         this.isLoaded = !this.isLoaded;
