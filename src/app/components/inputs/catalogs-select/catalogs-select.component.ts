@@ -1,3 +1,4 @@
+import { ICatalog } from 'src/app/models/catalog.model';
 import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -14,8 +15,11 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 })
 export class CatalogsSelectComponent implements ControlValueAccessor {
 
+  @Input()
+  val: ICatalog[];
+
   set value(val) {
-    this.val = val ? val : [''];
+    this.val = val ? val : [];
     this.onChanged(val);
     this.onTouched(val);
   }
@@ -25,17 +29,12 @@ export class CatalogsSelectComponent implements ControlValueAccessor {
   }
 
   @Input()
-  val;
-
-  @Input()
   catalogList: any;
 
   isDisabled: boolean;
 
   onChanged: any = () => { };
   onTouched: any = () => { };
-
-  constructor() { }
 
   writeValue(value: any) {
     this.value = value;
@@ -53,4 +52,7 @@ export class CatalogsSelectComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled;
   }
 
+  compareObjects(o1: any, o2: any): boolean {
+    return  o1.id === o2.id;
+  }
 }

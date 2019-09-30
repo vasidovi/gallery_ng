@@ -20,7 +20,7 @@
             [(ngModel)]="photo.description" name="description"
             required [appMinLength]="4" class="col-12"></app-description-textarea>
             <app-tag-input
-            [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12" required></app-tag-input>
+            [(ngModel)]="tagList" name="tags" [required]="true" [allTags]="allTags" class="col-12"></app-tag-input>
             <button mat-flat-button id="submit-button" type="submit" [disabled]="f.form.invalid || tagList.length === 0"
               >Save <mat-icon>save</mat-icon></button>
           </div>

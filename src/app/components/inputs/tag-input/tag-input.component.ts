@@ -1,7 +1,7 @@
-import { Component, ViewChild, ElementRef, Input, forwardRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input, forwardRef } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
-import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR, Validators } from '@angular/forms';
+import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import { startWith, map } from 'rxjs/internal/operators';
 
@@ -17,7 +17,7 @@ import { startWith, map } from 'rxjs/internal/operators';
   ]
 })
 
-export class TagInputComponent implements ControlValueAccessor, OnInit {
+export class TagInputComponent implements ControlValueAccessor {
 
   set value(val) {
     this.val = val ? val : [''];
@@ -32,6 +32,9 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
   // tagList - request for possible initial values
   @Input()
   val: string[];
+
+  @Input()
+  public required = false;
 
   isDisabled: boolean;
   hidePassword: boolean;
@@ -52,6 +55,7 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
 
   @ViewChild('tagInput', { static: false }) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('chipList', {static: false}) chipList;
 
   isError: boolean;
 
@@ -71,21 +75,16 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
     return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  private _determineChipListErrorState(): boolean {
-
-    if (!this.value) {
-      return false;
-    }
-    return this.value.length === 0;
+   _determineChipListErrorState(): boolean {
+    return this.required && this.value.length === 0;
   }
-
 
   selected(event: MatAutocompleteSelectedEvent): void {
 
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
     this.value.push(event.option.viewValue.trim());
-    this.isError = this._determineChipListErrorState();
+    this.chipList.errorState = this._determineChipListErrorState();
   }
 
   removeTag(index: number): void {
@@ -93,6 +92,7 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
     if (index >= 0) {
       this.value.splice(index, 1);
       this.isError = this._determineChipListErrorState();
+      this.chipList.errorState = this._determineChipListErrorState();
     }
   }
 
@@ -114,6 +114,8 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
       }
       this.tagControl.setValue(null);
       this.isError = this._determineChipListErrorState();
+
+      this.chipList.errorState = this._determineChipListErrorState();
     }
   }
 
@@ -131,9 +133,5 @@ export class TagInputComponent implements ControlValueAccessor, OnInit {
 
   setDisabledState?(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
-  }
-
-  ngOnInit(): void {
-    this.isError = this._determineChipListErrorState();
   }
 }

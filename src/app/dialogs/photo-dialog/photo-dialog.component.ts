@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./photo-dialog.component.scss']
 })
 
-export class PhotoDialogComponent implements OnInit{
+export class PhotoDialogComponent implements OnInit {
 
   isLoggedIn: boolean;
   photoSrc: string;
