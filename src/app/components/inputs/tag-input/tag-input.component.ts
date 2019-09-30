@@ -35,9 +35,8 @@ export class TagInputComponent implements ControlValueAccessor {
 
   @Input()
   public required = false;
-
   @Input()
-  public placeholder = "New tag...";
+  public placeholder = 'New tag...';
 
   isDisabled: boolean;
   hidePassword: boolean;

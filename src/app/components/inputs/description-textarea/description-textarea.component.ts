@@ -26,6 +26,13 @@ export class DescriptionTextareaComponent implements ControlValueAccessor {
   }
 
   @Input()
+  public required = false;
+  @Input()
+  public placeholder = 'Description...';
+  @Input()
+  public appMinLength = 0;
+
+  @Input()
   val;
 
   isDisabled: boolean;
@@ -54,7 +61,7 @@ export class DescriptionTextareaComponent implements ControlValueAccessor {
   getErrorMessage(validations: NgModel): string {
 
     return validations.hasError('required') ? 'Description is required' :
-        validations.hasError('validLength') ? 'Description must be at least 4 symbols' :
+        validations.hasError('validLength') ? 'Description must be at least '  + this.appMinLength + ' symbols' :
           '';
     }
 }

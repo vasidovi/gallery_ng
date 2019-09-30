@@ -1,4 +1,4 @@
 <mat-form-field class="w-100">
-    <input matInput placeholder="Enter your username" [(ngModel)]="value" #validations="ngModel" required [appMinLength]="4" maxlength="20" />
+    <input matInput [placeholder]="placeholder" [(ngModel)]="value" #validations="ngModel" [required]="required" [appMinLength]="appMinLength" maxlength="20" />
     <mat-error *ngIf="validations.invalid">{{getErrorMessage(validations)}}</mat-error>
 </mat-form-field>

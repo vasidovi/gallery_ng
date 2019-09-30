@@ -1,4 +1,4 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgModel } from '@angular/forms';
 
 @Component({
@@ -26,6 +26,13 @@ export class UsernameInputComponent implements ControlValueAccessor {
   val = '';
   isDisabled: boolean;
 
+  @Input()
+  public required = false;
+  @Input()
+  public placeholder = 'Enter your username';
+  @Input()
+  public appMinLength = 0;
+
   onChanged: any = () => { };
   onTouched: any = () => { };
 
@@ -48,7 +55,7 @@ export class UsernameInputComponent implements ControlValueAccessor {
   getErrorMessage(validations: NgModel): string {
 
     return validations.hasError('required') ? 'Username is required' :
-        validations.hasError('validLength') ? 'Username must be at least 4 symbols' :
+        validations.hasError('validLength') ? 'Username must be at least ' + this.appMinLength + ' symbols' :
           '';
     }
 }

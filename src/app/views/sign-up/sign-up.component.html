@@ -7,8 +7,8 @@
     <mat-card class="col-12 col-md-6 col-lg-4">
       <div class="container">
         <form (ngSubmit)="onSubmit()" #f="ngForm" class="row" appPasswordMismatch novalidate>
-            <app-username-input class="col-12" [(ngModel)]="username" name="username" required [appMinLength]="4"></app-username-input>
-            <app-password-input class="col-12" [(ngModel)]="password" name="password" required [appMinLength]="4"></app-password-input>
+            <app-username-input class="col-12" [(ngModel)]="username" name="username"  [required]="true" [appMinLength]="4"></app-username-input>
+            <app-password-input class="col-12" [(ngModel)]="password" name="password"  [required]="true" [appMinLength]="4"></app-password-input>
             <app-password-input class="col-12" [(ngModel)]="passwordRepeat" name="passwordRepeat" #passwordRepealVal="ngModel" required [appMinLength]="4">
             </app-password-input>
             <mat-error *ngIf="(password != passwordRepeat) && (passwordRepealVal.dirty || passwordRepealVal.touched)">Passwords must match</mat-error>

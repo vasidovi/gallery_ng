@@ -20,15 +20,15 @@
         <div class="column">
         <div class="row">
             <app-name-input class="col-12 col-md-6"
-            [(ngModel)]="name" name="name" required></app-name-input>
+            [(ngModel)]="name" name="name"  [required]="true"></app-name-input>
             <app-catalogs-select
             [(ngModel)]="catalogs" name="catalogs"
             class="col-12 col-md-6" [catalogList]="catalogList"></app-catalogs-select>
             <app-description-textarea
             [(ngModel)]="description" name="description"
-            required [appMinLength]="4" class="col-12"></app-description-textarea>
+            [required]="true" [appMinLength]="4" class="col-12"></app-description-textarea>
             <app-tag-input
-            [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12"></app-tag-input>
+            [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12" [required]="true"></app-tag-input>
         </div>
       </div>
         <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || f.form.invalid || tagList.length === 0">Upload

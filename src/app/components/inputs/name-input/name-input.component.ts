@@ -28,6 +28,13 @@ export class NameInputComponent implements ControlValueAccessor {
   val;
   isDisabled: boolean;
 
+  @Input()
+  public required = false;
+  @Input()
+  public placeholder = 'Name';
+  @Input()
+  public appMinLength = 0;
+
   onChanged: any = () => { };
   onTouched: any = () => { };
 
@@ -53,7 +60,8 @@ export class NameInputComponent implements ControlValueAccessor {
   getErrorMessage(validations: NgModel): string {
 
     return validations.hasError('required') ? 'Name is required' :
-          '';
+      validations.hasError('validLength') ? 'Name must be at least ' + this.appMinLength + ' symbols' :
+      '';
     }
 
 }
