@@ -12,6 +12,7 @@ import { GalleryComponent } from '..';
 
 import { MaterialModule } from '../.././material.module';
 import { SrcPipeModule } from 'src/app/srcPipe.module';
+import { FormComponentsModule } from 'src/app/formComponets.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { SrcPipeModule } from 'src/app/srcPipe.module';
     SrcPipeModule,
     MaterialModule,
     CommonModule,
+    FormComponentsModule,
     GalleryRoutingModule,
     ReactiveFormsModule,
     FormsModule,

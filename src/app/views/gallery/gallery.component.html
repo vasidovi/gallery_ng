@@ -9,30 +9,11 @@
           <mat-icon matSuffix>search</mat-icon>
           <mat-hint>Enter photo name or description</mat-hint>
         </mat-form-field>
-        <mat-form-field class="col-12 col-sm-3">
-          <mat-label>Catalogs</mat-label>
-          <mat-select multiple>
-            <mat-option *ngFor="let catalog of catalogs" (click)=getSelectedValue(catalog)>
-              {{catalog.name}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field class="col-12 col-sm-3">
-          <mat-chip-list #chipList aria-label="Tags selection">
-            <mat-chip *ngFor="let tag of filterData.tags" [selectable]="selectable" [removable]="removable"
-              (removed)="removeTag(tag)">
-              {{tag}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            <input placeholder="Tags" #tagInput [formControl]="tagControl" [matAutocomplete]="auto"
-              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addTag($event)">
-          </mat-chip-list>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-              {{tag}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <app-catalogs-select class="col-12 col-sm-3" 
+        [(ngModel)]="selectedCatalogs" name="catalogs" (selectionChange)="getSelectedCatalogs()"
+        [catalogList]="catalogs"></app-catalogs-select>
+        <app-tag-input
+            [(ngModel)]="filterData.tags" name="tags" [placeholder]="'Tags'" (inputChange)="getSelectedTags()" [allTags]="allTags" class="col-12 col-sm-3"></app-tag-input>
       </div>
     </div>
   </mat-card>
