@@ -16,10 +16,15 @@ export class ImageEditComponent implements OnInit {
 
   id: number;
   photo: any;
-  catalogList: any;
+  catalogList = [];
   isLoaded = false;
-  tagList = [];
-  selectedCatalogs: ICatalog[] = [];
+
+  form = {
+    catalogs: [],
+    tags: [],
+    name: '',
+    description: ''
+  };
 
   // for Autocomplete of tags
   allTags: string[] = [];
@@ -47,8 +52,10 @@ export class ImageEditComponent implements OnInit {
     this.gallery.getThumbnailById(id)
       .then(data => {
         this.photo = data;
-        this.selectedCatalogs = this.photo.catalogs;
-        this.tagList = this.photo.tags.map(tag => tag.name);
+        this.form.catalogs = this.photo.catalogs;
+        this.form.name = this.photo.name;
+        this.form.description = this.photo.description;
+        this.form.tags = this.photo.tags.map(tag => tag.name);
         this.isLoaded = !this.isLoaded;
       });
   }
@@ -78,13 +85,13 @@ export class ImageEditComponent implements OnInit {
   }
 
 
-  onSubmit(f): void {
+  onSubmit(): void {
     const formData = new FormData();
 
-    f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
+    this.form.catalogs = this.form.catalogs.map(catalog => catalog.name);
 
     ['description', 'tags', 'catalogs', 'name'].forEach(i => {
-      formData.append(i, f.form.value[i]);
+      formData.append(i, this.form[i]);
     });
 
     this.gallery.editImage(formData, this.id).subscribe(

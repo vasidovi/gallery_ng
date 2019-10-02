@@ -16,22 +16,22 @@
           <button mat-flat-button (click)="removeFile()">Remove</button>
         </div>
       </div>
-      <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
         <div class="column">
         <div class="row">
             <app-name-input class="col-12 col-md-6"
-            [(ngModel)]="name" name="name"  [required]="true"></app-name-input>
+            [(ngModel)]="form.name" name="name"  [required]="true"></app-name-input>
             <app-catalogs-select
-            [(ngModel)]="catalogs" name="catalogs"
+            [(ngModel)]="form.catalogs" name="catalogs"
             class="col-12 col-md-6" [catalogList]="catalogList"></app-catalogs-select>
             <app-description-textarea
-            [(ngModel)]="description" name="description"
+            [(ngModel)]="form.description" name="description"
             [required]="true" [appMinLength]="4" class="col-12"></app-description-textarea>
             <app-tag-input
-            [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12" [required]="true"></app-tag-input>
+            [(ngModel)]="form.tags" name="tags" [allTags]="allTags" class="col-12" [required]="true"></app-tag-input>
         </div>
       </div>
-        <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || f.form.controls['name'].invalid || f.form.controls['description'].invalid || tagList.length === 0">Upload
+        <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || f.form.controls['name']?.invalid || f.form.controls['description']?.invalid || form.tags.length === 0">Upload
             <mat-icon>send</mat-icon></button>
       </form>
       <button mat-flat-button (click)="empty()">Empty<mat-icon>delete_forever</mat-icon></button>

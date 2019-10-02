@@ -13,18 +13,18 @@ import { FileInput } from 'ngx-material-file-input';
 
 export class ImageUploadComponent implements OnInit {
 
-  tagList = [];
-
-  uploadForm: FormGroup;
-
   file: File;
   isHovering: boolean;
   url;
 
-  name = '';
-  catalogs = [];
-  description = '';
   catalogList: ICatalog[] = [];
+
+  form = {
+    catalogs: [],
+    tags: [],
+    name: '',
+    description: ''
+  };
 
   // for Autocomplete of tags
   allTags: string[] = [];
@@ -51,22 +51,25 @@ export class ImageUploadComponent implements OnInit {
   }
 
   empty(): void {
-    this.name = '';
-    this.catalogs = [];
-    this.description = '';
-    this.tagList = [];
+    this.form.name = '';
+    this.form.catalogs = [];
+    this.form.description = '';
+    this.form.tags = [];
     this.file = null;
     this.url = null;
   }
 
-  onSubmit(f): void {
+  onSubmit(): void {
     const formData = new FormData();
 
-    console.log(f);
-    f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
+    this.form.catalogs = this.form.catalogs.map(catalog => catalog.name);
+
+    // if (f.form.value.catalogs) {
+    //   f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
+    // }
 
     ['description',  'tags', 'catalogs', 'name'].forEach(i => {
-      formData.append(i, f.form.value[i]);
+      formData.append(i, this.form[i]);
     });
 
     formData.append('file', this.file);
