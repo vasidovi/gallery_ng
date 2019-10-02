@@ -72,7 +72,7 @@ export class GalleryComponent implements OnInit {
     this._filterFiles();
   }
 
-  getSelectedTags(): void{
+  getSelectedTags(): void {
     this._filterFiles();
   }
 

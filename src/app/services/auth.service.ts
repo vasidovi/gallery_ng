@@ -2,25 +2,25 @@ import { UserService } from './user.service';
 import { IUser } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { MatSnackBar } from '@angular/material';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  sessionWarningCalled = false;
-
   constructor(private userService: UserService,
-              private snackBar: MatSnackBar,
+              private http: HttpClient,
               private cookie: CookieService) { }
 
   login(user: IUser): Promise<any> {
 
     return new Promise((resolved, rejected) => {
-      this.userService.signin(user).then(data => {
-        this.cookie.set('token', data.token);
-        this.sessionWarningCalled = false;
+      this.userService.signin(user)
+      .then(data => {
+        this.cookie.set('token', data.access_token);
+        this.cookie.set('refresh_token', data.refresh_token);
         resolved();
       }, rejected);
     });
@@ -28,45 +28,47 @@ export class AuthService {
 
   logout(): void {
     this.cookie.delete('token');
-    this.cookie.delete('role');
+    this.cookie.delete('refresh_token');
   }
 
   isAdmin(): boolean {
-     return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).scopes).includes('ROLE_ADMIN');
+     return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).authorities).includes('ROLE_ADMIN');
   }
 
   isLoggedIn(): boolean {
     if (this.cookie.get('token')) {
-      return this._checkCookieExpiration();
+       if (!this._isTokenValid()) {
+        //  this.refreshToken();
+        this.logout();
+        return false;
+       }
+       return true;
     } else {
       return false;
     }
   }
 
+  refreshToken(): void {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
 
-  private _checkCookieExpiration(): boolean {
+    const base64Credential: string = btoa('testjwtclientid:XY7kmzoNzl100');
+    const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded',
+    Authorization : 'Basic ' + base64Credential});
 
-    const warnTimeInSeconds = 300;
+    this.http.post(environment.hostName + '/oauth/token',
+      params.toString(), {headers}).toPromise().then(data => {
+        // tslint:disable-next-line: no-string-literal
+        this.cookie.set('token', data['access_token']);
+        // tslint:disable-next-line: no-string-literal
+        this.cookie.set('refresh_token', data['refresh_token']);
+      });
+  }
+
+  private _isTokenValid(): boolean {
+
     const currentTimeInSeconds = new Date().getTime() / 1000;
     const expiration = +JSON.parse(atob(this.cookie.get('token').split('.')[1])).exp;
-
-    if (expiration > currentTimeInSeconds + warnTimeInSeconds) {
-      return true;
-
-    } else if (expiration > currentTimeInSeconds) {
-      if (!this.sessionWarningCalled) {
-        this.snackBar.open('Your session will end in ' + Math.round(expiration - currentTimeInSeconds) + ' seconds ', 'X', {
-          duration: 2000,
-        });
-        this.sessionWarningCalled = true;
-      }
-      return true;
-    } else {
-      this.snackBar.open('Your session has ended logging out', 'X', {
-        duration: 2000,
-      });
-      this.logout();
-      return false;
-    }
+    return (expiration > currentTimeInSeconds) ? true : false;
   }
 }

@@ -30,5 +30,6 @@ export class SignInComponent {
           duration: 2000,
         });
       });
+
   }
 }
