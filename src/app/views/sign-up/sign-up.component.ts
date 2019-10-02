@@ -1,6 +1,5 @@
 import { IUser } from './../../models/user.model';
 import { AuthService } from 'src/app/services';
-import { UserService } from './../../services/user.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -18,8 +17,7 @@ export class SignUpComponent {
   password: string;
   passwordRepeat: string;
 
-  constructor(private userService: UserService,
-              private auth: AuthService,
+  constructor(private auth: AuthService,
               private snackBar: MatSnackBar,
               public router: Router
 ) { }
@@ -31,7 +29,7 @@ export class SignUpComponent {
       username: this.username,
     };
 
-    this.userService.register(newUser).then(
+    this.auth.register(newUser).then(
       (res) => {
         this.snackBar.open('Welcome abroad ' + newUser.username + ' ', 'X', {
           duration: 2000,

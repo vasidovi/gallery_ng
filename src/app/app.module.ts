@@ -43,7 +43,8 @@ import { JwtRefreshInterceptor } from './jwt-refresh.interceptor';
       config: {
         tokenGetter,
         whitelistedDomains: [environment.domainName],
-        blacklistedRoutes: [ environment.hostName + '/signup', environment.hostName + '/oauth/token',
+        blacklistedRoutes: [ environment.hostName + '/signup',  environment.hostName + '/tags',
+        environment.hostName + '/oauth/token',
         environment.hostName + '/images',  environment.hostName + '/catalogs',
         environment.hostName + '/image/metadata/**',  environment.hostName + '/images/find'
        ],

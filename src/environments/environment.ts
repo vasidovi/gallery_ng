@@ -6,7 +6,9 @@ export const environment = {
   production: false,
 
   hostName: 'http://localhost:8080',
-  domainName: 'localhost:8080'
+  domainName: 'localhost:8080',
+  clientName: 'testjwtclientid',
+  clientPassword: 'XY7kmzoNzl100',
 };
 
 /*
