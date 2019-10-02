@@ -51,6 +51,9 @@ export class ImageUploadComponent implements OnInit {
   }
 
   empty(): void {
+    this.name = '';
+    this.catalogs = [];
+    this.description = [];
     this.tagList = [];
     this.file = null;
     this.url = null;
@@ -101,7 +104,7 @@ export class ImageUploadComponent implements OnInit {
   private _loadCatalogs(): void {
     this.gallery.getCatalogs()
       .then(data => {
-       data = this.catalogList;
+       this.catalogList = data;
       });
   }
 

@@ -31,7 +31,7 @@
             [(ngModel)]="tagList" name="tags" [allTags]="allTags" class="col-12" [required]="true"></app-tag-input>
         </div>
       </div>
-        <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || f.form.invalid || tagList.length === 0">Upload
+        <button mat-flat-button id="submit-button" type="submit" [disabled]="!file || f.form.controls['name'].invalid || f.form.controls['description'].invalid || tagList.length === 0">Upload
             <mat-icon>send</mat-icon></button>
       </form>
       <button mat-flat-button (click)="empty()">Empty<mat-icon>delete_forever</mat-icon></button>
