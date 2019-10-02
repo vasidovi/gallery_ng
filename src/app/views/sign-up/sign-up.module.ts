@@ -9,8 +9,6 @@ import { FormComponentsModule } from '../../formComponets.module';
 import { DirectivesModule } from './../../directives.module';
 import { SignUpRoutingModule } from './sign-up.routing.module';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
-
 
 @NgModule({
   declarations: [
@@ -25,8 +23,7 @@ import { UserService } from '../../services/user.service';
     DirectivesModule,
   ],
   providers: [
-    AuthService,
-    UserService,
-  ],
+    AuthService
+    ],
 })
 export class SignUpModule { }

@@ -1,72 +1,86 @@
-import { UserService } from './user.service';
 import { IUser } from './../models/user.model';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { MatSnackBar } from '@angular/material';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../environments/environment';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  sessionWarningCalled = false;
-
-  constructor(private userService: UserService,
-              private snackBar: MatSnackBar,
+  constructor(private http: HttpClient,
               private cookie: CookieService) { }
 
-  login(user: IUser): Promise<any> {
 
-    return new Promise((resolved, rejected) => {
-      this.userService.signin(user).then(data => {
-        this.cookie.set('token', data.token);
-        this.sessionWarningCalled = false;
-        resolved();
-      }, rejected);
-    });
-  }
+  // login(user: IUser): Promise<any> {
+  //   return new Promise((resolved, rejected) => {
+  //     this.signin(user)
+  //     .then(data => {
+  //      this._setCookies(data);
+  //      resolved();
+  //     }, rejected);
+  //   });
+  // }
 
   logout(): void {
     this.cookie.delete('token');
-    this.cookie.delete('role');
+    this.cookie.delete('refresh_token');
   }
 
   isAdmin(): boolean {
-     return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).scopes).includes('ROLE_ADMIN');
-  }
-
-  isLoggedIn(): boolean {
-    if (this.cookie.get('token')) {
-      return this._checkCookieExpiration();
-    } else {
+    if (!this.cookie.get('token')) {
       return false;
     }
+    return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).authorities).includes('ROLE_ADMIN');
   }
 
+  isLoggedIn(): boolean { return this.cookie.get('token') ? true : false; }
 
-  private _checkCookieExpiration(): boolean {
+  refreshToken(): Observable<any> {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'refresh_token');
+    params.append('refresh_token', this.cookie.get('refresh_token'));
 
-    const warnTimeInSeconds = 300;
-    const currentTimeInSeconds = new Date().getTime() / 1000;
-    const expiration = +JSON.parse(atob(this.cookie.get('token').split('.')[1])).exp;
+    const headers = this._setAuthorizationHeaders();
 
-    if (expiration > currentTimeInSeconds + warnTimeInSeconds) {
-      return true;
+    return this.http.post(environment.hostName + '/oauth/token',
+      params.toString(), {headers}).pipe(
+        tap(data => {
+        this._setCookies(data);
+      }));
+  }
 
-    } else if (expiration > currentTimeInSeconds) {
-      if (!this.sessionWarningCalled) {
-        this.snackBar.open('Your session will end in ' + Math.round(expiration - currentTimeInSeconds) + ' seconds ', 'X', {
-          duration: 2000,
-        });
-        this.sessionWarningCalled = true;
-      }
-      return true;
-    } else {
-      this.snackBar.open('Your session has ended logging out', 'X', {
-        duration: 2000,
+  register(user: IUser): Promise<IUser> {
+    return this.http.post<IUser>(environment.hostName + '/signup', user).toPromise();
+  }
+
+  login(user: IUser): Promise<any> {
+    const params = new URLSearchParams();
+    params.append('username', user.username);
+    params.append('password', user.password);
+    params.append('grant_type', 'password');
+
+    const headers = this._setAuthorizationHeaders();
+
+    return this.http.post(environment.hostName + '/oauth/token',
+      params.toString(), {headers}).toPromise().then(data => {
+        this._setCookies(data);
       });
-      this.logout();
-      return false;
-    }
+  }
+
+  private _setAuthorizationHeaders(): HttpHeaders {
+
+    const base64Credential: string = btoa( environment.clientName + ':' + environment.clientPassword);
+    return new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded',
+    Authorization : 'Basic ' + base64Credential});
+  }
+
+  private _setCookies(data): void {
+    this.cookie.set('token', data.access_token);
+    this.cookie.set('refresh_token', data.refresh_token);
   }
 }

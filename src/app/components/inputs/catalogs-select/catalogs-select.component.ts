@@ -57,6 +57,9 @@ export class CatalogsSelectComponent implements ControlValueAccessor {
   }
 
   compareObjects(o1: any, o2: any): boolean {
+    if (!o1 || !o2) {
+      return null;
+    }
     return  o1.id === o2.id;
   }
 
