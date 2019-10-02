@@ -21,9 +21,9 @@ export class ImageUploadComponent implements OnInit {
   isHovering: boolean;
   url;
 
-  name;
-  catalogs;
-  description;
+  name = '';
+  catalogs = [];
+  description = '';
   catalogList: ICatalog[] = [];
 
   // for Autocomplete of tags
@@ -53,7 +53,7 @@ export class ImageUploadComponent implements OnInit {
   empty(): void {
     this.name = '';
     this.catalogs = [];
-    this.description = [];
+    this.description = '';
     this.tagList = [];
     this.file = null;
     this.url = null;
@@ -62,6 +62,7 @@ export class ImageUploadComponent implements OnInit {
   onSubmit(f): void {
     const formData = new FormData();
 
+    console.log(f);
     f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
 
     ['description',  'tags', 'catalogs', 'name'].forEach(i => {
