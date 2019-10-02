@@ -64,10 +64,6 @@ export class ImageUploadComponent implements OnInit {
 
     this.form.catalogs = this.form.catalogs.map(catalog => catalog.name);
 
-    // if (f.form.value.catalogs) {
-    //   f.form.value.catalogs = f.form.value.catalogs.map(catalog => catalog.name);
-    // }
-
     ['description',  'tags', 'catalogs', 'name'].forEach(i => {
       formData.append(i, this.form[i]);
     });
