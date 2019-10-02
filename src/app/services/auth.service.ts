@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
+import { tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,6 @@ export class AuthService {
               private cookie: CookieService) { }
 
   login(user: IUser): Promise<any> {
-
     return new Promise((resolved, rejected) => {
       this.userService.signin(user)
       .then(data => {
@@ -35,40 +36,23 @@ export class AuthService {
      return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).authorities).includes('ROLE_ADMIN');
   }
 
-  isLoggedIn(): boolean {
-    if (this.cookie.get('token')) {
-       if (!this._isTokenValid()) {
-        //  this.refreshToken();
-        this.logout();
-        return false;
-       }
-       return true;
-    } else {
-      return false;
-    }
-  }
+  isLoggedIn(): boolean { return this.cookie.get('token') ? true : false; }
 
-  refreshToken(): void {
+  refreshToken(): Observable<any> {
     const params = new URLSearchParams();
     params.append('grant_type', 'refresh_token');
-
+    params.append('refresh_token', this.cookie.get('refresh_token'));
     const base64Credential: string = btoa('testjwtclientid:XY7kmzoNzl100');
     const headers = new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded',
     Authorization : 'Basic ' + base64Credential});
 
-    this.http.post(environment.hostName + '/oauth/token',
-      params.toString(), {headers}).toPromise().then(data => {
+    return this.http.post(environment.hostName + '/oauth/token',
+      params.toString(), {headers}).pipe(
+        tap(data => {
         // tslint:disable-next-line: no-string-literal
         this.cookie.set('token', data['access_token']);
         // tslint:disable-next-line: no-string-literal
         this.cookie.set('refresh_token', data['refresh_token']);
-      });
-  }
-
-  private _isTokenValid(): boolean {
-
-    const currentTimeInSeconds = new Date().getTime() / 1000;
-    const expiration = +JSON.parse(atob(this.cookie.get('token').split('.')[1])).exp;
-    return (expiration > currentTimeInSeconds) ? true : false;
+      }));
   }
 }
