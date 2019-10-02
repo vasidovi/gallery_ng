@@ -30,10 +30,6 @@ export class GalleryService {
     return this.http.get<IPhoto>(environment.hostName + '/image/metadata/' + id).toPromise();
   }
 
-  getPhoto(id: number): Observable<any> {
-    return this.http.get<any>(environment.hostName + '/image/' + id);
-  }
-
   getCatalogs(): Promise<ICatalog[]> {
     return this.http.get<ICatalog[]>(environment.hostName + '/catalogs').toPromise();
   }
