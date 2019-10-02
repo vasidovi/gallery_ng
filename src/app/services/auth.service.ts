@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +15,19 @@ export class AuthService {
               private cookie: CookieService) { }
 
 
-  // login(user: IUser): Promise<any> {
-  //   return new Promise((resolved, rejected) => {
-  //     this.signin(user)
-  //     .then(data => {
-  //      this._setCookies(data);
-  //      resolved();
-  //     }, rejected);
-  //   });
-  // }
+  login(user: IUser): Promise<any> {
+    const params = new URLSearchParams();
+    params.append('username', user.username);
+    params.append('password', user.password);
+    params.append('grant_type', 'password');
+
+    const headers = this._setAuthorizationHeaders();
+
+    return this.http.post(environment.hostName + '/oauth/token',
+      params.toString(), { headers }).toPromise().then(data => {
+        this._setCookies(data);
+      });
+  }
 
   logout(): void {
     this.cookie.delete('token');
@@ -32,10 +35,8 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    if (!this.cookie.get('token')) {
-      return false;
-    }
-    return (JSON.parse(atob(this.cookie.get('token').split('.')[1])).authorities).includes('ROLE_ADMIN');
+  return (this.cookie.get('token')) ?
+    (JSON.parse(atob(this.cookie.get('token').split('.')[1])).authorities).includes('ROLE_ADMIN') : false;
   }
 
   isLoggedIn(): boolean { return this.cookie.get('token') ? true : false; }
@@ -48,35 +49,22 @@ export class AuthService {
     const headers = this._setAuthorizationHeaders();
 
     return this.http.post(environment.hostName + '/oauth/token',
-      params.toString(), {headers}).pipe(
+      params.toString(), { headers }).pipe(
         tap(data => {
-        this._setCookies(data);
-      }));
+          this._setCookies(data);
+        }));
   }
 
   register(user: IUser): Promise<IUser> {
     return this.http.post<IUser>(environment.hostName + '/signup', user).toPromise();
   }
 
-  login(user: IUser): Promise<any> {
-    const params = new URLSearchParams();
-    params.append('username', user.username);
-    params.append('password', user.password);
-    params.append('grant_type', 'password');
-
-    const headers = this._setAuthorizationHeaders();
-
-    return this.http.post(environment.hostName + '/oauth/token',
-      params.toString(), {headers}).toPromise().then(data => {
-        this._setCookies(data);
-      });
-  }
-
   private _setAuthorizationHeaders(): HttpHeaders {
-
-    const base64Credential: string = btoa( environment.clientName + ':' + environment.clientPassword);
-    return new HttpHeaders({'Content-Type' : 'application/x-www-form-urlencoded',
-    Authorization : 'Basic ' + base64Credential});
+    const base64Credential: string = btoa(environment.clientName + ':' + environment.clientPassword);
+    return new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: 'Basic ' + base64Credential
+    });
   }
 
   private _setCookies(data): void {
